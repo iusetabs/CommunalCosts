@@ -1,4 +1,4 @@
-<img src="./media/image1.png" width="517" height="353" />
+<img src="/image1.png" width="517" height="353" />
 
 B.Sc. in Computer Applications
 
