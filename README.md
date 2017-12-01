@@ -1,1 +1,1 @@
-Read Me
+This is the gitlab for James Nolan & Kealan Thompson for Communal Costs. Dr.Stephen Blotts is our supervisor. 
