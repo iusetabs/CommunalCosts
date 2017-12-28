@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "367392865556",
+    "firebase_url": "https://communal-5d872.firebaseio.com",
+    "project_id": "communal-5d872",
+    "storage_bucket": "communal-5d872.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367392865556:android:5f32f1035ec6c670",
+        "android_client_info": {
+          "package_name": "jameskealanthirdyearproject.communalcosts_client_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367392865556-d2lv2s42rt3tecdm80ts8sijansdgo5m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jameskealanthirdyearproject.communalcosts_client_app",
+            "certificate_hash": "3390a0e52884f05bcd5339668f7e5813dcf24cbc"
+          }
+        },
+        {
+          "client_id": "367392865556-lk9k77bh6o9ruflti8icftnp2hv0koho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs9qj-3iqVcFINBgjk4yj-IjIvIYUb_NQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367392865556-lk9k77bh6o9ruflti8icftnp2hv0koho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
