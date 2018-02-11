@@ -47,6 +47,7 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void registerUser() {
+// FIXME: 11/02/18 19:00 Sign up feature not working on api 19, returning failed sign up message
 
         String email = EmailF.getText().toString().trim();
         String password = PassF.getText().toString().trim();

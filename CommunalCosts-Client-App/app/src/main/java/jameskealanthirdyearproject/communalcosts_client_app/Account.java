@@ -14,6 +14,8 @@ public class Account {
     private boolean emailVerified;
     private String uid;
 
+    public Account(){}
+
     public Account Account(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         this.name = user.getDisplayName();

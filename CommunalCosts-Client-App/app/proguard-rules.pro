@@ -23,3 +23,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepattributes Signature
+# see https://firebase.google.com/docs/database/android/start/ for explanation
+# add the next rule when you have a class of all the models used
