@@ -21,15 +21,13 @@
         <activity
             android:name=".SignUp_Activity"
             android:label="@string/app_name" />
-        <activity android:name=".Home_Activity" />
         <activity
             android:name=".CommunalFinances"
-            android:label="@string/title_activity_communal_finances"
-            android:parentActivityName=".Home_Activity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="jameskealanthirdyearproject.communalcosts_client_app.Home_Activity" />
+            android:label="@string/title_activity_communal_finances">
+        </activity>
+        <activity
+            android:name=".Home_Activity"
+            android:label="@string/app_name">
         </activity>
     </application>
 
