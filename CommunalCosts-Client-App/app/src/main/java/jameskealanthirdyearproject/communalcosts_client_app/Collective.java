@@ -20,6 +20,25 @@ import static android.content.ContentValues.TAG;
 public class Collective {
     private ArrayList<Pair<String, Integer>> members = new ArrayList<Pair<String, Integer>>();
     private String databaseFinancials;
+    private String collectiveName;
+    private String collectiveId;
+
+    public String getCollectiveName() {
+        return collectiveName;
+    }
+
+    public void setCollectiveName(String collectiveName) {
+        this.collectiveName = collectiveName;
+    }
+
+    public String getCollectiveId() {
+        return collectiveId;
+    }
+
+    public void setCollectiveId(String collectiveId) {
+        this.collectiveId = collectiveId;
+    }
+
 
     public Collective(){}
 
