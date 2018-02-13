@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUp_Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +27,10 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
     private ProgressDialog pD;
     private FirebaseAuth firAuth;
     private Intent home;
+    private  EditText nameF;
+    private EditText dobF;
+    private DatabaseReference dbRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +41,26 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
         firAuth = FirebaseAuth.getInstance();
         pD = new ProgressDialog(this);
         SignUpBtn = (Button) findViewById(R.id.SignUp_SignUpBtn);
+        nameF = (EditText) findViewById(R.id.SignUp_NameField);
+        dobF = (EditText) findViewById(R.id.SignUp_DOBField);
+
         EmailF = (EditText) findViewById(R.id.SignUp_EmailField);
         PassF = (EditText) findViewById(R.id.SignUp_PasswordField);
         SignUpBtn.setOnClickListener(this);
+        dbRef = FirebaseDatabase.getInstance().getReference();
     }
-
     @Override
     public void onClick(View v) {
         if (v == SignUpBtn){
             registerUser();
         }
     }
-
     private void registerUser() {
 // FIXME: 11/02/18 19:00 Sign up feature not working on api 19, returning failed sign up message
+// FIXED: 12/02/18 15:00 There is a minimum password length of 4 characters
 
         String email = EmailF.getText().toString().trim();
         String password = PassF.getText().toString().trim();
-
         if(TextUtils.isEmpty(email)){
             //email is empty
             Toast.makeText(SignUp_Activity.this,"Please enter Email", Toast.LENGTH_SHORT).show();
@@ -62,7 +71,6 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(SignUp_Activity.this,"Please enter Password", Toast.LENGTH_SHORT).show();
             return; //stopping function being executed
         }
-
         pD.setMessage("Registering your account.");
         pD.show();
 
@@ -71,6 +79,9 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
             public void onComplete(@NonNull Task<AuthResult> task) {
                 pD.dismiss();
                 if(task.isSuccessful()){
+                    FirebaseUser user = firAuth.getCurrentUser();
+                    Account usr = new Account(nameF.getText().toString().trim(), user.getEmail(),dobF.getText().toString().trim());
+                    dbRef.child(usr.getUid()).setValue(usr);
                     finish();
                     startActivity(home);
                 }else{

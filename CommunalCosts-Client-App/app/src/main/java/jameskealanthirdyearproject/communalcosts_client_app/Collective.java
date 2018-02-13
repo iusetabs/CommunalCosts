@@ -23,6 +23,19 @@ public class Collective {
     private String collectiveName;
     private String collectiveId;
 
+    public Collective(){}
+
+    public Collective(String name, String id){
+        this.collectiveId = id;
+        this.collectiveName = name;
+    }
+
+    /*public Collective Collective(){
+        this.members = new ArrayList<Pair<String, Integer>>();
+        return this;
+    }*/
+
+
     public String getCollectiveName() {
         return collectiveName;
     }
@@ -40,12 +53,6 @@ public class Collective {
     }
 
 
-    public Collective(){}
-
-    public Collective Collective(){
-        this.members = new ArrayList<Pair<String, Integer>>();
-        return this;
-    }
 
     public void finances(Transaction transaction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();

@@ -11,12 +11,19 @@ public class Account {
 
     private String name;
     private String email;
+    private String dOB;
     private boolean emailVerified;
     private String uid;
 
     public Account(){}
 
-    public Account Account(){
+    public Account(String n, String e, String d){
+        this.name = n;
+        this.email = e;
+        this.dOB = d;
+    }
+
+   /* public Account Account(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         this.name = user.getDisplayName();
         this.email = user.getEmail();
@@ -24,6 +31,14 @@ public class Account {
         this.uid = user.getUid();
 
         return this;
+    }*/
+
+    public String getdOB() {
+        return dOB;
+    }
+
+    public void setdOB(String dOB) {
+        this.dOB = dOB;
     }
 
     public String getName() {

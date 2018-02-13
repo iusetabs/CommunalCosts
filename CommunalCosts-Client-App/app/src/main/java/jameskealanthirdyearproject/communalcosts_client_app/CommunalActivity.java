@@ -44,7 +44,6 @@ public class CommunalActivity extends AppCompatActivity implements View.OnClickL
         expense = (EditText) findViewById(R.id.expense1);
         expensei = (EditText) findViewById(R.id.expense2);
 
-
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         returnButt = (Button) findViewById(R.id.backBttn);
@@ -59,14 +58,13 @@ public class CommunalActivity extends AppCompatActivity implements View.OnClickL
             finish();
             startActivity(logInActivity);
         }
-        dbRef = FirebaseDatabase.getInstance().getReference();
         usr = firebaseAuth.getCurrentUser();
         collectiveName.setText(usr.getDisplayName());
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                displayCollective(dataSnapshot);
+               displayCollective(dataSnapshot);
 
             }
             @Override

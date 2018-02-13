@@ -14,8 +14,12 @@
         android:layout_height="wrap_content"
         android:onClick="financeRefresh"
         android:text="refresh"
-        tools:layout_editor_absoluteX="292dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
 
     <EditText
         android:id="@+id/commName"
@@ -24,8 +28,12 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="communal account"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="48dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.117" />
 
     <EditText
         android:id="@+id/commId"
@@ -34,8 +42,12 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="communal id"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="109dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.266" />
 
     <EditText
         android:id="@+id/expense1"
@@ -44,8 +56,12 @@
         android:ems="10"
         android:inputType="numberSigned"
         android:text="expense"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="190dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
 
     <EditText
         android:id="@+id/expense2"
@@ -54,22 +70,35 @@
         android:ems="10"
         android:inputType="numberSigned"
         android:text="expense"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="254dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.572" />
 
     <Button
         android:id="@+id/backBttn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Return"
-        tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="319dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.781" />
 
     <Button
         android:id="@+id/refreshBttn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update"
-        tools:layout_editor_absoluteX="177dp"
-        tools:layout_editor_absoluteY="318dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.608"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.781" />
+
 </android.support.constraint.ConstraintLayout>
