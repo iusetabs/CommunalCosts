@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Home_Activity extends AppCompatActivity implements View.OnClickListener{
 
+    private Intent editDetailsBtn;
+    private Button edit;
     private Button logOutBtn;
     private Button joinCollBtn;
     private FirebaseAuth firAuth;
@@ -28,6 +30,8 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        edit = (Button) findViewById(R.id.home_chng_detailsBtn);
+        editDetailsBtn = new Intent(Home_Activity.this, accountDetails.class);
         logInActivity = new Intent(Home_Activity.this, LogIn_Activity.class);
         createNewColActv = new Intent(Home_Activity.this, createNewCollectiveActivity.class);
         logOutBtn = (Button) findViewById(R.id.Home_LogOutBtn);
@@ -41,6 +45,7 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
             startActivity(logInActivity);
         }
 
+        edit.setOnClickListener(this);
         joinCollBtn.setOnClickListener(this);
         FirebaseUser user = firAuth.getCurrentUser();
         welcomeText.setText("Welcome " + user.getEmail());
@@ -78,6 +83,11 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
             addCollectiveDia.setView(mView);
             AlertDialog dialog = addCollectiveDia.create();
             dialog.show();
+        }
+        else if (v==edit){
+            finish();
+            startActivity(editDetailsBtn);
+
         }
     }
 }
