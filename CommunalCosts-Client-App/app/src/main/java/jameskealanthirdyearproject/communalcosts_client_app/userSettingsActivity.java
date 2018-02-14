@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class accountDetails extends AppCompatActivity {
+public class userSettingsActivity extends AppCompatActivity {
 
     private EditText userName, email;
     private accountObj myAccount;

@@ -31,7 +31,7 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.home_activity);
 
         edit = (Button) findViewById(R.id.home_chng_detailsBtn);
-        editDetailsBtn = new Intent(Home_Activity.this, accountDetails.class);
+        editDetailsBtn = new Intent(Home_Activity.this, userSettingsActivity.class);
         logInActivity = new Intent(Home_Activity.this, LogIn_Activity.class);
         createNewColActv = new Intent(Home_Activity.this, createNewCollectiveActivity.class);
         logOutBtn = (Button) findViewById(R.id.Home_LogOutBtn);

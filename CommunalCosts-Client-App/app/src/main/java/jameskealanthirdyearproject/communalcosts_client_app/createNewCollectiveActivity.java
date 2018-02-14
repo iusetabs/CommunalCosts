@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 /**
  * Created by kealan on 12/02/18.
  */
@@ -45,7 +47,6 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
             finish();
             startActivity(logInActivity);
         }
-
         returnBtn = (Button) findViewById(R.id.colCreate_backBtn);
         createBtn = (Button) findViewById(R.id.colCreate_createBtn);
         colName = (EditText) findViewById(R.id.colCreate_nameF);
@@ -73,22 +74,19 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
         else if (v == createBtn){
             createCol();
         }
-        else if (v == addMemBtn){
-            mCollective.addMembers(colMembers.toString().trim());
-            memsView.append(colMembers.getText().toString().trim() + "\n" );
-            memsView.computeScroll();
-            colMembers.setText("");
+        else if (v == addMemBtn){ /*Please insert the String checker here. Check for "@" char in the string and ensure the string length is greater than or equal to 5 a@a.a is the shortest valid email*/
+                mCollective.addMembers(colMembers.getText().toString().trim());
+                memsView.append(colMembers.getText().toString().trim() + "\n" );
+                memsView.computeScroll();
+                colMembers.setText("");
         }
     }
-
     private void createCol() {
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         mCollective.setCollectiveName(colName.getText().toString().trim());
         mCollective.setCollectiveId(colType.getText().toString().trim());
-        mCollective.setCreator(userRef.getUid().toString());
-
+        mCollective.setCreator(userRef.getUid().toString()); //this is the primary key for the user, even if they change email we can still find their email
         dbRef.child("collectives").child(mCollective.getCollectiveName()).setValue(mCollective);
-        dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
         Toast.makeText(createNewCollectiveActivity.this,"User info updated", Toast.LENGTH_SHORT).show();
     }
 }

@@ -8,8 +8,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.util.Log;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static android.content.ContentValues.TAG;
 
@@ -18,8 +21,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class collectiveObj {
-    private ArrayList<String> membersOld = new ArrayList<>();
-    private HashMap<String, String> members = new HashMap<>();
+    private ArrayList<String> members= new ArrayList<>();
     private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
@@ -27,7 +29,7 @@ public class collectiveObj {
 
     public collectiveObj(){}
 
-    public collectiveObj(String name, String id, String c, HashMap<String, String> mems){
+    public collectiveObj(String name, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
         this.collectiveName = name;
         this.creator = c;
@@ -63,19 +65,18 @@ public class collectiveObj {
     }*/
 
 
-    public HashMap<String, String> getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
     public void addMembers(String s) {
-        this.members.put(s); //fixme 14th feb 11:43
+        this.members.add(s); //fixme 14th feb 11:43
     }
 
     public String getCollectiveName() {
         return collectiveName;
 
     }
-
     public void setCollectiveName(String collectiveName) {
         this.collectiveName = collectiveName;
     }
@@ -87,8 +88,6 @@ public class collectiveObj {
     public void setCollectiveId(String collectiveId) {
         this.collectiveId = collectiveId;
     }
-
-
 
     public void finances(transactionObj transaction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
