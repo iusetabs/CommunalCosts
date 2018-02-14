@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.util.Log;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
 
@@ -17,27 +17,63 @@ import static android.content.ContentValues.TAG;
  * Created by kealan on 07/02/18.
  */
 
-public class Collective {
-    private ArrayList<Pair<String, Integer>> members = new ArrayList<Pair<String, Integer>>();
+public class collectiveObj {
+    private ArrayList<String> membersOld = new ArrayList<>();
+    private HashMap<String, String> members = new HashMap<>();
     private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
+    private String creator;
 
-    public Collective(){}
+    public collectiveObj(){}
 
-    public Collective(String name, String id){
+    public collectiveObj(String name, String id, String c, HashMap<String, String> mems){
         this.collectiveId = id;
         this.collectiveName = name;
+        this.creator = c;
+        this.members = mems;
     }
 
-    /*public Collective Collective(){
+   /* public ArrayList<Pair<String, Integer>> getMembers() {
+        return members;
+    }*/
+
+    public String getDatabaseFinancials() {
+        return databaseFinancials;
+    }
+
+    public void setDatabaseFinancials(String databaseFinancials) {
+        this.databaseFinancials = databaseFinancials;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    /*public void setMembers(ArrayList<Pair<String, Integer>> members) {
+        this.members = members;
+    }*/
+/*public collectiveObj collectiveObj(){
         this.members = new ArrayList<Pair<String, Integer>>();
         return this;
     }*/
 
 
+    public HashMap<String, String> getMembers() {
+        return members;
+    }
+
+    public void addMembers(String s) {
+        this.members.put(s); //fixme 14th feb 11:43
+    }
+
     public String getCollectiveName() {
         return collectiveName;
+
     }
 
     public void setCollectiveName(String collectiveName) {
@@ -54,7 +90,7 @@ public class Collective {
 
 
 
-    public void finances(Transaction transaction){
+    public void finances(transactionObj transaction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("transaction");
         myRef.setValue(transaction);
@@ -72,7 +108,7 @@ public class Collective {
             }
         });
     }
-    /*public Collective add(Account user, Integer privilege) {
+    /*public collectiveObj add(accountObj user, Integer privilege) {
         if (privilege >= 0 & privilege <=2){
             this.members.add(user.getUid(), privilege);
         }

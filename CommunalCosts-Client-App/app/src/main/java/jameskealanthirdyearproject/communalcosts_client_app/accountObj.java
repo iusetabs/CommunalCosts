@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseUser;
  * Created by kealan on 05/02/18.
  */
 
-public class Account {
+public class accountObj {
 
     private String name;
     private String email;
@@ -15,15 +15,15 @@ public class Account {
     private boolean emailVerified;
     private String uid;
 
-    public Account(){}
+    public accountObj(){}
 
-    public Account(String n, String e, String d){
+    public accountObj(String n, String e, String d){
         this.name = n;
         this.email = e;
         this.dOB = d;
     }
 
-   /* public Account Account(){
+   /* public accountObj accountObj(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         this.name = user.getDisplayName();
         this.email = user.getEmail();

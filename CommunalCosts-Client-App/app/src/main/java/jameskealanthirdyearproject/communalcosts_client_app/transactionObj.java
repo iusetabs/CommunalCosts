@@ -4,13 +4,13 @@ package jameskealanthirdyearproject.communalcosts_client_app;
  * Created by kealan on 11/02/18.
  */
 
-public class Transaction {
+public class transactionObj {
     public String description;
     public Integer value;
 
-    public Transaction(){}
+    public transactionObj(){}
 
-    public Transaction(String descrpt, Integer val){
+    public transactionObj(String descrpt, Integer val){
         this.description = descrpt;
         this.value = val;
     }

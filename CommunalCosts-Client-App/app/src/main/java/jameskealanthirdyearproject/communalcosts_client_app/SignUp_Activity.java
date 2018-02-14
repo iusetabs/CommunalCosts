@@ -36,16 +36,21 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
+
         home = new Intent(SignUp_Activity.this, Home_Activity.class);
+
         firAuth = FirebaseAuth.getInstance();
+        myDatabase = FirebaseDatabase.getInstance().getReference();
+
         pD = new ProgressDialog(this);
+
         SignUpBtn = (Button) findViewById(R.id.SignUp_SignUpBtn);
         nameF = (EditText) findViewById(R.id.SignUp_NameField);
         dobF = (EditText) findViewById(R.id.SignUp_DOBField);
         EmailF = (EditText) findViewById(R.id.SignUp_EmailField);
         PassF = (EditText) findViewById(R.id.SignUp_PasswordField);
         SignUpBtn.setOnClickListener(this);
-        myDatabase = FirebaseDatabase.getInstance().getReference();
+
     }
     @Override
     public void onClick(View v) {
@@ -78,7 +83,7 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
                 pD.dismiss();
                 if(task.isSuccessful()){
                     FirebaseUser userRef = firAuth.getCurrentUser();
-                    Account userObj = new Account(nameF.getText().toString().trim(), userRef.getEmail(),dobF.getText().toString().trim());
+                    accountObj userObj = new accountObj(nameF.getText().toString().trim(), userRef.getEmail(),dobF.getText().toString().trim());
                     myDatabase.child("users").child(userRef.getUid()).setValue(userObj);
                     finish();
                     startActivity(home);

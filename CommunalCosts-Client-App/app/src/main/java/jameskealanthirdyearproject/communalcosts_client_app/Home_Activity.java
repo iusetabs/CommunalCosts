@@ -18,7 +18,7 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
     private Button joinCollBtn;
     private FirebaseAuth firAuth;
     private Intent logInActivity;
-    private Intent colActivity;
+    private Intent createNewColActv;
     private TextView welcomeText;
     private AlertDialog.Builder addCollectiveDia;
     private View mView;
@@ -29,7 +29,7 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.home_activity);
 
         logInActivity = new Intent(Home_Activity.this, LogIn_Activity.class);
-        colActivity = new Intent(Home_Activity.this, CommunalActivity.class);
+        createNewColActv = new Intent(Home_Activity.this, createNewCollectiveActivity.class);
         logOutBtn = (Button) findViewById(R.id.Home_LogOutBtn);
         joinCollBtn = (Button) findViewById(R.id.home_JoinCollectiveBtn);
 
@@ -65,15 +65,14 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
             joinCol.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
-                    startActivity(colActivity);
 
                 }
             });
             createCol.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    finish();
+                    startActivity(createNewColActv);
                 }
             });
             addCollectiveDia.setView(mView);
