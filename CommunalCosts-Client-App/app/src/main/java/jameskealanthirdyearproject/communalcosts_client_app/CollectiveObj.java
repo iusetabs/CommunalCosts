@@ -1,7 +1,5 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import android.util.*;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,21 +15,31 @@ import static android.content.ContentValues.TAG;
  * Created by kealan on 07/02/18.
  */
 
-public class collectiveObj {
-    private ArrayList<String> membersOld = new ArrayList<>();
+public class CollectiveObj {
+    private ArrayList<TransactionObj> transactionList = new ArrayList<>();
     private HashMap<String, String> members = new HashMap<>();
     private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
     private String creator;
 
-    public collectiveObj(){}
 
-    public collectiveObj(String name, String id, String c, HashMap<String, String> mems){
+    public CollectiveObj(){}
+
+    public ArrayList<TransactionObj> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(ArrayList<TransactionObj> transactionList) {
+        this.transactionList = transactionList;
+    }
+
+    public CollectiveObj(String name, String id, String c, HashMap<String, String> mems){
         this.collectiveId = id;
         this.collectiveName = name;
         this.creator = c;
         this.members = mems;
+        this.transactionList = new ArrayList<>();
     }
 
    /* public ArrayList<Pair<String, Integer>> getMembers() {
@@ -57,7 +65,7 @@ public class collectiveObj {
     /*public void setMembers(ArrayList<Pair<String, Integer>> members) {
         this.members = members;
     }*/
-/*public collectiveObj collectiveObj(){
+/*public CollectiveObj CollectiveObj(){
         this.members = new ArrayList<Pair<String, Integer>>();
         return this;
     }*/
@@ -67,9 +75,9 @@ public class collectiveObj {
         return members;
     }
 
-    public void addMembers(String s) {
+/*    public void addMembers(String s) {
         this.members.put(s); //fixme 14th feb 11:43
-    }
+    }*/
 
     public String getCollectiveName() {
         return collectiveName;
@@ -90,7 +98,7 @@ public class collectiveObj {
 
 
 
-    public void finances(transactionObj transaction){
+    public void finances(TransactionObj transaction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("transaction");
         myRef.setValue(transaction);
@@ -108,7 +116,7 @@ public class collectiveObj {
             }
         });
     }
-    /*public collectiveObj add(accountObj user, Integer privilege) {
+    /*public CollectiveObj add(AccountObj user, Integer privilege) {
         if (privilege >= 0 & privilege <=2){
             this.members.add(user.getUid(), privilege);
         }

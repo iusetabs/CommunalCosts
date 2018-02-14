@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jameskealanthirdyearproject.communalcosts_client_app.Home_Activity">
+    tools:context="jameskealanthirdyearproject.communalcosts_client_app.HomeActivity">
 
     <Button
         android:id="@+id/Home_LogOutBtn"

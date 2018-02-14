@@ -1,11 +1,8 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,10 +14,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class accountDetails extends AppCompatActivity {
+public class UserSettingsActivity extends AppCompatActivity {
 
     private EditText userName, email;
-    private accountObj myAccount;
+    private AccountObj myAccount;
     private FirebaseUser user;
     private DatabaseReference dbRef;
 
@@ -31,7 +28,7 @@ public class accountDetails extends AppCompatActivity {
 
         userName = (EditText) findViewById(R.id.displayUserName);
        // email = (EditText) findViewById(R.id.displayEmail); FIXME
-        myAccount = new accountObj();
+        myAccount = new AccountObj();
         user = FirebaseAuth.getInstance().getCurrentUser();
         dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -53,10 +50,10 @@ public class accountDetails extends AppCompatActivity {
     }
 
     private void displayAccountDetails(DataSnapshot dataSnapshot){
-        myAccount.setEmail(dataSnapshot.child(user.getUid()).getValue(accountObj.class).getEmail());
+        myAccount.setEmail(dataSnapshot.child(user.getUid()).getValue(AccountObj.class).getEmail());
         email.setText(myAccount.getEmail(), TextView.BufferType.EDITABLE);
 
-        myAccount.setName(dataSnapshot.child(user.getUid()).getValue(accountObj.class).getName());
+        myAccount.setName(dataSnapshot.child(user.getUid()).getValue(AccountObj.class).getName());
         userName.setText(myAccount.getName(), TextView.BufferType.EDITABLE);
 
     }

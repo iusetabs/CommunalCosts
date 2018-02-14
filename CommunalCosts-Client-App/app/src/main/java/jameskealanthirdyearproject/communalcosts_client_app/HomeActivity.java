@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Home_Activity extends AppCompatActivity implements View.OnClickListener{
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Intent editDetailsBtn;
     private Button edit;
@@ -31,9 +31,9 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.home_activity);
 
         edit = (Button) findViewById(R.id.home_chng_detailsBtn);
-        editDetailsBtn = new Intent(Home_Activity.this, accountDetails.class);
-        logInActivity = new Intent(Home_Activity.this, LogIn_Activity.class);
-        createNewColActv = new Intent(Home_Activity.this, createNewCollectiveActivity.class);
+        editDetailsBtn = new Intent(HomeActivity.this, UserSettingsActivity.class);
+        logInActivity = new Intent(HomeActivity.this, LogInActivity.class);
+        createNewColActv = new Intent(HomeActivity.this, CreateNewCollectiveActivity.class);
         logOutBtn = (Button) findViewById(R.id.Home_LogOutBtn);
         joinCollBtn = (Button) findViewById(R.id.home_JoinCollectiveBtn);
 
@@ -62,7 +62,7 @@ public class Home_Activity extends AppCompatActivity implements View.OnClickList
             startActivity(logInActivity);
         }
         else if (v == joinCollBtn){
-            addCollectiveDia = new AlertDialog.Builder(Home_Activity.this);
+            addCollectiveDia = new AlertDialog.Builder(HomeActivity.this);
             mView = getLayoutInflater().inflate(R.layout.home_activity_addcol, null);
             final EditText colIDF = (EditText) mView.findViewById(R.id.homeAddCol_colIDField);
             final Button joinCol = (Button) mView.findViewById(R.id.homeAddCol_joinColBtn);

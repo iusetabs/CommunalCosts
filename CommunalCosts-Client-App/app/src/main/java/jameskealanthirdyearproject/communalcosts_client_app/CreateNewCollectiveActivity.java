@@ -11,19 +11,14 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by kealan on 12/02/18.
  */
 
-public class createNewCollectiveActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateNewCollectiveActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button returnBtn, createBtn, addMemBtn;
     private Intent homeScreenActv;
@@ -31,8 +26,8 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
     private EditText colName, colType, colMembers;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dbRef;
-    private Intent logInActivity;
-    private collectiveObj mCollective;
+    private Intent logInActivity, collectiveView;
+    private CollectiveObj mCollective;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +53,11 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
         returnBtn.setOnClickListener(this);
         addMemBtn.setOnClickListener(this);
 
-        mCollective = new collectiveObj();
+        mCollective = new CollectiveObj();
 
-        homeScreenActv = new Intent(createNewCollectiveActivity.this, Home_Activity.class);
-        logInActivity = new Intent(createNewCollectiveActivity.this, LogIn_Activity.class);
-
+        homeScreenActv = new Intent(CreateNewCollectiveActivity.this, HomeActivity.class);
+        logInActivity = new Intent(CreateNewCollectiveActivity.this, LogInActivity.class);
+        collectiveView = new Intent(CreateNewCollectiveActivity.this, CollectiveViewActivity.class);
     }
     @Override
     public void onClick(View v) {
@@ -72,9 +67,11 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
         }
         else if (v == createBtn){
             createCol();
+            finish();
+            startActivity(collectiveView);
         }
         else if (v == addMemBtn){
-            mCollective.addMembers(colMembers.toString().trim());
+            /*mCollective.addMembers(colMembers.toString().trim());*/
             memsView.append(colMembers.getText().toString().trim() + "\n" );
             memsView.computeScroll();
             colMembers.setText("");
@@ -89,6 +86,6 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
 
         dbRef.child("collectives").child(mCollective.getCollectiveName()).setValue(mCollective);
         dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
-        Toast.makeText(createNewCollectiveActivity.this,"User info updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateNewCollectiveActivity.this,"User info updated", Toast.LENGTH_SHORT).show();
     }
 }

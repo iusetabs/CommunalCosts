@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class SignUp_Activity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button SignUpBtn;
     private EditText EmailF;
@@ -37,7 +37,7 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
 
-        home = new Intent(SignUp_Activity.this, Home_Activity.class);
+        home = new Intent(SignUpActivity.this, HomeActivity.class);
 
         firAuth = FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -66,12 +66,12 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
         String password = PassF.getText().toString().trim();
         if(TextUtils.isEmpty(email)){
             //email is empty
-            Toast.makeText(SignUp_Activity.this,"Please enter Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this,"Please enter Email", Toast.LENGTH_SHORT).show();
             return; //stop function being executed
         }
         if(TextUtils.isEmpty(password)){
             //password is empty
-            Toast.makeText(SignUp_Activity.this,"Please enter Password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this,"Please enter Password", Toast.LENGTH_SHORT).show();
             return; //stopping function being executed
         }
         pD.setMessage("Registering your account.");
@@ -83,12 +83,12 @@ public class SignUp_Activity extends AppCompatActivity implements View.OnClickLi
                 pD.dismiss();
                 if(task.isSuccessful()){
                     FirebaseUser userRef = firAuth.getCurrentUser();
-                    accountObj userObj = new accountObj(nameF.getText().toString().trim(), userRef.getEmail(),dobF.getText().toString().trim());
+                    AccountObj userObj = new AccountObj(nameF.getText().toString().trim(), userRef.getEmail(),dobF.getText().toString().trim());
                     myDatabase.child("users").child(userRef.getUid()).setValue(userObj);
                     finish();
                     startActivity(home);
                 }else{
-                    Toast.makeText(SignUp_Activity.this,"Failed to Sign Up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this,"Failed to Sign Up", Toast.LENGTH_SHORT).show();
                     //unsuccessful register
                 }
             }
