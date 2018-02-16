@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by kealan on 05/02/18.
  */
 
-public class accountObj {
+public class AccountObj {
 
     private String name;
     private String email;
@@ -18,15 +18,15 @@ public class accountObj {
     private String uid;
     private ArrayList<String> collectives;
 
-    public accountObj(){}
+    public AccountObj(){}
 
-    public accountObj(String n, String e, String d){
+    public AccountObj(String n, String e, String d){
         this.name = n;
         this.email = e;
         this.dOB = d;
     }
 
-   /* public accountObj accountObj(){
+   /* public AccountObj AccountObj(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         this.name = user.getDisplayName();
         this.email = user.getEmail();

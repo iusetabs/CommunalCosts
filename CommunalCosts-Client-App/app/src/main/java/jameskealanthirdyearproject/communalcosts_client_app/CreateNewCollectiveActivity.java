@@ -1,8 +1,11 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.content.Intent;
+import android.nfc.FormatException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-
 /**
  * Created by kealan on 12/02/18.
  */
 
-public class createNewCollectiveActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateNewCollectiveActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button returnBtn, createBtn, addMemBtn;
     private Intent homeScreenActv;
@@ -33,8 +34,9 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
     private EditText colName, colType, colMembers;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dbRef;
-    private Intent logInActivity;
-    private collectiveObj mCollective;
+    private Intent logInActivity, collectiveView;
+    private CollectiveObj mCollective;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
             finish();
             startActivity(logInActivity);
         }
+
         returnBtn = (Button) findViewById(R.id.colCreate_backBtn);
         createBtn = (Button) findViewById(R.id.colCreate_createBtn);
         colName = (EditText) findViewById(R.id.colCreate_nameF);
@@ -59,12 +62,13 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
         returnBtn.setOnClickListener(this);
         addMemBtn.setOnClickListener(this);
 
-        mCollective = new collectiveObj();
+        mCollective = new CollectiveObj();
 
-        homeScreenActv = new Intent(createNewCollectiveActivity.this, Home_Activity.class);
-        logInActivity = new Intent(createNewCollectiveActivity.this, LogIn_Activity.class);
-
+        homeScreenActv = new Intent(CreateNewCollectiveActivity.this, HomeActivity.class);
+        logInActivity = new Intent(CreateNewCollectiveActivity.this, LogInActivity.class);
+        /*collectiveView = new Intent(CreateNewCollectiveActivity.this, CollectiveViewActivity.class);*/
     }
+
     @Override
     public void onClick(View v) {
         if (v == returnBtn){
@@ -73,20 +77,32 @@ public class createNewCollectiveActivity extends AppCompatActivity implements Vi
         }
         else if (v == createBtn){
             createCol();
+            finish();
+            startActivity(collectiveView);
         }
-        else if (v == addMemBtn){ /*Please insert the String checker here. Check for "@" char in the string and ensure the string length is greater than or equal to 5 a@a.a is the shortest valid email*/
-                mCollective.addMembers(colMembers.getText().toString().trim());
-                memsView.append(colMembers.getText().toString().trim() + "\n" );
-                memsView.computeScroll();
-                colMembers.setText("");
+        else if (v == addMemBtn){
+            mCollective.addMembers(colMembers.toString().trim());
+            String email = colMembers.getText().toString().trim();
+            boolean valid = (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+            if(valid) {
+                memsView.append(colMembers.getText().toString().trim() + "\n");
+            }
+            else{
+                Toast.makeText(CreateNewCollectiveActivity.this,"Email address invalid", Toast.LENGTH_SHORT).show();
+            }
+            memsView.computeScroll();
+            colMembers.setText("");
         }
     }
+
     private void createCol() {
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         mCollective.setCollectiveName(colName.getText().toString().trim());
         mCollective.setCollectiveId(colType.getText().toString().trim());
-        mCollective.setCreator(userRef.getUid().toString()); //this is the primary key for the user, even if they change email we can still find their email
+        mCollective.setCreator(userRef.getUid().toString());
+
         dbRef.child("collectives").child(mCollective.getCollectiveName()).setValue(mCollective);
-        Toast.makeText(createNewCollectiveActivity.this,"User info updated", Toast.LENGTH_SHORT).show();
+        dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
+        Toast.makeText(CreateNewCollectiveActivity.this,"Collective Created", Toast.LENGTH_SHORT).show();
     }
 }

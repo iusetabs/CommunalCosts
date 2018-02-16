@@ -20,20 +20,32 @@ import static android.content.ContentValues.TAG;
  * Created by kealan on 07/02/18.
  */
 
-public class collectiveObj {
+public class CollectiveObj {
+
+    private ArrayList<TransactionObj> transactions = new ArrayList<>();
     private ArrayList<String> members= new ArrayList<>();
     private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
     private String creator;
 
-    public collectiveObj(){}
+    public CollectiveObj(){}
 
-    public collectiveObj(String name, String id, String c, ArrayList<String> mems){
+    public ArrayList<TransactionObj> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<TransactionObj> transactions) {
+        this.transactions = transactions;
+    }
+
+    public CollectiveObj(String name, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
         this.collectiveName = name;
         this.creator = c;
         this.members = mems;
+        this.transactions = new ArrayList<>();
+
     }
 
    /* public ArrayList<Pair<String, Integer>> getMembers() {
@@ -89,7 +101,7 @@ public class collectiveObj {
         this.collectiveId = collectiveId;
     }
 
-    public void finances(transactionObj transaction){
+    public void finances(TransactionObj transaction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("transaction");
         myRef.setValue(transaction);

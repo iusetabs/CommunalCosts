@@ -11,23 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogIn_Activity">
+        <activity android:name=".LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUp_Activity"
+            android:name=".SignUpActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".Home_Activity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".HomeActivity"
+            android:label="@string/app_name"></activity>
         <activity
-            android:name=".createNewCollectiveActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".CreateNewCollectiveActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".CollectiveViewActivity"
+            android:label="@string/app_name"></activity>
+
     </application>
 
 </manifest>
