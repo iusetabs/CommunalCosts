@@ -3,6 +3,8 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 /**
  * Created by kealan on 05/02/18.
  */
@@ -14,6 +16,7 @@ public class AccountObj {
     private String dOB;
     private boolean emailVerified;
     private String uid;
+    private ArrayList<String> collectives;
 
     public AccountObj(){}
 

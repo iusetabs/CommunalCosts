@@ -1,13 +1,18 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import android.util.*;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.util.Log;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static android.content.ContentValues.TAG;
 
@@ -16,30 +21,31 @@ import static android.content.ContentValues.TAG;
  */
 
 public class CollectiveObj {
-    private ArrayList<TransactionObj> transactionList = new ArrayList<>();
-    private HashMap<String, String> members = new HashMap<>();
+
+    private ArrayList<TransactionObj> transactions = new ArrayList<>();
+    private ArrayList<String> members= new ArrayList<>();
     private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
     private String creator;
 
-
     public CollectiveObj(){}
 
-    public ArrayList<TransactionObj> getTransactionList() {
-        return transactionList;
+    public ArrayList<TransactionObj> getTransactions() {
+        return transactions;
     }
 
-    public void setTransactionList(ArrayList<TransactionObj> transactionList) {
-        this.transactionList = transactionList;
+    public void setTransactions(ArrayList<TransactionObj> transactions) {
+        this.transactions = transactions;
     }
 
-    public CollectiveObj(String name, String id, String c, HashMap<String, String> mems){
+    public CollectiveObj(String name, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
         this.collectiveName = name;
         this.creator = c;
         this.members = mems;
-        this.transactionList = new ArrayList<>();
+        this.transactions = new ArrayList<>();
+
     }
 
    /* public ArrayList<Pair<String, Integer>> getMembers() {
@@ -65,25 +71,24 @@ public class CollectiveObj {
     /*public void setMembers(ArrayList<Pair<String, Integer>> members) {
         this.members = members;
     }*/
-/*public CollectiveObj CollectiveObj(){
+/*public collectiveObj collectiveObj(){
         this.members = new ArrayList<Pair<String, Integer>>();
         return this;
     }*/
 
 
-    public HashMap<String, String> getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-/*    public void addMembers(String s) {
-        this.members.put(s); //fixme 14th feb 11:43
-    }*/
+    public void addMembers(String s) {
+        this.members.add(s); //fixme 14th feb 11:43
+    }
 
     public String getCollectiveName() {
         return collectiveName;
 
     }
-
     public void setCollectiveName(String collectiveName) {
         this.collectiveName = collectiveName;
     }
@@ -95,8 +100,6 @@ public class CollectiveObj {
     public void setCollectiveId(String collectiveId) {
         this.collectiveId = collectiveId;
     }
-
-
 
     public void finances(TransactionObj transaction){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -116,7 +119,7 @@ public class CollectiveObj {
             }
         });
     }
-    /*public CollectiveObj add(AccountObj user, Integer privilege) {
+    /*public collectiveObj add(accountObj user, Integer privilege) {
         if (privilege >= 0 & privilege <=2){
             this.members.add(user.getUid(), privilege);
         }

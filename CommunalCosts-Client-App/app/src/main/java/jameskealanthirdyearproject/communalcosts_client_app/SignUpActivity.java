@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,9 +65,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         String email = EmailF.getText().toString().trim();
         String password = PassF.getText().toString().trim();
-        if(TextUtils.isEmpty(email)){
+        if(TextUtils.isEmpty(email) || !(Patterns.EMAIL_ADDRESS.matcher(email).matches())){
             //email is empty
-            Toast.makeText(SignUpActivity.this,"Please enter Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this,"Email address invalid", Toast.LENGTH_SHORT).show();
             return; //stop function being executed
         }
         if(TextUtils.isEmpty(password)){
