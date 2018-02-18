@@ -2,4 +2,5 @@
     <string name="app_name">CommunalCosts-Client-App</string>
     <string name="title_activity_communal_finances">CommunalFinances</string>
     <string name="title_activity_account_details">accountDetails</string>
+    <string name="thumbnail">thumbnail</string>
 </resources>
