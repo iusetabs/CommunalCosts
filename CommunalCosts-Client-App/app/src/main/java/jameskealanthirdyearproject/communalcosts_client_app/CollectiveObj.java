@@ -31,14 +31,6 @@ public class CollectiveObj {
 
     public CollectiveObj(){}
 
-    public ArrayList<TransactionObj> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(ArrayList<TransactionObj> transactions) {
-        this.transactions = transactions;
-    }
-
     public CollectiveObj(String name, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
         this.collectiveName = name;
@@ -47,6 +39,17 @@ public class CollectiveObj {
         this.transactions = new ArrayList<>();
 
     }
+
+    public ArrayList<TransactionObj> getTransactions() {
+        return transactions;
+    }
+
+
+
+    public void setTransactions(ArrayList<TransactionObj> transactions) {
+        this.transactions = transactions;
+    }
+
 
    /* public ArrayList<Pair<String, Integer>> getMembers() {
         return members;
@@ -76,13 +79,12 @@ public class CollectiveObj {
         return this;
     }*/
 
-
     public ArrayList<String> getMembers() {
         return members;
     }
 
     public void addMembers(String s) {
-        this.members.add(s); //fixme 14th feb 11:43
+        this.members.add(s);
     }
 
     public String getCollectiveName() {

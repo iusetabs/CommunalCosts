@@ -77,11 +77,11 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
         }
         else if (v == createBtn){
             createCol();
-            finish();
-            startActivity(collectiveView);
+            /*finish();
+            startActivity(collectiveView);FIXME 19/02/18 This is crashing the app*/
         }
         else if (v == addMemBtn){
-            mCollective.addMembers(colMembers.toString().trim());
+            mCollective.addMembers(colMembers.getText().toString().trim());
             String email = colMembers.getText().toString().trim();
             boolean valid = (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
             if(valid) {
@@ -97,12 +97,14 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
 
     private void createCol() {
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
-        mCollective.setCollectiveName(colName.getText().toString().trim());
-        mCollective.setCollectiveId(colType.getText().toString().trim());
         mCollective.setCreator(userRef.getUid().toString());
 
+        mCollective.setCollectiveName(colName.getText().toString().trim());
+        mCollective.setCollectiveId(colType.getText().toString().trim());
+       mCollective.addMembers(userRef.getEmail().toString());
+
         dbRef.child("collectives").child(mCollective.getCollectiveName()).setValue(mCollective);
-        dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
+        //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
         Toast.makeText(CreateNewCollectiveActivity.this,"Collective Created", Toast.LENGTH_SHORT).show();
     }
 }
