@@ -38,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
 
-        home = new Intent(SignUpActivity.this, HomeActivity.class);
+        home = new Intent(SignUpActivity.this, HomeCollectiveView.class);
 
         firAuth = FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference();
