@@ -21,13 +21,13 @@ import android.app.Fragment.*;
 
 
 import com.google.firebase.database.Transaction;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class CollectiveViewActivity extends AppCompatActivity {
 
     private ListView collectiveTransactionView;
-    public static CollectiveObj collective;
     private TransactionAdaptor adaptor;
 
     @Override
@@ -37,7 +37,7 @@ public class CollectiveViewActivity extends AppCompatActivity {
         ArrayList<TransactionObj> transactionList = new ArrayList<>();
         transactionList.add(transaction1);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
-        adaptor = new TransactionAdaptor(this, transactionList);
+        adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
         collectiveTransactionView.setAdapter(adaptor);
 
 /*
@@ -86,7 +86,7 @@ public class CollectiveViewActivity extends AppCompatActivity {
             TextView titleTextView = (TextView) rowView.findViewById(R.id.recipe_list_title); // title element
             TextView subtitleTextView = (TextView) rowView.findViewById(R.id.recipe_list_subtitle); // subtitle element
             TextView detailTextView = (TextView) rowView.findViewById(R.id.recipe_list_detail);
-//            ImageView thumbnailImageView = (ImageView) rowView.findViewById(R.id.recipe_list_thumbnail); // thumbnail element
+            ImageView thumbnailImageView = (ImageView) rowView.findViewById(R.id.recipe_list_thumbnail); // thumbnail element
 
             TransactionObj transaction = (TransactionObj) getItem(position);
 
@@ -94,8 +94,8 @@ public class CollectiveViewActivity extends AppCompatActivity {
             subtitleTextView.setText(transaction.getPayee());
             detailTextView.setText(transaction.getValue());
 
-            /*Picasso.with(mContext).load(image).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
-            load image, would have to import picasso and add to maven and gradle*/
+            Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
+            //load image, would have to import picasso and add to maven and gradle
             /*if (convertView == null){
                 convertView = getLayoutInflater().inflate(R.layout.list_item, container, false);
             }

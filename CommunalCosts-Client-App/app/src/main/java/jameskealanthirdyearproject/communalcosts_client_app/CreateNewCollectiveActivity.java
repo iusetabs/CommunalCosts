@@ -77,8 +77,9 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
         }
         else if (v == createBtn){
             createCol();
-            /*finish();
-            startActivity(collectiveView);FIXME 19/02/18 This is crashing the app*/
+            finish();
+            startActivity(collectiveView);
+
         }
         else if (v == addMemBtn){
             mCollective.addMembers(colMembers.getText().toString().trim());

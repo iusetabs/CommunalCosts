@@ -24,7 +24,6 @@ public class CollectiveObj {
 
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
     private ArrayList<String> members= new ArrayList<>();
-    private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
     private String creator;
@@ -54,14 +53,6 @@ public class CollectiveObj {
    /* public ArrayList<Pair<String, Integer>> getMembers() {
         return members;
     }*/
-
-    public String getDatabaseFinancials() {
-        return databaseFinancials;
-    }
-
-    public void setDatabaseFinancials(String databaseFinancials) {
-        this.databaseFinancials = databaseFinancials;
-    }
 
     public String getCreator() {
         return creator;
