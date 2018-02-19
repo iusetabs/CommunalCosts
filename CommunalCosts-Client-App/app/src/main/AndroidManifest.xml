@@ -30,7 +30,9 @@
         <activity
             android:name=".CollectiveViewActivity"
             android:label="@string/app_name"></activity>
-
+        <activity
+            android:name=".UserSettingsActivity"
+            android:label="@string/app_name"></activity>
     </application>
 
 </manifest>

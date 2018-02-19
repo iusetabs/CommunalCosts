@@ -6,6 +6,16 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 
 public class TransactionObj {
     public String description;
+    public Integer value;
+    public String payee;
+
+    public String getPayee() {
+        return payee;
+    }
+
+    public void setPayee(String payee) {
+        this.payee = payee;
+    }
 
     public String getDescription() {
         return description;
@@ -23,12 +33,11 @@ public class TransactionObj {
         this.value = value;
     }
 
-    public Integer value;
-
     public TransactionObj(){}
 
-    public TransactionObj(String descrpt, Integer val){
+    public TransactionObj(String descrpt, Integer val, String paying){
         this.description = descrpt;
         this.value = val;
+        this.payee = paying;
     }
 }
