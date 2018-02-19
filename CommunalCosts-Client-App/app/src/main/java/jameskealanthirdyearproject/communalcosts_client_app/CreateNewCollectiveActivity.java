@@ -31,7 +31,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
     private Button returnBtn, createBtn, addMemBtn;
     private Intent homeScreenActv;
     private TextView memsView;
-    private EditText colName, colType, colMembers;
+    private EditText colName, colType, colMembers, colID;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dbRef;
     private Intent logInActivity, collectiveView;
@@ -54,6 +54,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
         createBtn = (Button) findViewById(R.id.colCreate_createBtn);
         colName = (EditText) findViewById(R.id.colCreate_nameF);
         colType = (EditText) findViewById(R.id.colCreate_typeF);
+        colID = (EditText) findViewById(R.id.colCreate_colIDF);
         colMembers = (EditText) findViewById(R.id.colCreate_addMembersF);
         addMemBtn = (Button) findViewById(R.id.colCreate_addMemberBtn);
         memsView = (TextView) findViewById(R.id.colCreate_displayAddedMembers);
@@ -100,10 +101,11 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
         mCollective.setCreator(userRef.getUid().toString());
 
         mCollective.setCollectiveName(colName.getText().toString().trim());
-        mCollective.setCollectiveId(colType.getText().toString().trim());
-       mCollective.addMembers(userRef.getEmail().toString());
+        mCollective.setCollectiveType(colType.getText().toString().trim());
+        mCollective.setCollectiveId(colID.getText().toString().trim());
+        mCollective.addMembers(userRef.getEmail().toString());
 
-        dbRef.child("collectives").child(mCollective.getCollectiveName()).setValue(mCollective);
+        dbRef.child("collectives").child(mCollective.getCollectiveId()).setValue(mCollective);
         //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
         Toast.makeText(CreateNewCollectiveActivity.this,"Collective Created", Toast.LENGTH_SHORT).show();
     }

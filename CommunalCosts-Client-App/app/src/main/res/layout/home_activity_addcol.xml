@@ -6,49 +6,74 @@
     android:layout_height="match_parent"
     android:padding="5dp">
 
-    <Button
-        android:id="@+id/homeAddCol_joinColBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Join Collective"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.641" />
-
-    <Button
-        android:id="@+id/homeAddCol_createColBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="68dp"
-        android:text="Create Collective"
-        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeAddCol_colIDField"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <EditText
-        android:id="@+id/homeAddCol_colIDField"
-        android:layout_width="206dp"
-        android:layout_height="183dp"
-        android:ems="10"
-        android:hint="Enter Collective ID"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.283" />
-
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="368dp"
-        android:layout_height="352dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="88dp">
+        android:layout_height="263dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/homeAddCol_createColBtn"
+                android:layout_width="330dp"
+                android:layout_height="68dp"
+                android:text="Create Collective"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.578"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.917" />
+
+            <EditText
+                android:id="@+id/homeAddCol_colIDField"
+                android:layout_width="212dp"
+                android:layout_height="52dp"
+                android:ems="10"
+                android:hint="Enter Collective ID"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.151"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.165" />
+
+            <Button
+                android:id="@+id/homeAddCol_joinColBtn"
+                android:layout_width="79dp"
+                android:layout_height="55dp"
+                android:text="Join"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.861"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.168" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="314dp"
+                android:layout_height="42dp"
+                android:text="Or create a new collective!"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.497" />
+        </android.support.constraint.ConstraintLayout>
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

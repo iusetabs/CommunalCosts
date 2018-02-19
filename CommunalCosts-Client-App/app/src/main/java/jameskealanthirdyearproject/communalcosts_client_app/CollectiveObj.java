@@ -21,18 +21,20 @@ import static android.content.ContentValues.TAG;
  */
 
 public class CollectiveObj {
-
+/*We need to clean up this file - it's kind of messy! */
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
     private ArrayList<String> members= new ArrayList<>();
     private String databaseFinancials;
     private String collectiveName;
     private String collectiveId;
+    private String collectiveType;
     private String creator;
 
     public CollectiveObj(){}
 
-    public CollectiveObj(String name, String id, String c, ArrayList<String> mems){
+    public CollectiveObj(String name, String type, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
+        this.collectiveType = type;
         this.collectiveName = name;
         this.creator = c;
         this.members = mems;
@@ -90,6 +92,18 @@ public class CollectiveObj {
     public String getCollectiveName() {
         return collectiveName;
 
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public String getCollectiveType() {
+        return collectiveType;
+    }
+
+    public void setCollectiveType(String collectiveType) {
+        this.collectiveType = collectiveType;
     }
     public void setCollectiveName(String collectiveName) {
         this.collectiveName = collectiveName;
