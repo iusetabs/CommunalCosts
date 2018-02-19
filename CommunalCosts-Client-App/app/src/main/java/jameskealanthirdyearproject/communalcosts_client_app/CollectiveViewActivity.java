@@ -34,8 +34,11 @@ public class CollectiveViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TransactionObj transaction1 = new TransactionObj("test transaction", -99, "Bank");
+        TransactionObj transaction2 = new TransactionObj("test 2", 100, "me");
         ArrayList<TransactionObj> transactionList = new ArrayList<>();
         transactionList.add(transaction1);
+        transactionList.add(transaction2);
+        setContentView(R.layout.activity_collective_view_activity);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
         collectiveTransactionView.setAdapter(adaptor);
@@ -92,7 +95,7 @@ public class CollectiveViewActivity extends AppCompatActivity {
 
             titleTextView.setText(transaction.getDescription());
             subtitleTextView.setText(transaction.getPayee());
-            detailTextView.setText(transaction.getValue());
+            detailTextView.setText(transaction.getValue().toString().trim());
 
             Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
             //load image, would have to import picasso and add to maven and gradle
