@@ -1,6 +1,7 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,10 +20,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class HomeCollectiveView extends AppCompatActivity {
+public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
+    private FloatingActionButton addTransactionButton;
+    private Intent addTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +44,17 @@ public class HomeCollectiveView extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        addTransaction = new Intent(HomeCollectiveView.this, AddTransaction.class);
+        addTransactionButton = (FloatingActionButton) findViewById(R.id.addTransBtn);
+        addTransactionButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == addTransactionButton) {
+            finish();
+            startActivity(addTransaction);
+        }
     }
 
     private class CollectiveAdaptor extends BaseAdapter {
