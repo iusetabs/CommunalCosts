@@ -77,6 +77,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_collective_view_activity);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
+
         collectiveTransactionView.setAdapter(adaptor);
         addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
         addTransactionBtn.setOnClickListener(this);
