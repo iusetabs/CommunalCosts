@@ -61,18 +61,18 @@ exports.addCollectivetoUserAccount = functions.database.ref('/collectives/{colNa
     });
 }); 
 
-/*exports.addCollectiveIDtoMemberAccounts = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
+exports.addCollectiveIDtoMemberAccounts = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
     const colID = event.params.colName; //needed to access array at col Event
     var i = 0;
     var NoUsersExceptition = {};
     var NoUserFoundExceptition = {};
     return admin.database().ref('/users').once('value').then((snap) => {
          if(snap.hasChildren()){ //have to make sure it's not triggered on a null set
-            //while(event.data.child(i).exists()){ //while the next child in the array isn't null
+            while(event.data.child(i.toString()).exists()){ //while the next child in the array isn't null
                 var found = false;
                     snap.forEach(function(childSnapshot){
                         var childSnapEmail = childSnapshot.child('email').val();
-                        var member = event.data.child(i).val(); //get value at array[i]
+                        var member = event.data.child(i.toString()).val(); //get value at array[i]
                            if (childSnapEmail===member){
                               var userID = childSnapshot.key;
                               found = true;
@@ -83,26 +83,23 @@ exports.addCollectivetoUserAccount = functions.database.ref('/collectives/{colNa
                     if(!found)
                         throw NoUserFoundExceptition;
                 i++; //increment the counter
-            //}       
+            }       
          }
          else{
              throw NoUsersExceptition;
          }
          return; 
      });
-});*/
-
+});
+/*
 exports.dealWithArray = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
     const dataIn = event.data.val();
-    var test = 1;
-    var printOut = event.data.child(test.toString()).val();
-    const d = event.data.child(test).exists();
-    const b = 'it worked!';
+    var i = 3;
+    const dataInChild1 = event.data.child(i.toString()).val();
     return admin.database().ref('/users').once('value').then((snap) => {
-        admin.database().ref('/test').child('testValue').set(printOut);     
-        return;
+        return admin.database().ref('/test').child('testValue').set(dataInChild1);     
     });
-}); 
+}); */
 
 
 exports.countUsers = functions.database.ref('/users').onWrite((event) => {
