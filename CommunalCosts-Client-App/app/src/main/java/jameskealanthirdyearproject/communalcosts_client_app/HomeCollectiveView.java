@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,7 +36,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         members.add("john");
         CollectiveObj collective1 = new CollectiveObj("kilmore road", "house", "uid", "kealan", members );
         CollectiveObj collective2 = new CollectiveObj("shanwoen square","apartment","uid2","kealan", members);
-        ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
+        final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
         collectiveList.add(collective1);
         collectiveList.add(collective2);
         joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
@@ -47,6 +48,17 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         addTransaction = new Intent(HomeCollectiveView.this, AddTransaction.class);
         addTransactionButton = (FloatingActionButton) findViewById(R.id.addTransBtn);
         addTransactionButton.setOnClickListener(this);
+
+        // adding click functionality
+        final Context context = this;
+        joinedCollectivesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CollectiveObj selectedCollective = collectiveList.get(position);
+                Intent detailIntent = new Intent(context, CollectiveViewActivity.class);
+                startActivity(detailIntent);
+            }
+        });
     }
 
     @Override

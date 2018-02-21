@@ -43,21 +43,24 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     private TransactionAdaptor adaptor;
     private FloatingActionButton addTransactionBtn;
     private Intent addTransaction;
+    private FirebaseDatabase db;
     private DatabaseReference dbRef;
     private TransactionObj transactionObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbRef = FirebaseDatabase.getInstance().getReference();
-        transactionObj = new TransactionObj();
+        db = FirebaseDatabase.getInstance();
+        DatabaseReference dbRef = db.getReference();
+//        transactionObj = new TransactionObj();
         dbRef.addValueEventListener(new ValueEventListener() {
-            transactionObj = downloadTransactionValues(DataSnapshot dataSnapshot);
+//
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //transactionObj = dataSnapshot.getValue(TransactionObj.class);
-                downloadTransactionValues();
-                Log.d(TAG, "Value is: " + transactionObj.getDescription());
+                transactionObj = downloadTransactionValues(dataSnapshot);
+//                transactionObj = dataSnapshot.getValue(TransactionObj.class);
+//                transactionObj = dataSnapshot.getValue(TransactionObj.class);
+                System.out.println("Value is changed");
             }
 
             @Override
@@ -79,17 +82,17 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         addTransactionBtn.setOnClickListener(this);
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
         final Context context = this;
-        collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TransactionObj transactionObj1 = transactionList.get(position);
-                Intent detailIntent = new Intent(context, TransactionDetailActivity.class);
+//                Intent detailIntent = new Intent(context, TransactionDetailActivity.class);
                 //TransactionDetailActivity.class will tell the app what to do once an activity has been clicked on
-                detailIntent.putExtra("payee", transactionObj1.getPayee());
+                *//*detailIntent.putExtra("payee", transactionObj1.getPayee());
                 detailIntent.putExtra("description", transactionObj1.getDescription());
-                startActivity(detailIntent);
+                startActivity(detailIntent);*//*
             }
-        });
+        });*/
 /*
         setEmptyText("Please choose a financial information input method");
         setHasOptionsMenu(true);
@@ -110,10 +113,10 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     }
 
     public TransactionObj downloadTransactionValues(DataSnapshot dataSnapshot){
-        transactionObj.setDescription(dataSnapshot.child('/transactions/').getValue(TransactionObj.class).getDescription());
-        myTransaction.setPayee(dataSnapshot.child('/transacions/').getValue(TransactionObj.class).getPayee());
-        myTransaction.setValue(dataSnapshot.child('/transactions').getValue(TransactionObj.class).getValue());
-        return myTransaction;
+        transactionObj.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
+        transactionObj.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
+        transactionObj.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValue());
+        return transactionObj;
     }
 
     private class TransactionAdaptor extends BaseAdapter{
