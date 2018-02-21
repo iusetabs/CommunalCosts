@@ -38,7 +38,7 @@ public class CollectiveViewActivity extends AppCompatActivity {
         transactionList.add(transaction1);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
-        collectiveTransactionView.setAdapter(adaptor);
+        collectiveTransactionView.setAdapter(adaptor); //FIXME
 
 /*
         setEmptyText("Please choose a financial information input method");
