@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
-    private FloatingActionButton addTransactionButton;
-    private Intent addTransaction;
+    private FloatingActionButton addCollectiveButton;
+    private Intent addCollective, logInActivity;
+    private Button logOutBtn;
+    private FirebaseAuth firAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +48,13 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        addTransaction = new Intent(HomeCollectiveView.this, AddTransaction.class);
-        addTransactionButton = (FloatingActionButton) findViewById(R.id.addTransBtn);
-        addTransactionButton.setOnClickListener(this);
-
+        addCollective = new Intent(HomeCollectiveView.this, CreateNewCollectiveActivity.class);
+        addCollectiveButton = (FloatingActionButton) findViewById(R.id.addCollectiveBtn);
+        addCollectiveButton.setOnClickListener(this);
+        logOutBtn = (Button) findViewById(R.id.logoutBtn);
+        logOutBtn.setOnClickListener(this);
+        firAuth = FirebaseAuth.getInstance();
+        logInActivity = new Intent(HomeCollectiveView.this, LogInActivity.class);
         // adding click functionality
         final Context context = this;
         joinedCollectivesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,9 +69,14 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (v == addTransactionButton) {
+        if (v == addCollectiveButton) {
             finish();
-            startActivity(addTransaction);
+            startActivity(addCollective);
+        }
+        else if (v == logOutBtn){
+            firAuth.signOut();
+            finish();
+            startActivity(logInActivity);
         }
     }
 

@@ -65,7 +65,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
 
         mCollective = new CollectiveObj();
 
-        homeScreenActv = new Intent(CreateNewCollectiveActivity.this, HomeActivity.class);
+        homeScreenActv = new Intent(CreateNewCollectiveActivity.this, HomeCollectiveView.class);
         logInActivity = new Intent(CreateNewCollectiveActivity.this, LogInActivity.class);
         collectiveView = new Intent(CreateNewCollectiveActivity.this, CollectiveViewActivity.class);
     }
