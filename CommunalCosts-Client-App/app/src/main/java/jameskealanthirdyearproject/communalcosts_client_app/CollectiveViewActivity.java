@@ -23,6 +23,7 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.app.Fragment.*;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -50,19 +51,27 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_collective_view_activity);
+
         db = FirebaseDatabase.getInstance();
         DatabaseReference dbRef = db.getReference();
-//        transactionObj = new TransactionObj();
+        transactionObj = new TransactionObj();
+
+        TransactionObj transaction1 = new TransactionObj("test transaction", -99, "Bank");
+        final ArrayList<TransactionObj> transactionList = new ArrayList<>();
+        transactionList.add(transaction1);
+        transactionList.add(transactionObj);
+
         dbRef.addValueEventListener(new ValueEventListener() {
-//
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                transactionObj = downloadTransactionValues(dataSnapshot);
-//                transactionObj = dataSnapshot.getValue(TransactionObj.class);
-//                transactionObj = dataSnapshot.getValue(TransactionObj.class);
-                System.out.println("Value is changed");
+                transactionList.remove(transactionObj);
+                Toast.makeText(CollectiveViewActivity.this,"Should be updated", Toast.LENGTH_SHORT).show();
+                transactionObj.updateValues(dataSnapshot); //new methoded added in the object class
+                transactionList.add(transactionObj);
+                adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
+                collectiveTransactionView.setAdapter(adaptor);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG, "Failed to read value.", databaseError.toException());
@@ -70,19 +79,12 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
             }
         });
 
-        TransactionObj transaction1 = new TransactionObj("test transaction", -99, "Bank");
-        final ArrayList<TransactionObj> transactionList = new ArrayList<>();
-        transactionList.add(transaction1);
-//        transactionList.add(transactionObj);
-        setContentView(R.layout.activity_collective_view_activity);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
-        adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
-
-        collectiveTransactionView.setAdapter(adaptor);
         addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
         addTransactionBtn.setOnClickListener(this);
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
         final Context context = this;
+
         /*collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -112,14 +114,6 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
             startActivity(addTransaction);
         }
     }
-
-    public TransactionObj downloadTransactionValues(DataSnapshot dataSnapshot){
-        transactionObj.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
-        transactionObj.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
-        transactionObj.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValue());
-        return transactionObj;
-    }
-
     private class TransactionAdaptor extends BaseAdapter{
 
         private Context mContext;

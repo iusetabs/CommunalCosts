@@ -27,8 +27,8 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
     private FloatingActionButton addCollectiveButton;
-    private Intent addCollective, logInActivity;
-    private Button logOutBtn;
+    private Intent addCollective, logInActivity, testActivity;
+    private Button logOutBtn, testBtn; //testbutton added by james
     private FirebaseAuth firAuth;
 
     @Override
@@ -37,26 +37,38 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_home_collective_view);
         ArrayList<String> members = new ArrayList<>();
         members.add("john");
+
         CollectiveObj collective1 = new CollectiveObj("kilmore road", "house", "uid", "kealan", members );
         CollectiveObj collective2 = new CollectiveObj("shanwoen square","apartment","uid2","kealan", members);
+
         final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
+
         collectiveList.add(collective1);
         collectiveList.add(collective2);
+
         joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
         joinedCollectivesView.setAdapter(adaptor);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         addCollective = new Intent(HomeCollectiveView.this, CreateNewCollectiveActivity.class);
+        testActivity = new Intent(HomeCollectiveView.this, TestingTransactionAddition.class); //added by james
         addCollectiveButton = (FloatingActionButton) findViewById(R.id.addCollectiveBtn);
         addCollectiveButton.setOnClickListener(this);
+
+        testBtn = (Button) findViewById(R.id.home_testBtn); //added by james
+        testBtn.setOnClickListener(this);
+
         logOutBtn = (Button) findViewById(R.id.logoutBtn);
         logOutBtn.setOnClickListener(this);
+
         firAuth = FirebaseAuth.getInstance();
         logInActivity = new Intent(HomeCollectiveView.this, LogInActivity.class);
         // adding click functionality
         final Context context = this;
+
         joinedCollectivesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,6 +89,10 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             firAuth.signOut();
             finish();
             startActivity(logInActivity);
+        }
+        else if (v == testBtn){ //added by james
+            finish();
+            startActivity(testActivity);
         }
     }
 

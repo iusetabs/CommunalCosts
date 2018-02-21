@@ -52,7 +52,7 @@ public class TestingTransactionAddition extends AppCompatActivity {
     }
 
     private void displayAccountDetails(DataSnapshot dataSnapshot){
-        myTransaction.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValue());
+        myTransaction.setDescription(dataSnapshot.child("transactions/description").getValue(TransactionObj.class).getDescription());
         test.setText(String.format("%d",myTransaction.getValue()), TextView.BufferType.EDITABLE);
 
     }

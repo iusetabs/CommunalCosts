@@ -1,5 +1,9 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+
 /**
  * Created by kealan on 11/02/18.
  */
@@ -39,5 +43,11 @@ public class TransactionObj {
         this.description = descrpt;
         this.value = val;
         this.payee = paying;
+
+    }
+    public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class
+        this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
+        this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValue());
+        this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
     }
 }
