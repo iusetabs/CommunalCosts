@@ -3,6 +3,6 @@
     <string name="title_activity_communal_finances">CommunalFinances</string>
     <string name="title_activity_account_details">accountDetails</string>
     <string name="thumbnail">thumbnail</string>
-    <string name="title_item_list">Items</string>
-    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_home_collective_view">HomeCollectiveView</string>
+    <string name="title_activity_collective_view_iter2">CollectiveViewActivityIter2</string>
 </resources>

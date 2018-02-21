@@ -31,7 +31,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        home = new Intent(LogInActivity.this, HomeActivity.class);
+        home = new Intent(LogInActivity.this, HomeCollectiveView.class);
         pD = new ProgressDialog(this);
         firAuth = FirebaseAuth.getInstance();
         if(firAuth.getCurrentUser() != null){

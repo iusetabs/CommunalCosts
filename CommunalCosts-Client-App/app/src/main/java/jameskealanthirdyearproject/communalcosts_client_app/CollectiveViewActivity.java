@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -20,26 +25,75 @@ import android.widget.TextView;
 import android.app.Fragment.*;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CollectiveViewActivity extends AppCompatActivity {
+import static android.content.ContentValues.TAG;
+
+public class CollectiveViewActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ListView collectiveTransactionView;
     private TransactionAdaptor adaptor;
+    private FloatingActionButton addTransactionBtn;
+    private Intent addTransaction;
+    private FirebaseDatabase db;
+    private DatabaseReference dbRef;
+    private TransactionObj transactionObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseDatabase.getInstance();
+        DatabaseReference dbRef = db.getReference();
+//        transactionObj = new TransactionObj();
+        dbRef.addValueEventListener(new ValueEventListener() {
+//
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                transactionObj = downloadTransactionValues(dataSnapshot);
+//                transactionObj = dataSnapshot.getValue(TransactionObj.class);
+//                transactionObj = dataSnapshot.getValue(TransactionObj.class);
+                System.out.println("Value is changed");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "Failed to read value.", databaseError.toException());
+
+            }
+        });
+
         TransactionObj transaction1 = new TransactionObj("test transaction", -99, "Bank");
-        ArrayList<TransactionObj> transactionList = new ArrayList<>();
+        final ArrayList<TransactionObj> transactionList = new ArrayList<>();
         transactionList.add(transaction1);
+        transactionList.add(transactionObj);
+        setContentView(R.layout.activity_collective_view_activity);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
-        collectiveTransactionView.setAdapter(adaptor); //FIXME
 
+        collectiveTransactionView.setAdapter(adaptor);
+        addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
+        addTransactionBtn.setOnClickListener(this);
+        addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
+        final Context context = this;
+        /*collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TransactionObj transactionObj1 = transactionList.get(position);
+//                Intent detailIntent = new Intent(context, TransactionDetailActivity.class);
+                //TransactionDetailActivity.class will tell the app what to do once an activity has been clicked on
+                *//*detailIntent.putExtra("payee", transactionObj1.getPayee());
+                detailIntent.putExtra("description", transactionObj1.getDescription());
+                startActivity(detailIntent);*//*
+            }
+        });*/
 /*
         setEmptyText("Please choose a financial information input method");
         setHasOptionsMenu(true);
@@ -51,6 +105,19 @@ public class CollectiveViewActivity extends AppCompatActivity {
                 new String[]{ContactsContract.Contacts.DISPLAY_NAME,
                         ContactsContract.Contacts.CONTACT_STATUS},
                 );*/
+    }
+    public void onClick(View v){
+        if(v == addTransactionBtn){
+            finish();
+            startActivity(addTransaction);
+        }
+    }
+
+    public TransactionObj downloadTransactionValues(DataSnapshot dataSnapshot){
+        transactionObj.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
+        transactionObj.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
+        transactionObj.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValue());
+        return transactionObj;
     }
 
     private class TransactionAdaptor extends BaseAdapter{
@@ -92,16 +159,9 @@ public class CollectiveViewActivity extends AppCompatActivity {
 
             titleTextView.setText(transaction.getDescription());
             subtitleTextView.setText(transaction.getPayee());
-            detailTextView.setText(transaction.getValue());
+            detailTextView.setText(String.format("%d", transaction.getValue()).trim());
 
             Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
-            //load image, would have to import picasso and add to maven and gradle
-            /*if (convertView == null){
-                convertView = getLayoutInflater().inflate(R.layout.list_item, container, false);
-            }
-
-            ((TextView) convertView.findViewById(android.R.id.text1)).setText(getItem(position).description + "  :" + getItem(position).getValue());
-            return convertView;*/
             return rowView;
         }
 
