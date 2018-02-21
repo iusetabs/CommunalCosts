@@ -37,7 +37,11 @@
             android:name=".HomeCollectiveView"
             android:label="@string/title_activity_home_collective_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddTransaction"></activity>
+        <activity android:name=".AddTransaction" />
+        <activity
+            android:name=".TestingTransactionAddition"
+            android:label="@string/title_activity_testing_transaction_addition"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

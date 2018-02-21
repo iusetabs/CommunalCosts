@@ -45,7 +45,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     private Intent addTransaction;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
-    private TransactionObj transactionObj;
+    public TransactionObj transactionObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         TransactionObj transaction1 = new TransactionObj("test transaction", -99, "Bank");
         final ArrayList<TransactionObj> transactionList = new ArrayList<>();
         transactionList.add(transaction1);
-        transactionList.add(transactionObj);
+//        transactionList.add(transactionObj);
         setContentView(R.layout.activity_collective_view_activity);
         collectiveTransactionView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);

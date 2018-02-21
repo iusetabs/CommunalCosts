@@ -99,6 +99,9 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
 
     private void createCol() {
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
+        /*if(colName.getText().length() || colType.getText().length() || colID.getText().length() < 1){
+            Toast.makeText(CreateNewCollectiveActivity.this, "Please fill in empty fields", Toast.LENGTH_SHORT).show();
+        }*/
         mCollective.setCreator(userRef.getUid().toString());
 
         mCollective.setCollectiveName(colName.getText().toString().trim());
