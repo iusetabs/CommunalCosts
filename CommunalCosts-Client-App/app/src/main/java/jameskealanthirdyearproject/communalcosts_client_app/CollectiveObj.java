@@ -29,7 +29,14 @@ public class CollectiveObj {
     private String collectiveType;
     private String creator;
 
-    public CollectiveObj(){}
+    public CollectiveObj(){
+        this.collectiveId = "";
+        this.collectiveType = "";
+        this.collectiveId = "";
+        this.creator = "";
+        this.members = new ArrayList<String>();
+        this.transactions = new ArrayList<TransactionObj>();
+    }
 
     public CollectiveObj(String name, String type, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
@@ -47,14 +54,13 @@ public class CollectiveObj {
 
 
 
-    public void setTransactions(ArrayList<TransactionObj> transactions) {
-        this.transactions = transactions;
+    public void addTransaction(TransactionObj transaction) {
+        this.transactions.add(transaction);
     }
 
-
-   /* public ArrayList<Pair<String, Integer>> getMembers() {
-        return members;
-    }*/
+    public void removeTransaction(TransactionObj transactionObj){
+        this.transactions.remove(transactions);
+    }
 
     public String getCreator() {
         return creator;
@@ -63,14 +69,6 @@ public class CollectiveObj {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-
-    /*public void setMembers(ArrayList<Pair<String, Integer>> members) {
-        this.members = members;
-    }*/
-/*public collectiveObj collectiveObj(){
-        this.members = new ArrayList<Pair<String, Integer>>();
-        return this;
-    }*/
 
     public ArrayList<String> getMembers() {
         return members;
@@ -108,24 +106,6 @@ public class CollectiveObj {
         this.collectiveId = collectiveId;
     }
 
-    public void finances(TransactionObj transaction){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("transaction");
-        myRef.setValue(transaction);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "Failed to read value.", databaseError.toException());
-
-            }
-        });
-    }
     /*public collectiveObj add(accountObj user, Integer privilege) {
         if (privilege >= 0 & privilege <=2){
             this.members.add(user.getUid(), privilege);

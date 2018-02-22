@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 /**
  * Created by kealan on 12/02/18.
  */
@@ -37,6 +39,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
     private Intent logInActivity, collectiveView;
     private CollectiveObj mCollective;
     private String email;
+    private TransactionObj transactionObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             finish();
             startActivity(logInActivity);
         }
-
+        transactionObj = new TransactionObj("test", 0, "payee");
         returnBtn = (Button) findViewById(R.id.colCreate_backBtn);
         createBtn = (Button) findViewById(R.id.colCreate_createBtn);
         colName = (EditText) findViewById(R.id.colCreate_nameF);
@@ -77,9 +80,15 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             startActivity(homeScreenActv);
         }
         else if (v == createBtn){
-            createCol();
-            finish();
-            startActivity(collectiveView);
+            if((colID.getText().toString().trim() == "") || (colName.getText().toString().trim() == "") || (colType.getText().toString().trim() == "")){
+                Toast.makeText(CreateNewCollectiveActivity.this, "Please ensure all fields are completed", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else {
+                createCol();
+                finish();
+                startActivity(collectiveView);
+            }
 
         }
         else if (v == addMemBtn){
@@ -108,9 +117,10 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
         mCollective.setCollectiveType(colType.getText().toString().trim());
         mCollective.setCollectiveId(colID.getText().toString().trim());
         mCollective.addMembers(userRef.getEmail().toString());
+        mCollective.addTransaction(transactionObj);
 
         dbRef.child("collectives").child(mCollective.getCollectiveId()).setValue(mCollective);
         //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
-        Toast.makeText(CreateNewCollectiveActivity.this,"Collective Created", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateNewCollectiveActivity.this, "Collective Created", Toast.LENGTH_SHORT).show();
     }
 }
