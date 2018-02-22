@@ -74,6 +74,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CollectiveObj selectedCollective = collectiveList.get(position);
                 Intent detailIntent = new Intent(context, CollectiveViewActivity.class);
+                detailIntent.putExtra("EXTRA_CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
                 startActivity(detailIntent);
             }
         });
