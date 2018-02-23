@@ -72,11 +72,12 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
         joinedCollectivesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //FIXME
                 CollectiveObj selectedCollective = collectiveList.get(position);
                 Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
-/*                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
-                Log.d("*** OUTBOUND INTENT: ", "" + detailIntent.getExtras().get("CURRENT_COLLECTIVE_ID"));*/
+                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+                //Log.d("*** OUTBOUND INTENT: ", "" + detailIntent.getExtras().get("CURRENT_COLLECTIVE_ID"));*/
+                System.out.print("Intent section being hit");
                 startActivity(detailIntent);
             }
         });
