@@ -41,18 +41,6 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         createTransaction.setOnClickListener(this);
         transactionView = new Intent(AddTransaction.this, CollectiveViewActivity.class);
         myTransaction = new TransactionObj();
-        /*dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                displayAccountDetails(dataSnapshot);
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        });*/
     }
 
     @Override
@@ -64,20 +52,10 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-    /*private void displayAccountDetails(DataSnapshot dataSnapshot){
-        description.getText();
-        myTransaction.setDescription(dataSnapshot.child(user.getUid()).getValue(AccountObj.class).getEmail());
-
-
-        myAccount.setName(dataSnapshot.child(user.getUid()).getValue(AccountObj.class).getName());
-        userName.setText(myAccount.getName(), TextView.BufferType.EDITABLE);
-
-    }*/
 
     private void createTransaction() {
         String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); //FIXME
-        Log.d("CREATION", collectiveId); //FIXME
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         myTransaction.setDescription(description.getText().toString().trim());
 
@@ -91,9 +69,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         myTransaction.setId(timestamp + userRef.getUid().toString());
-        Log.d("CREATION", "collectives/" + collectiveId +"/transactions"); //FIXME
         dbRef.child("collectives/" + collectiveId +"/transactions").setValue(myTransaction);
-        //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
         Toast.makeText(AddTransaction.this,"Transaction Created", Toast.LENGTH_SHORT).show();
     }
 }

@@ -26,16 +26,6 @@ public class AccountObj {
         this.dOB = d;
     }
 
-   /* public AccountObj AccountObj(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        this.name = user.getDisplayName();
-        this.email = user.getEmail();
-        this.emailVerified = user.isEmailVerified();
-        this.uid = user.getUid();
-
-        return this;
-    }*/
-
     public String getdOB() {
         return dOB;
     }
