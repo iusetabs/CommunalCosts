@@ -36,6 +36,9 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         Integer val = new Integer(0);
         value.setText(String.format("%d", getIntent().getIntExtra("CURRENT_TRANSACTION_VALUE", val)), TextView.BufferType.NORMAL);
 
+        backToTransactions.setOnClickListener(this);
+        saveChanges.setOnClickListener(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
