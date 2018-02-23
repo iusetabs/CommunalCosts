@@ -8,11 +8,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import static android.content.ContentValues.TAG;
 
@@ -23,52 +26,63 @@ import static android.content.ContentValues.TAG;
 public class CollectiveObj {
 /*We need to clean up this file - it's kind of messy! */
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
-
-    /*Member Structure*/
-    private ArrayList<ArrayList<String>> allUsers= new ArrayList<>();
-    private ArrayList<String> newMembers = new ArrayList<>();
-    private ArrayList<String> ordinaryMembers = new ArrayList<>();
-    private ArrayList<String> contributorMembers = new ArrayList<>();
-    private ArrayList<String> administratorMembers = new ArrayList<>();
+    private ArrayList<myPairObj> members = new ArrayList<>();
     private String collectiveName;
     private String collectiveId;
     private String collectiveType;
     private String creator;
 
-
     public CollectiveObj(){
-        this.collectiveId = "";
-        this.collectiveType = "";
-        this.collectiveId = "";
-        this.creator = "";
-    }
-    private void initaliseMemberStructure() {
-        if(this.allUsers.size() == 0){
-            this.allUsers.add(newMembers);
-            this.allUsers.add(ordinaryMembers);
-            this.allUsers.add(contributorMembers);
-            this.allUsers.add(administratorMembers);
-        }
 
     }
-    public CollectiveObj(String name, String type, String id, String c, ArrayList<String> mems){
+    public CollectiveObj(String name, String type, String id, String c, ArrayList<myPairObj> mems){
         this.collectiveId = id;
         this.collectiveType = type;
         this.collectiveName = name;
         this.creator = c;
-        this.newMembers = mems;
+        this.members = mems;
     }
-
     /*MemberFunctions*/
-    public void addNewMembers(String s) {
-        if(!this.newMembers.contains(s))
-            this.newMembers.add(s);
+    public void addMember(String userEmail) {
+        myPairObj pos1 = new myPairObj("ordinary", userEmail);
+        myPairObj pos2 = new myPairObj("administrator", userEmail);
+        myPairObj pos3 = new myPairObj("contributor", userEmail);
+        if(!this.members.contains(pos1) && !this.members.contains(pos2) && !this.members.contains(pos3)) {
+            myPairObj member = new myPairObj(userEmail);
+            this.members.add(member);
+        }
+    }
+    public void addMember(String userEmail, String permission) {
+        myPairObj pos1 = new myPairObj("ordinary", userEmail);
+        myPairObj pos2 = new myPairObj("administrator", userEmail);
+        myPairObj pos3 = new myPairObj("contributor", userEmail);
+        if(!this.members.contains(pos1) && !this.members.contains(pos2) && !this.members.contains(pos3)) {
+            myPairObj member = new myPairObj(permission, userEmail);
+            this.members.add(member);
+        }
+    }
+    public void rmMember(String userEmail){
+        myPairObj p;
+        for(int i = 0; i < this.members.size(); i++){
+            p = this.members.get(i);
+            if(p.getUsrEmail() == userEmail){
+                this.members.remove(i);
+                break;
+            }
+        }
+    }
+    public myPairObj getMemberAt(int i){
+        return this.members.get(i);
+    }
+    public int getMembersLength(){
+        return this.members.size();
+    }
+    public ArrayList<myPairObj> getMembers(){
+      return this.members;
     }
     public ArrayList<TransactionObj> getTransactions() {
         return transactions;
     }
-
-
 
     public void addTransaction(TransactionObj transaction) {
         this.transactions.add(transaction);
@@ -77,7 +91,6 @@ public class CollectiveObj {
     public void removeTransaction(TransactionObj transactionObj){
         this.transactions.remove(transactions);
     }
-
     public String getCreator() {
         return creator;
     }
@@ -86,20 +99,10 @@ public class CollectiveObj {
         this.creator = creator;
     }
 
-    public ArrayList<String> getnewMembers() {
-        return newMembers;
-    }
-
-
     public String getCollectiveName() {
         return collectiveName;
 
     }
-
-    public void setMembers(ArrayList<String> members) {
-        this.newMembers = members;
-    }
-
     public String getCollectiveType() {
         return collectiveType;
     }

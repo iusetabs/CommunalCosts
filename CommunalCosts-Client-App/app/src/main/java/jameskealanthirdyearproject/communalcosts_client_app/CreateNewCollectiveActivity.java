@@ -28,10 +28,10 @@ import org.w3c.dom.Text;
 
 public class CreateNewCollectiveActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button returnBtn, createBtn, addMemBtn;
+    private Button returnBtn, createBtn, addMemBtn, rmMemBtn;
     private Intent homeScreenActv;
-    private TextView memsView;
-    private EditText colName, colType, colMembers, colID;
+    private TextView memsView, memPermsView;
+    private EditText colName, colType, colMembers, colID, colMembersPerm;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dbRef;
     private Intent logInActivity, collectiveView;
@@ -52,16 +52,20 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
 
         returnBtn = (Button) findViewById(R.id.colCreate_backBtn);
         createBtn = (Button) findViewById(R.id.colCreate_createBtn);
+        rmMemBtn = (Button) findViewById(R.id.colCreate_rmBtn);
         colName = (EditText) findViewById(R.id.colCreate_nameF);
         colType = (EditText) findViewById(R.id.colCreate_typeF);
         colID = (EditText) findViewById(R.id.colCreate_colIDF);
         colMembers = (EditText) findViewById(R.id.colCreate_addMembersF);
+        colMembersPerm = (EditText) findViewById(R.id.colCreate_addMemberPermissionF);
         addMemBtn = (Button) findViewById(R.id.colCreate_addMemberBtn);
         memsView = (TextView) findViewById(R.id.colCreate_displayAddedMembers);
+        memPermsView = (TextView) findViewById(R.id.colCreate_displayAddedMemberPermissions);
 
         createBtn.setOnClickListener(this);
         returnBtn.setOnClickListener(this);
         addMemBtn.setOnClickListener(this);
+        rmMemBtn.setOnClickListener(this);
 
         mCollective = new CollectiveObj();
 
@@ -83,28 +87,47 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             else {
                 createCol();
                 finish();
-//                collectiveView.putExtra("CURRENT_COLLECTIVE_ID", mCollective.getCollectiveId() );
+                collectiveView.putExtra("CURRENT_COLLECTIVE_ID", mCollective.getCollectiveId() );
                 startActivity(collectiveView);
             }
         }
         else if (v == addMemBtn){
-            mCollective.addNewMembers(colMembers.getText().toString().trim());
-            String email = colMembers.getText().toString().trim();
+            email = colMembers.getText().toString().trim();
+            String permission = colMembersPerm.getText().toString().trim();
             boolean valid = (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
             if(valid) {
-                memsView.append(colMembers.getText().toString().trim() + "\n");
+                if(permission.length() > 7 )
+                    mCollective.addMember(email, permission);
+                else {
+                    mCollective.addMember(email);
+                    permission = "ordinary";
+                }
+                memsView.append(email + "\n");
+                memPermsView.append(permission + "\n");
             }
             else{
                 Toast.makeText(CreateNewCollectiveActivity.this,"Email address invalid", Toast.LENGTH_SHORT).show();
             }
             memsView.computeScroll();
             colMembers.setText("");
+            colMembersPerm.setText("");
+        }
+        else if (v == rmMemBtn){
+            mCollective.rmMember(email);
+            memsView.setText("");
+            memPermsView.setText("");
+            myPairObj p = new myPairObj();
+            for(int i = 0; i < mCollective.getMembersLength(); i++){
+                p = mCollective.getMemberAt(i);
+                memsView.append(p.getUsrEmail() + "\n");
+                memPermsView.append(p.getUsrPermission() + "\n");
+            }
         }
     }
     private void createCol() {
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
-        mCollective.setCreator(userRef.getUid().toString());
-        mCollective.addNewMembers(userRef.getEmail().toString()); //add creator first to members
+        mCollective.setCreator(userRef.getUid());
+        mCollective.addMember(userRef.getEmail(), "creator"); //add creator first to members
 
         mCollective.setCollectiveName(colName.getText().toString().trim());
         mCollective.setCollectiveType(colType.getText().toString().trim());

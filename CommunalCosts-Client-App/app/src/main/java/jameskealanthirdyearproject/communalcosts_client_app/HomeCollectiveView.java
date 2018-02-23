@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,8 +38,9 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
-        ArrayList<String> members = new ArrayList<>();
-        members.add("john");
+        ArrayList<myPairObj> members = new ArrayList<>();
+        myPairObj newMem = new myPairObj("administrator", "Kealan@dcu.ie");
+        members.add(newMem);
 
         CollectiveObj collective1 = new CollectiveObj("kilmore road", "house", "uid", "kealan", members );
         CollectiveObj collective2 = new CollectiveObj("shanwoen square","apartment","uid2","kealan", members);
