@@ -23,31 +23,47 @@ import static android.content.ContentValues.TAG;
 public class CollectiveObj {
 /*We need to clean up this file - it's kind of messy! */
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
-    private ArrayList<String> members= new ArrayList<>();
+
+    /*Member Structure*/
+    private ArrayList<ArrayList<String>> allUsers= new ArrayList<>();
+    private ArrayList<String> newMembers = new ArrayList<>();
+    private ArrayList<String> ordinaryMembers = new ArrayList<>();
+    private ArrayList<String> contributorMembers = new ArrayList<>();
+    private ArrayList<String> administratorMembers = new ArrayList<>();
     private String collectiveName;
     private String collectiveId;
     private String collectiveType;
     private String creator;
+
 
     public CollectiveObj(){
         this.collectiveId = "";
         this.collectiveType = "";
         this.collectiveId = "";
         this.creator = "";
-        this.members = new ArrayList<String>();
-        this.transactions = new ArrayList<TransactionObj>();
     }
+    private void initaliseMemberStructure() {
+        if(this.allUsers.size() == 0){
+            this.allUsers.add(newMembers);
+            this.allUsers.add(ordinaryMembers);
+            this.allUsers.add(contributorMembers);
+            this.allUsers.add(administratorMembers);
+        }
 
+    }
     public CollectiveObj(String name, String type, String id, String c, ArrayList<String> mems){
         this.collectiveId = id;
         this.collectiveType = type;
         this.collectiveName = name;
         this.creator = c;
-        this.members = mems;
-        this.transactions = new ArrayList<>();
-
+        this.newMembers = mems;
     }
 
+    /*MemberFunctions*/
+    public void addNewMembers(String s) {
+        if(!this.newMembers.contains(s))
+            this.newMembers.add(s);
+    }
     public ArrayList<TransactionObj> getTransactions() {
         return transactions;
     }
@@ -70,13 +86,10 @@ public class CollectiveObj {
         this.creator = creator;
     }
 
-    public ArrayList<String> getMembers() {
-        return members;
+    public ArrayList<String> getnewMembers() {
+        return newMembers;
     }
 
-    public void addMembers(String s) {
-        this.members.add(s);
-    }
 
     public String getCollectiveName() {
         return collectiveName;
@@ -84,7 +97,7 @@ public class CollectiveObj {
     }
 
     public void setMembers(ArrayList<String> members) {
-        this.members = members;
+        this.newMembers = members;
     }
 
     public String getCollectiveType() {

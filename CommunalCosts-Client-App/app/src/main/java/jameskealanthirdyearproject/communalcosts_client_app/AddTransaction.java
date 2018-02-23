@@ -75,8 +75,8 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     }*/
 
     private void createTransaction() {
-        /*String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
-        Log.d("CREATION", collectiveId);*/
+        String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); //FIXME
+        Log.d("CREATION", collectiveId); //FIXME
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         myTransaction.setDescription(description.getText().toString().trim());
@@ -91,8 +91,8 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         myTransaction.setId(timestamp + userRef.getUid().toString());
-        /*Log.d("CREATION", "collectives/" + collectiveId +"/transactions");
-        dbRef.child("collectives/" + collectiveId +"/transactions").setValue(myTransaction);*/
+        Log.d("CREATION", "collectives/" + collectiveId +"/transactions"); //FIXME
+        dbRef.child("collectives/" + collectiveId +"/transactions").setValue(myTransaction);
         //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
         Toast.makeText(AddTransaction.this,"Transaction Created", Toast.LENGTH_SHORT).show();
     }

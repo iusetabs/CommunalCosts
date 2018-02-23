@@ -83,25 +83,16 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
         addTransactionBtn.setOnClickListener(this);
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
-        collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TransactionObj selectedTransaction = transactionList.get(position);
-                Intent detailIntent = new Intent(CollectiveViewActivity.this, .class);
-/*                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
-                Log.d("*** OUTBOUND INTENT: ", "" + detailIntent.getExtras().get("CURRENT_COLLECTIVE_ID"));*/
-                startActivity(detailIntent);
-            }
-        });
-        /*Intent i = getIntent();
+        Intent i = getIntent(); //FIXME START
         Bundle extras = i.getExtras();
         if(extras == null){
             Log.d("CREATION", "not working");
         }
-        String pos = extras.getString("EXTRA_CURRENT_COLLECTIVE_ID");
-        Log.d("CREATION", pos);
-        addTransaction.putExtra("EXTRA_CURRENT_COLLECTIVE_ID", getIntent().getStringExtra("EXTRA_CURRENT_COLLECTIVE_ID"));*/
-        final Context context = this;
+        String pos = extras.getString("CURRENT_COLLECTIVE_ID");
+        System.out.println(pos);
+        //Log.d("CREATION", pos);
+        addTransaction.putExtra("CURRENT_COLLECTIVE_ID", getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"));
+        final Context context = this; //FIXME END
 
         /*collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
