@@ -88,9 +88,10 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         if(extras == null){
             Log.d("CREATION", "not working");
         }
-        String pos = extras.getString("EXTRA_CURRENT_COLLECTIVE_ID");
-        Log.d("CREATION", pos);
-        addTransaction.putExtra("EXTRA_CURRENT_COLLECTIVE_ID", getIntent().getStringExtra("EXTRA_CURRENT_COLLECTIVE_ID"));*/
+        String pos = extras.getString("CURRENT_COLLECTIVE_ID");
+        System.out.println(pos);
+        //Log.d("CREATION", pos);
+        addTransaction.putExtra("CURRENT_COLLECTIVE_ID", getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"));
         final Context context = this; //FIXME END
 
         /*collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
