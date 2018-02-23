@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +74,9 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CollectiveObj selectedCollective = collectiveList.get(position);
-                Intent detailIntent = new Intent(context, CollectiveViewActivity.class);
-                detailIntent.putExtra("EXTRA_CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+                Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
+/*                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+                Log.d("*** OUTBOUND INTENT: ", "" + detailIntent.getExtras().get("CURRENT_COLLECTIVE_ID"));*/
                 startActivity(detailIntent);
             }
         });
