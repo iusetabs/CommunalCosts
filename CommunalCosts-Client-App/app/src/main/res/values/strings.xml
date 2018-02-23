@@ -6,4 +6,5 @@
     <string name="title_activity_home_collective_view">HomeCollectiveView</string>
     <string name="title_activity_collective_view_iter2">CollectiveViewActivityIter2</string>
     <string name="title_activity_testing_transaction_addition">TestingTransactionAddition</string>
+    <string name="title_activity_transaction_view">TransactionView</string>
 </resources>

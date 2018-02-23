@@ -83,40 +83,23 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
         addTransactionBtn.setOnClickListener(this);
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
-        Intent i = getIntent(); //FIXME START
-        Bundle extras = i.getExtras();
-        if(extras == null){
-            Log.d("CREATION", "not working");
-        }
-        String pos = extras.getString("CURRENT_COLLECTIVE_ID");
-        System.out.println(pos);
-        //Log.d("CREATION", pos);
-        addTransaction.putExtra("CURRENT_COLLECTIVE_ID", getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"));
-        final Context context = this; //FIXME END
+        String collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
+        addTransaction.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
 
-        /*collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TransactionObj transactionObj1 = transactionList.get(position);
-//                Intent detailIntent = new Intent(context, TransactionDetailActivity.class);
-                //TransactionDetailActivity.class will tell the app what to do once an activity has been clicked on
-                *//*detailIntent.putExtra("payee", transactionObj1.getPayee());
-                detailIntent.putExtra("description", transactionObj1.getDescription());
-                startActivity(detailIntent);*//*
+                TransactionObj selectedTransaction = transactionList.get(position);
+                Intent detailIntent = new Intent(CollectiveViewActivity.this, TransactionView.class);
+                detailIntent.putExtra("CURRENT_TRANSACTION_DESCRIPTION", selectedTransaction.getDescription());
+                detailIntent.putExtra("CURRENT_TRANSACTION_ID", selectedTransaction.getId());
+                detailIntent.putExtra("CURRENT_TRANSACTION_PAYEE", selectedTransaction.getPayee());
+                detailIntent.putExtra("CURRENT_TRANSACTION_VALUE", selectedTransaction.getValue());
+                startActivity(detailIntent);
             }
-        });*/
-/*
-        setEmptyText("Please choose a financial information input method");
-        setHasOptionsMenu(true);
-        collective = new CollectiveObj();
-        setContentView(R.layout.activity_collective_view_activity);
-        setListAdapter(new MyAdapter());
-        mAdapter = new SimpleCursorAdapter(getActivity(),
-                android.R.layout.simple_list_item_2, null,
-                new String[]{ContactsContract.Contacts.DISPLAY_NAME,
-                        ContactsContract.Contacts.CONTACT_STATUS},
-                );*/
+        });
     }
+
     public void onClick(View v){
         if(v == addTransactionBtn){
             finish();

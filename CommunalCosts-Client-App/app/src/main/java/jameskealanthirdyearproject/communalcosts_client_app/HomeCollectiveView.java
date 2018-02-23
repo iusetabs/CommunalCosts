@@ -58,7 +58,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
 
         addCollective = new Intent(HomeCollectiveView.this, CreateNewCollectiveActivity.class);
-        testActivity = new Intent(HomeCollectiveView.this, TestingTransactionAddition.class); //added by james
         addCollectiveButton = (FloatingActionButton) findViewById(R.id.addCollectiveBtn);
         addCollectiveButton.setOnClickListener(this);
 

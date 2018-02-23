@@ -121,14 +121,4 @@ public class CollectiveObj {
     public void setCollectiveId(String collectiveId) {
         this.collectiveId = collectiveId;
     }
-
-    /*public collectiveObj add(accountObj user, Integer privilege) {
-        if (privilege >= 0 & privilege <=2){
-            this.members.add(user.getUid(), privilege);
-        }
-        else{
-            System.out.print("invalid privilege level");
-        }
-    }*/
-    /*we don't know how to add m*/
 }
