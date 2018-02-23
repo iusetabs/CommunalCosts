@@ -22,8 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-
 /**
  * Created by kealan on 12/02/18.
  */
@@ -39,7 +37,6 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
     private Intent logInActivity, collectiveView;
     private CollectiveObj mCollective;
     private String email;
-    private TransactionObj transactionObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +49,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             finish();
             startActivity(logInActivity);
         }
-        transactionObj = new TransactionObj("test", 0, "payee");
+
         returnBtn = (Button) findViewById(R.id.colCreate_backBtn);
         createBtn = (Button) findViewById(R.id.colCreate_createBtn);
         colName = (EditText) findViewById(R.id.colCreate_nameF);
@@ -80,19 +77,17 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             startActivity(homeScreenActv);
         }
         else if (v == createBtn){
-            if((colID.getText().toString().trim() == "") || (colName.getText().toString().trim() == "") || (colType.getText().toString().trim() == "")){
-                Toast.makeText(CreateNewCollectiveActivity.this, "Please ensure all fields are completed", Toast.LENGTH_LONG).show();
-                return;
+            if(colName.getText().length() < 1 || colType.getText().length() < 1 || colID.getText().length() < 1){ //no need to add members here
+                Toast.makeText(CreateNewCollectiveActivity.this, "Please fill in empty fields", Toast.LENGTH_SHORT).show();
             }
             else {
                 createCol();
                 finish();
                 startActivity(collectiveView);
             }
-
         }
         else if (v == addMemBtn){
-            mCollective.addMembers(colMembers.getText().toString().trim());
+            mCollective.addNewMembers(colMembers.getText().toString().trim());
             String email = colMembers.getText().toString().trim();
             boolean valid = (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
             if(valid) {
@@ -105,22 +100,16 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             colMembers.setText("");
         }
     }
-
     private void createCol() {
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
-        /*if(colName.getText().length() || colType.getText().length() || colID.getText().length() < 1){
-            Toast.makeText(CreateNewCollectiveActivity.this, "Please fill in empty fields", Toast.LENGTH_SHORT).show();
-        }*/
         mCollective.setCreator(userRef.getUid().toString());
+        mCollective.addNewMembers(userRef.getEmail().toString()); //add creator first to members
 
         mCollective.setCollectiveName(colName.getText().toString().trim());
         mCollective.setCollectiveType(colType.getText().toString().trim());
         mCollective.setCollectiveId(colID.getText().toString().trim());
-        mCollective.addMembers(userRef.getEmail().toString());
-        mCollective.addTransaction(transactionObj);
 
         dbRef.child("collectives").child(mCollective.getCollectiveId()).setValue(mCollective);
-        //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
-        Toast.makeText(CreateNewCollectiveActivity.this, "Collective Created", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateNewCollectiveActivity.this,"Sucess! Created!", Toast.LENGTH_SHORT).show();
     }
 }
