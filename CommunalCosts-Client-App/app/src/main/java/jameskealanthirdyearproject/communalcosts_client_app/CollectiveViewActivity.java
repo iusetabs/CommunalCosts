@@ -83,6 +83,16 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
         addTransactionBtn.setOnClickListener(this);
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
+        collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TransactionObj selectedTransaction = transactionList.get(position);
+                Intent detailIntent = new Intent(CollectiveViewActivity.this, .class);
+/*                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+                Log.d("*** OUTBOUND INTENT: ", "" + detailIntent.getExtras().get("CURRENT_COLLECTIVE_ID"));*/
+                startActivity(detailIntent);
+            }
+        });
         /*Intent i = getIntent();
         Bundle extras = i.getExtras();
         if(extras == null){
