@@ -2,7 +2,10 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by kealan on 11/02/18.
@@ -12,6 +15,17 @@ public class TransactionObj {
     public String description;
     public Integer value;
     public String payee;
+    public String creator;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String id;
 
     public String getPayee() {
         return payee;
@@ -40,9 +54,12 @@ public class TransactionObj {
     public TransactionObj(){}
 
     public TransactionObj(String descrpt, Integer val, String paying){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser userRef = firebaseAuth.getCurrentUser();
         this.description = descrpt;
         this.value = val;
         this.payee = paying;
+        this.creator = userRef.getUid().toString();
 
     }
     public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.sql.Timestamp;
 
 public class AddTransaction extends AppCompatActivity implements View.OnClickListener {
 
@@ -73,7 +75,10 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     }*/
 
     private void createTransaction() {
-        /*FirebaseUser userRef = firebaseAuth.getCurrentUser();*/
+        /*String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
+        Log.d("CREATION", collectiveId);*/
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser userRef = firebaseAuth.getCurrentUser();
         myTransaction.setDescription(description.getText().toString().trim());
 
         myTransaction.setPayee(payee.getText().toString().trim());
@@ -84,7 +89,10 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(AddTransaction.this,"Incorrect value parameter", Toast.LENGTH_SHORT).show();
             return;
         }
-        dbRef.child("transactions").setValue(myTransaction);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        myTransaction.setId(timestamp + userRef.getUid().toString());
+        /*Log.d("CREATION", "collectives/" + collectiveId +"/transactions");
+        dbRef.child("collectives/" + collectiveId +"/transactions").setValue(myTransaction);*/
         //dbRef.child("collectives").child(mCollective.getCollectiveName()).child("Members").setValue(mCollective.getMembers());
         Toast.makeText(AddTransaction.this,"Transaction Created", Toast.LENGTH_SHORT).show();
     }
