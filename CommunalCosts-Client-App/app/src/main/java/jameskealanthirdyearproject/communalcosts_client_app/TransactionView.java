@@ -10,14 +10,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class TransactionView extends AppCompatActivity implements View.OnClickListener {
 
     private EditText description, origin, value;
     private Button saveChanges, backToTransactions;
     private Intent transactionListView;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser userRef;
+    private DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         origin.setText(getIntent().getStringExtra("CURRENT_TRANSACTION_PAYEE"), TextView.BufferType.NORMAL);
         Integer val = new Integer(0);
         value.setText(String.format("%d", getIntent().getIntExtra("CURRENT_TRANSACTION_VALUE", val)), TextView.BufferType.NORMAL);
+        dbRef = FirebaseDatabase.getInstance().getReference();
 
         backToTransactions.setOnClickListener(this);
         saveChanges.setOnClickListener(this);
@@ -57,7 +66,9 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v){
         if(v == saveChanges){
-            // method to make database changes
+            editTransaction();
+            finish();
+            startActivity(transactionListView);
         }
         else if (v == backToTransactions){
             finish();
@@ -65,5 +76,18 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void editTransaction() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        userRef = firebaseAuth.getCurrentUser();
+        TransactionObj transactionObj = new TransactionObj();
+        transactionObj.setEditedBy(userRef.getUid());
+        transactionObj.setDescription(description.getText().toString().trim()); //add creator first to members
+        transactionObj.setPayee(origin.getText().toString().trim());
+        transactionObj.setValue(Integer.parseInt(value.getText().toString().trim()));
+
+        final String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); // FIXME: 24/02/18 doesnt transfer collective id properly!
+        dbRef.child("collectives/" + collectiveId +"/transactions").setValue(transactionObj);
+        Toast.makeText(TransactionView.this,"Transaction Edited", Toast.LENGTH_SHORT).show();
+    }
 
 }
