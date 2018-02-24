@@ -61,7 +61,7 @@ exports.addCollectivetoUserAccount = functions.database.ref('/collectives/{colNa
     });
 }); 
 
-exports.addCollectiveIDtoMemberAccounts = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
+/*exports.addCollectiveIDtoMemberAccounts = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
     const colID = event.params.colName; //needed to access array at col Event
     var i = 0;
     var NoUsersExceptition = {};
@@ -90,20 +90,69 @@ exports.addCollectiveIDtoMemberAccounts = functions.database.ref('/collectives/{
          }
          return; 
      });
-});
-/*
-exports.dealWithArray = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
-    const dataIn = event.data.val();
-    var i = 3;
-    const dataInChild1 = event.data.child(i.toString()).val();
-    return admin.database().ref('/users').once('value').then((snap) => {
-        return admin.database().ref('/test').child('testValue').set(dataInChild1);     
-    });
-}); */
+});*/
 
+exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members').onUpdate((event) => { //only runs when data is updated
+    const colID = event.params.colName; //needed to access array at col Event
+    var i = 0;
+    var NoUsersExceptition = {};
+    var NoUserFoundExceptition = {};
+    return admin.database().ref('/users').once('value').then((snap) => {
+         if(snap.hasChildren()){ //have to make sure it's not triggered on a null set
+            while(event.data.child(i.toString()).exists() === true){ //while the next child in the array isn't null
+                var found = false;
+                    snap.forEach(function(childSnapshot){
+                        var member = event.data.child(i.toString()).child('usrEmail').val(); //get value at col/members[i]/usrEmail
+                        var childSnapEmail = childSnapshot.child('email').val(); //get value at users[i]
+                           if (childSnapEmail===member){
+                              var userID = childSnapshot.key;
+                              var array = [];
+                              found = true;
+                              var userColRef = admin.database().ref('/users/' + userID + '/myCollectives'); //we need to obtain the array of the user's collectives
+                              var j = 0;
+                              return userColRef.once("value").then(function(colListSnapshot){
+                                    while(colListSnapshot.child(j.toString()).exists() === true){
+                                        array.push(colListSnapshot.child(j.toString()).val());
+                                        j++;
+                                    }
+                                    array.push(colID);
+                                    admin.database().ref('/users/' + userID).child('myCollectives').set(array);
+                                    return true; //break out of the forEach
+                                    });
+                         }
+                         else
+                             console.log('Not found at users[' + i.toString() + '].');
+
+                    });
+                    if(!found)
+                        throw NoUserFoundExceptition;
+                i++; //increment the counter
+            }       
+         }
+         else{
+             throw NoUsersExceptition;
+         }
+         return admin.database().ref('/collectives/' + colID + '/members/newMembers').remove(); //remove the new member set
+     });
+});
+
+exports.arrayTest = functions.database.ref('/testingStuff/ListenArray').onWrite((event) => {
+    
+    var array = [];
+    var i = 0; 
+    var ref = admin.database().ref('testingStuff/TestArray');
+    return ref.once("value").then(function(snapshot){
+        while(snapshot.child(i.toString()).exists()){
+            array.push(snapshot.child(i.toString()).val());
+            i++;
+        }
+        return admin.database().ref('/testingStuff').child('NewArray').set(array); 
+        });
+    });
 
 exports.countUsers = functions.database.ref('/users').onWrite((event) => {
     var count = 0;
+
     return admin.database().ref('/users').once('value').then(function(snapshot){
         snapshot.forEach(function(childSnapshot){
             count++;
