@@ -18,12 +18,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
 
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,26 +42,52 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private Intent addCollective, logInActivity, testActivity;
     private Button logOutBtn, testBtn; //testbutton added by james
     private FirebaseAuth firAuth;
+    private FirebaseDatabase db;
+    private DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
         ArrayList<myPairObj> members = new ArrayList<>();
-        myPairObj newMem = new myPairObj("administrator", "Kealan@dcu.ie");
+        final myPairObj newMem = new myPairObj("administrator", "Kealan@dcu.ie");
         members.add(newMem);
-
-        CollectiveObj collective1 = new CollectiveObj("kilmore road", "house", "uid", "kealan", members );
-        CollectiveObj collective2 = new CollectiveObj("shanwoen square","apartment","uid2","kealan", members);
-
         final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
-
-        collectiveList.add(collective1);
-        collectiveList.add(collective2);
-
         joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
-        joinedCollectivesView.setAdapter(adaptor);
+
+
+
+        db = FirebaseDatabase.getInstance();
+        dbRef = db.getReference();
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> myCollectives = new ArrayList<>();
+                ArrayList<CollectiveObj> collectiveObjList = new ArrayList<>();
+                myCollectives = getMyCollectives(dataSnapshot);
+                collectiveObjList = getCollectivesList(dataSnapshot); // FIXME: 24/02/18 returning type error
+                for(CollectiveObj collectiveObj : collectiveObjList){
+                    if(myCollectives.contains(collectiveObj.getCollectiveId())){
+                        collectiveList.add(collectiveObj);
+                    }
+                }
+                adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
+                joinedCollectivesView.setAdapter(adaptor);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "Failed to read value.", databaseError.toException());
+
+            }
+        });
+
+        /*CollectiveObj collective1 = new CollectiveObj("kilmore road", "house", "uid", "kealan", members );
+        CollectiveObj collective2 = new CollectiveObj("shanwoen square","apartment","uid2","kealan", members);*/
+
+        /*collectiveList.add(collective1);
+        collectiveList.add(collective2);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,6 +135,25 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             finish();
             startActivity(testActivity);
         }
+    }
+
+    public ArrayList<String> getMyCollectives(DataSnapshot dataSnapshot){
+        FirebaseUser userRef = firAuth.getCurrentUser();
+        ArrayList<String> myCollectives = new ArrayList<>();
+        for (DataSnapshot snapshot : dataSnapshot.child("users/" + userRef.getUid() + "/myCollectives").getChildren()){
+            String collective = snapshot.getValue(String.class);
+            myCollectives.add(collective);
+        }
+        return myCollectives;
+    }
+
+    public ArrayList<CollectiveObj> getCollectivesList(DataSnapshot dataSnapshot){
+        ArrayList<CollectiveObj> collectiveObjs = new ArrayList<>();
+        for (DataSnapshot snapshot : dataSnapshot.child("collectives").getChildren()){
+            CollectiveObj collectiveObj = snapshot.getValue(CollectiveObj.class); // FIXME: 24/02/18 not behaving as expected take a look and see what's happening
+            collectiveObjs.add(collectiveObj);
+        }
+        return collectiveObjs;
     }
 
     private class CollectiveAdaptor extends BaseAdapter {

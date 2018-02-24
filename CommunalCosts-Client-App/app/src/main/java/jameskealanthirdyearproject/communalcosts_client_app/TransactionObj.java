@@ -16,6 +16,16 @@ public class TransactionObj {
     public Integer value;
     public String payee;
     public String creator;
+    public String id;
+    public String editedBy;
+
+    public String getEditedBy() {
+        return editedBy;
+    }
+
+    public void setEditedBy(String editedBy) {
+        this.editedBy = editedBy;
+    }
 
     public String getId() {
         return id;
@@ -24,8 +34,6 @@ public class TransactionObj {
     public void setId(String id) {
         this.id = id;
     }
-
-    public String id;
 
     public String getPayee() {
         return payee;
