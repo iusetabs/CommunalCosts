@@ -1,21 +1,7 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
-
-import android.util.*;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import android.util.Log;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+
 
 import static android.content.ContentValues.TAG;
 
@@ -77,9 +63,11 @@ public class CollectiveObj {
     public int getMembersLength(){
         return this.members.size();
     }
-    public ArrayList<myPairObj> getMembers(){
-      return this.members;
+
+    public ArrayList<myPairObj> getMembers() {
+        return this.members;
     }
+
     public ArrayList<TransactionObj> getTransactions() {
         return transactions;
     }

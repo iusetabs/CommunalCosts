@@ -85,7 +85,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
         final String collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
         addTransaction.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
-
+        System.out.println(collectiveid); //Added by James for FIXME
         collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

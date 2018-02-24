@@ -49,9 +49,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
-        ArrayList<myPairObj> members = new ArrayList<>();
-        final myPairObj newMem = new myPairObj("administrator", "Kealan@dcu.ie");
-        members.add(newMem);
         final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
         joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
@@ -59,15 +56,13 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
 
         db = FirebaseDatabase.getInstance();
-        dbRef = db.getReference();
+        dbRef = db.getReference(); //FIXME this should only be listening to the users/userID/myCollectives area, presently it's listening to the entire database
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> myCollectives = new ArrayList<>();
-                ArrayList<CollectiveObj> collectiveObjList = new ArrayList<>();
-                myCollectives = getMyCollectives(dataSnapshot);
-                collectiveObjList = getCollectivesList(dataSnapshot); // FIXME: 24/02/18 returning type error
+                ArrayList<String> myCollectives = getMyCollectives(dataSnapshot);
+                ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot); // FIXME: Fixed issue was the Database
                 for(CollectiveObj collectiveObj : collectiveObjList){
                     if(myCollectives.contains(collectiveObj.getCollectiveId())){
                         collectiveList.add(collectiveObj);
@@ -82,12 +77,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
             }
         });
-
-        /*CollectiveObj collective1 = new CollectiveObj("kilmore road", "house", "uid", "kealan", members );
-        CollectiveObj collective2 = new CollectiveObj("shanwoen square","apartment","uid2","kealan", members);*/
-
-        /*collectiveList.add(collective1);
-        collectiveList.add(collective2);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -141,21 +130,20 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         FirebaseUser userRef = firAuth.getCurrentUser();
         ArrayList<String> myCollectives = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.child("users/" + userRef.getUid() + "/myCollectives").getChildren()){
-            String collective = snapshot.getValue(String.class);
-            myCollectives.add(collective);
+            String collectiveID = snapshot.getValue(String.class);
+            myCollectives.add(collectiveID);
         }
         return myCollectives;
     }
 
-    public ArrayList<CollectiveObj> getCollectivesList(DataSnapshot dataSnapshot){
+    public ArrayList<CollectiveObj> getCollectivesList(DataSnapshot dataSnapshot){ //FIXME Resolved but can be optimised
         ArrayList<CollectiveObj> collectiveObjs = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.child("collectives").getChildren()){
-            CollectiveObj collectiveObj = snapshot.getValue(CollectiveObj.class); // FIXME: 24/02/18 not behaving as expected take a look and see what's happening
-            collectiveObjs.add(collectiveObj);
-        }
+            //System.out.println("getCollectivesList" + collectiveObj.getCollectiveId()); //FIXME Sucessfully prints the 3 collective ID's on the DB
+            collectiveObjs.add(snapshot.getValue(CollectiveObj.class));
+        } //FIXME IDEA: Only initialise the collectiveObjects the user has - i.e. check the i.d. of the collective you are on in the snapshot and if = to one in the usercollective array initaise it
         return collectiveObjs;
     }
-
     private class CollectiveAdaptor extends BaseAdapter {
 
         private Context mContext;

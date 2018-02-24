@@ -45,22 +45,6 @@ return event.data.ref.parent.child('uppercase').set(uppercase);
     });
 }); */
 
-exports.addCollectivetoUserAccount = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
-    const uName = event.data.val();
-    const member = event.data.child('0').val(); //only sets the collective to the user at array[0];
-    const colID = event.params.colName;
-    var userID = null;
-    return admin.database().ref('/users').once('value').then((snap) => {
-        snap.forEach(function(childSnapshot){
-            var childSnapEmail = childSnapshot.child('email').val();
-            if(childSnapEmail===member){
-               userID = childSnapshot.key;
-           }
-        }); 
-        return admin.database().ref('/users/' + userID).child('myCollectives').set(colID);        
-    });
-}); 
-
 /*exports.addCollectiveIDtoMemberAccounts = functions.database.ref('/collectives/{colName}/members/').onWrite((event) => {
     const colID = event.params.colName; //needed to access array at col Event
     var i = 0;
@@ -92,36 +76,37 @@ exports.addCollectivetoUserAccount = functions.database.ref('/collectives/{colNa
      });
 });*/
 
-exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members').onUpdate((event) => { //only runs when data is updated
+exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members').onWrite((event) => { //only runs when data is updated
     const colID = event.params.colName; //needed to access array at col Event
     var i = 0;
     var NoUsersExceptition = {};
     var NoUserFoundExceptition = {};
     return admin.database().ref('/users').once('value').then((snap) => {
-         if(snap.hasChildren()){ //have to make sure it's not triggered on a null set
-            while(event.data.child(i.toString()).exists() === true){ //while the next child in the array isn't null
+         if(snap.hasChildren()){ //have to make sure it's not triggered on a null set of users
+            while(event.data.child(i.toString()).exists()){ //while members[i] array isn't null
                 var found = false;
-                    snap.forEach(function(childSnapshot){
-                        var member = event.data.child(i.toString()).child('usrEmail').val(); //get value at col/members[i]/usrEmail
+                var member = event.data.child(i.toString()).child('usrEmail').val(); //get value at col/members[i]/usrEmail
+                    snap.forEach(function(childSnapshot){ //FOR LOOP: traverse the users tree
                         var childSnapEmail = childSnapshot.child('email').val(); //get value at users[i]
                            if (childSnapEmail===member){
+                              found = true;
                               var userID = childSnapshot.key;
                               var array = [];
-                              found = true;
                               var userColRef = admin.database().ref('/users/' + userID + '/myCollectives'); //we need to obtain the array of the user's collectives
                               var j = 0;
-                              return userColRef.once("value").then(function(colListSnapshot){
-                                    while(colListSnapshot.child(j.toString()).exists() === true){
+                              return userColRef.once("value").then(function(colListSnapshot){ //we are now traversing the user's collective array and re-building it
+                                    while(colListSnapshot.child(j.toString()).exists()){
                                         array.push(colListSnapshot.child(j.toString()).val());
                                         j++;
                                     }
                                     array.push(colID);
+                                    console.log('userID = ' + userID);
                                     admin.database().ref('/users/' + userID).child('myCollectives').set(array);
                                     return true; //break out of the forEach
                                     });
                          }
                          else
-                             console.log('Not found at users[' + i.toString() + '].');
+                             console.log(childSnapEmail + '!=' + member);
 
                     });
                     if(!found)
@@ -135,20 +120,6 @@ exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collec
          return admin.database().ref('/collectives/' + colID + '/members/newMembers').remove(); //remove the new member set
      });
 });
-
-exports.arrayTest = functions.database.ref('/testingStuff/ListenArray').onWrite((event) => {
-    
-    var array = [];
-    var i = 0; 
-    var ref = admin.database().ref('testingStuff/TestArray');
-    return ref.once("value").then(function(snapshot){
-        while(snapshot.child(i.toString()).exists()){
-            array.push(snapshot.child(i.toString()).val());
-            i++;
-        }
-        return admin.database().ref('/testingStuff').child('NewArray').set(array); 
-        });
-    });
 
 exports.countUsers = functions.database.ref('/users').onWrite((event) => {
     var count = 0;

@@ -32,7 +32,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_view);
 
-        saveChanges = (Button) findViewById(R.id.editBtn);
+        saveChanges = (Button) findViewById(R.id.saveBtn);
         backToTransactions = (Button) findViewById(R.id.backBtn);
 
         description = (EditText) findViewById(R.id.transactionDescription);
@@ -66,7 +66,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v){
         if(v == saveChanges){
-            editTransaction();
+            saveTransaction();
             finish();
             startActivity(transactionListView);
         }
@@ -76,7 +76,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void editTransaction() {
+    private void saveTransaction() {
         firebaseAuth = FirebaseAuth.getInstance();
         userRef = firebaseAuth.getCurrentUser();
         TransactionObj transactionObj = new TransactionObj();
@@ -84,7 +84,6 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         transactionObj.setDescription(description.getText().toString().trim()); //add creator first to members
         transactionObj.setPayee(origin.getText().toString().trim());
         transactionObj.setValue(Integer.parseInt(value.getText().toString().trim()));
-
         final String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); // FIXME: 24/02/18 doesnt transfer collective id properly!
         dbRef.child("collectives/" + collectiveId +"/transactions").setValue(transactionObj);
         Toast.makeText(TransactionView.this,"Transaction Edited", Toast.LENGTH_SHORT).show();
