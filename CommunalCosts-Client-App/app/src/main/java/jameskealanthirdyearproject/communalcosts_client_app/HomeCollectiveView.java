@@ -62,7 +62,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> myCollectives = getMyCollectives(dataSnapshot);
-                ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot); // FIXME: Fixed issue was the Database
+                ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot); // FIXME: Fixed issue was the Database and still is!
                 for(CollectiveObj collectiveObj : collectiveObjList){
                     if(myCollectives.contains(collectiveObj.getCollectiveId())){
                         collectiveList.add(collectiveObj);
@@ -140,8 +140,9 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         ArrayList<CollectiveObj> collectiveObjs = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.child("collectives").getChildren()){
             //System.out.println("getCollectivesList" + collectiveObj.getCollectiveId()); //FIXME Sucessfully prints the 3 collective ID's on the DB
-            collectiveObjs.add(snapshot.getValue(CollectiveObj.class));
+            collectiveObjs.add(snapshot.getValue(CollectiveObj.class)); // FIXME: 24/02/18 throwing issues adding transactions now!
         } //FIXME IDEA: Only initialise the collectiveObjects the user has - i.e. check the i.d. of the collective you are on in the snapshot and if = to one in the usercollective array initaise it
+        // might have to change to only select the necessary collectiveObj attributes and leave the rest
         return collectiveObjs;
     }
     private class CollectiveAdaptor extends BaseAdapter {
