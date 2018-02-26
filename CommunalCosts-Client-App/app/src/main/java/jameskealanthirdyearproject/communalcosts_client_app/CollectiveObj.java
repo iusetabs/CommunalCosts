@@ -10,7 +10,11 @@ import static android.content.ContentValues.TAG;
  */
 
 public class CollectiveObj {
-/*We need to clean up this file - it's kind of messy! */
+    public void setTransactions(ArrayList<TransactionObj> transactions) {
+        this.transactions = transactions;
+    }
+
+    /*We need to clean up this file - it's kind of messy! */
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
     private ArrayList<myPairObj> members = new ArrayList<>();
     private String collectiveName;

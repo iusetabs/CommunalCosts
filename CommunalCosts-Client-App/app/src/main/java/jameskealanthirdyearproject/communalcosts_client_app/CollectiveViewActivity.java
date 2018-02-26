@@ -26,6 +26,7 @@ import android.app.Fragment.*;
 import android.widget.Toast;
 
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +47,9 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     private Intent addTransaction;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
-    public TransactionObj transactionObj;
+    private TransactionObj transactionObj;
+    private String collectiveid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,21 +60,26 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         DatabaseReference dbRef = db.getReference();
         transactionObj = new TransactionObj();
 
-        TransactionObj transaction1 = new TransactionObj("test transaction", -99, "Bank");
         final ArrayList<TransactionObj> transactionList = new ArrayList<>();
-        transactionList.add(transaction1);
-        transactionList.add(transactionObj);
+        collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
 
         dbRef.addValueEventListener(new ValueEventListener() {
+
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                transactionList.remove(transactionObj);
-                Toast.makeText(CollectiveViewActivity.this,"Should be updated", Toast.LENGTH_SHORT).show();
-                transactionObj.updateValues(dataSnapshot); //new methoded added in the object class
-                transactionList.add(transactionObj);
+            public void onDataChange(DataSnapshot dataSnapshot) { // FIXME: 26/02/18 not refreshing after adding transaction
+                CollectiveObj collectiveObj = new CollectiveObj();
+                collectiveObj = dataSnapshot.child("collectives/" + collectiveid).getValue(CollectiveObj.class);
+                try{
+                    for (TransactionObj transactionObj : collectiveObj.getTransactions()){
+                        transactionList.add(transactionObj);
+                    }
+                }
+                catch (NullPointerException e){
+                }
                 adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
                 collectiveTransactionView.setAdapter(adaptor);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG, "Failed to read value.", databaseError.toException());
@@ -83,9 +91,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         addTransactionBtn = (FloatingActionButton) findViewById(R.id.addTransaction);
         addTransactionBtn.setOnClickListener(this);
         addTransaction = new Intent(CollectiveViewActivity.this, AddTransaction.class);
-        final String collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
         addTransaction.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
-        System.out.println("successfully adding:" + collectiveid); //Added by James for FIXME
         collectiveTransactionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,6 +113,8 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
             startActivity(addTransaction);
         }
     }
+
+
     private class TransactionAdaptor extends BaseAdapter{
 
         private Context mContext;

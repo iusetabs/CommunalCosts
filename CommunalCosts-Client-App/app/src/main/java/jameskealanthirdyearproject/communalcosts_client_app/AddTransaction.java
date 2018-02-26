@@ -45,7 +45,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         transactionView = new Intent(AddTransaction.this, CollectiveViewActivity.class);
         myTransaction = new TransactionObj();
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 collectiveSnapshot = dataSnapshot;
@@ -87,7 +87,10 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
 
         CollectiveObj collectiveObj = new CollectiveObj();
         collectiveObj = dataSnapshot.child("collectives/" + collectiveId).getValue(CollectiveObj.class);
-        collectiveObj.addTransaction(myTransaction);
+        try {
+            collectiveObj.addTransaction(myTransaction);
+        }
+        catch (NullPointerException e){}
         dbRef.child("collectives/" + collectiveId).setValue(collectiveObj);
         Toast.makeText(AddTransaction.this,"Transaction Created", Toast.LENGTH_SHORT).show();
     }
