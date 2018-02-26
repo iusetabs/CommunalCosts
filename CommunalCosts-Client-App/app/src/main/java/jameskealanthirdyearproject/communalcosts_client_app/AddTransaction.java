@@ -68,7 +68,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
             return;
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        myTransaction.setId(timestamp + userRef.getUid().toString());
+        myTransaction.setId(timestamp + userRef.getUid());
         dbRef.child("collectives/" + collectiveId +"/transactions").setValue(myTransaction);
         Toast.makeText(AddTransaction.this,"Transaction Created", Toast.LENGTH_SHORT).show();
     }
