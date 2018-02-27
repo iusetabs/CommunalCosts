@@ -51,7 +51,11 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
+        System.out.println(collectiveId);
+
         transactionListView = new Intent(TransactionView.this, CollectiveViewActivity.class);
+        transactionListView.putExtra("CURRENT_COLLECTIVE_ID", collectiveId);
 
         FloatingActionButton transactionConfirmationBtn = (FloatingActionButton) findViewById(R.id.confirmTransaction);
         transactionConfirmationBtn.setOnClickListener(new View.OnClickListener() {

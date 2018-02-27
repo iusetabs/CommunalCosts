@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class TransactionObj {
     public String description;
-    public Integer value;
+    public int value;
     public String payee;
     public String creator;
     public String id;
