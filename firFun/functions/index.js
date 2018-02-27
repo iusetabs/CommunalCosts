@@ -34,15 +34,28 @@ const uppercase = original.toUpperCase();
 return event.data.ref.parent.child('uppercase').set(uppercase);
 });*/
 
-    const uName = event.data.val();
-    const colID = event.params.colName;
-    var path = '/collectives/' + colID + '/creator';
-    return admin.database().ref(path).once('value').then((snap) => {        
-        const creator = snap.val();
-        path = '/users/' + creator + '/';
-        return admin.database().ref(path).child('myCollectives').set(colID);        
-    });
-}); */
+exports.pushNotification = functions.database.ref('/test/pushNotfications').onWrite( event => {
+
+    console.log('Push notification event triggered');
+
+    //Grab the current value of what was written to the Realtime Database.
+    var grabNew = event.data.val();
+
+  // Create a notification
+    const payload = {
+        notification: {
+            title:"notification",
+            body: grabNew,
+            sound: "default"
+        },
+    };
+  //Create an options object that contains the time to live for the notification and the priority
+    const options = {
+        priority: "high",
+        timeToLive: 1
+    };
+    return admin.messaging().sendToTopic("pushNotifications", payload, options);
+});
 
 exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members/{i}').onCreate((event) => { //only runs when data is updated
     const colID = event.params.colName; //needed to access array at col Event

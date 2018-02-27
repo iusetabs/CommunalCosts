@@ -3,10 +3,13 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.LoaderManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -69,12 +72,11 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
             public void onDataChange(DataSnapshot dataSnapshot) { // FIXME: 26/02/18 not refreshing after adding transaction
                 CollectiveObj collectiveObj = new CollectiveObj();
                 collectiveObj = dataSnapshot.child("collectives/" + collectiveid).getValue(CollectiveObj.class);
-                try{
-                    for (TransactionObj transactionObj : collectiveObj.getTransactions()){
+                try {
+                    for (TransactionObj transactionObj : collectiveObj.getTransactions()) {
                         transactionList.add(transactionObj);
                     }
-                }
-                catch (NullPointerException e){
+                } catch (NullPointerException e) {
                 }
                 adaptor = new TransactionAdaptor(CollectiveViewActivity.this, transactionList);
                 collectiveTransactionView.setAdapter(adaptor);
@@ -101,49 +103,48 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
                 detailIntent.putExtra("CURRENT_TRANSACTION_ID", selectedTransaction.getId());
                 detailIntent.putExtra("CURRENT_TRANSACTION_PAYEE", selectedTransaction.getPayee());
                 detailIntent.putExtra("CURRENT_TRANSACTION_VALUE", selectedTransaction.getValue());
-                detailIntent.putExtra(" CURRENT_COLLECTIVE_ID", collectiveid);
+                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
                 startActivity(detailIntent);
             }
         });
     }
 
-    public void onClick(View v){
-        if(v == addTransactionBtn){
+    public void onClick(View v) {
+        if (v == addTransactionBtn) {
             finish();
             startActivity(addTransaction);
         }
     }
 
-
-    private class TransactionAdaptor extends BaseAdapter{
+    private class TransactionAdaptor extends BaseAdapter {
 
         private Context mContext;
         private LayoutInflater mInflator;
         private ArrayList<TransactionObj> mDataSource;
 
-        public TransactionAdaptor(Context context, ArrayList<TransactionObj> transactionList){
+        public TransactionAdaptor(Context context, ArrayList<TransactionObj> transactionList) {
             mContext = context;
             mDataSource = transactionList;
             mInflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
-        public int getCount(){
+        public int getCount() {
             return mDataSource.size();
         }
 
         @Override
-        public TransactionObj getItem(int position){
+        public TransactionObj getItem(int position) {
             return mDataSource.get(position);
         }
 
         @Override
-        public long getItemId(int position){
+        public long getItemId(int position) {
             return mDataSource.get(position).hashCode();
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(int position, View convertView, ViewGroup parent) {
             View rowView = mInflator.inflate(R.layout.list_item_recipe, parent, false);
             TextView titleTextView = (TextView) rowView.findViewById(R.id.recipe_list_title); // title element
             TextView subtitleTextView = (TextView) rowView.findViewById(R.id.recipe_list_subtitle); // subtitle element

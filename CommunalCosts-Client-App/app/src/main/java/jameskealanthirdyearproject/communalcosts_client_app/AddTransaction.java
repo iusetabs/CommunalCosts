@@ -29,20 +29,26 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     private TransactionObj myTransaction;
     private FirebaseAuth firebaseAuth;
     private Button createTransaction;
-    private Intent transactionView;
+    private Intent collectiveView;
     private DataSnapshot collectiveSnapshot;
+    private String collectiveId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
+
+        collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); //FIXME
+
         description = (EditText) findViewById(R.id.transactionDetails);
         payee = (EditText) findViewById(R.id.transactionSource);
         val = (EditText) findViewById(R.id.value);
         dbRef = FirebaseDatabase.getInstance().getReference();
         createTransaction = (Button) findViewById(R.id.CreateTransaction);
         createTransaction.setOnClickListener(this);
-        transactionView = new Intent(AddTransaction.this, CollectiveViewActivity.class);
+        collectiveView = new Intent(AddTransaction.this, CollectiveViewActivity.class);
+        collectiveView.putExtra("CURRENT_COLLECTIVE_ID", collectiveId);
+
         myTransaction = new TransactionObj();
 
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -57,19 +63,16 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-
     @Override
     public void onClick(View v){
         if(v == createTransaction){
             createTransaction(collectiveSnapshot);
             finish();
-            startActivity(transactionView);
+            startActivity(collectiveView);
         }
 
     }
-
     private void createTransaction(DataSnapshot dataSnapshot) {//add datasnapshot here to grab the collective object from add the transaction to and update it
-        String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); //FIXME
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         myTransaction.setDescription(description.getText().toString().trim());

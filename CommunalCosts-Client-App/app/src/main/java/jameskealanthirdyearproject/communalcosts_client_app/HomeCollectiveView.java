@@ -1,8 +1,11 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import jameskealanthirdyearproject.communalcosts_client_app.MyService.MyLocalBinder;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,6 +42,7 @@ import static android.content.ContentValues.TAG;
 
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
+   // MyService myServ;
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
     private FloatingActionButton addCollectiveButton;
@@ -44,16 +51,27 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private FirebaseAuth firAuth;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
+    private boolean isBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications"); //subscribe to messaging service
+
         final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
         joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
         adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
 
+       // final Intent i = new Intent(this, MyService.class); //starting service
+       // bindService(i, myConnect, Context.BIND_AUTO_CREATE); //binding the service
+        //startService(new Intent(getBaseContext(), MyService.class));
 
+        /* put a button in settings that turns off notifications
+        unbindService(myConnect);
+        stopService(new Intent(getBaseContext(), MyService.class)); //stop the service*/
 
         db = FirebaseDatabase.getInstance();
         dbRef = db.getReference(); //FIXME this should only be listening to the users/userID/myCollectives area, presently it's listening to the entire database
@@ -62,7 +80,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> myCollectives = getMyCollectives(dataSnapshot);
-                ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot); // FIXME: Fixed issue was the Database and still is!
+                ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot);
                 for(CollectiveObj collectiveObj : collectiveObjList){
                     if(myCollectives.contains(collectiveObj.getCollectiveId())){
                         collectiveList.add(collectiveObj);
@@ -102,8 +120,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                 CollectiveObj selectedCollective = collectiveList.get(position);
                 Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
                 detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
-                //Log.d("*** OUTBOUND INTENT: ", "" + detailIntent.getExtras().get("CURRENT_COLLECTIVE_ID"));*/
-                System.out.print("Intent section being hit");
                 startActivity(detailIntent);
             }
         });
@@ -191,4 +207,15 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         }
 
     }
+   /* private ServiceConnection myConnect = new ServiceConnection() { //creating the binded service
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MyLocalBinder myBinder = (MyLocalBinder) service;
+            myServ = myBinder.getService();
+            isBound = true;
+        }@Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };*/
 }
