@@ -31,6 +31,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     private Button createTransaction;
     private Intent transactionView;
     private DataSnapshot collectiveSnapshot;
+    private String collectiveId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +64,14 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         if(v == createTransaction){
             createTransaction(collectiveSnapshot);
             finish();
+            transactionView.putExtra("CURRENT_COLLECTIVE_ID", collectiveId);
             startActivity(transactionView);
         }
 
     }
 
     private void createTransaction(DataSnapshot dataSnapshot) {//add datasnapshot here to grab the collective object from add the transaction to and update it
-        String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); //FIXME
+        collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         myTransaction.setDescription(description.getText().toString().trim());

@@ -87,7 +87,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
             else {
                 createCol();
                 finish();
-                collectiveView.putExtra("CURRENT_COLLECTIVE_ID", mCollective.getCollectiveId() );
+                collectiveView.putExtra("CURRENT_COLLECTIVE_ID", mCollective.getCollectiveId());
                 startActivity(collectiveView);
             }
         }

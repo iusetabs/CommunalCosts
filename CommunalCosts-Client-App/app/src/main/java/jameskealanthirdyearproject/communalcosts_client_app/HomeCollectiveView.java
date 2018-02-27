@@ -85,9 +85,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         addCollectiveButton = (FloatingActionButton) findViewById(R.id.addCollectiveBtn);
         addCollectiveButton.setOnClickListener(this);
 
-        testBtn = (Button) findViewById(R.id.home_testBtn); //added by james
-        testBtn.setOnClickListener(this);
-
         logOutBtn = (Button) findViewById(R.id.logoutBtn);
         logOutBtn.setOnClickListener(this);
 

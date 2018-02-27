@@ -44,7 +44,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     private ListView collectiveTransactionView;
     private TransactionAdaptor adaptor;
     private FloatingActionButton addTransactionBtn;
-    private Intent addTransaction;
+    private Intent addTransaction, testIntent;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
     private TransactionObj transactionObj;
@@ -105,12 +105,14 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
                 startActivity(detailIntent);
             }
         });
+
+        testIntent = new Intent(CollectiveViewActivity.this, MainActivity.class);
     }
 
     public void onClick(View v){
         if(v == addTransactionBtn){
             finish();
-            startActivity(addTransaction);
+            startActivity(testIntent);
         }
     }
 

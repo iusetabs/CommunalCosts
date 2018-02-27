@@ -41,6 +41,13 @@
         <activity
             android:name=".TransactionView"
             android:label="@string/title_activity_transaction_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CollectiveSettingsActivity"
+            android:label="@string/title_activity_collective_settings" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
