@@ -32,15 +32,20 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     private Intent transactionView;
     private DataSnapshot collectiveSnapshot;
     private String collectiveId;
+    private FirebaseUser userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        userRef = firebaseAuth.getCurrentUser();
+
         description = (EditText) findViewById(R.id.transactionDetails);
         payee = (EditText) findViewById(R.id.transactionSource);
         val = (EditText) findViewById(R.id.value);
-        dbRef = FirebaseDatabase.getInstance().getReference();
+
         createTransaction = (Button) findViewById(R.id.CreateTransaction);
         createTransaction.setOnClickListener(this);
         transactionView = new Intent(AddTransaction.this, CollectiveViewActivity.class);
@@ -55,6 +60,17 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG, "Failed to read value.", databaseError.toException());
+            }
+        });
+        dbRef.child("users").child(userRef.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                payee.setText(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -72,9 +88,8 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
 
     private void createTransaction(DataSnapshot dataSnapshot) {//add datasnapshot here to grab the collective object from add the transaction to and update it
         collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser userRef = firebaseAuth.getCurrentUser();
         myTransaction.setDescription(description.getText().toString().trim());
+        myTransaction.setCreator(firebaseAuth.getUid());
 
         myTransaction.setPayee(payee.getText().toString().trim());
         try {
@@ -87,8 +102,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         myTransaction.setId(timestamp + userRef.getUid());
 
-        CollectiveObj collectiveObj = new CollectiveObj();
-        collectiveObj = dataSnapshot.child("collectives/" + collectiveId).getValue(CollectiveObj.class);
+        CollectiveObj collectiveObj = dataSnapshot.child("collectives/" + collectiveId).getValue(CollectiveObj.class);
         try {
             collectiveObj.addTransaction(myTransaction);
         }

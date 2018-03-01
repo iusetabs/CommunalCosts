@@ -25,6 +25,8 @@ import android.widget.Toast;
 import jameskealanthirdyearproject.communalcosts_client_app.MyService.MyLocalBinder;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,9 +34,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,84 +46,102 @@ import static android.content.ContentValues.TAG;
 
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
-   // MyService myServ;
+   // MyService myServ;]
+   private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
     private FloatingActionButton addCollectiveButton;
     private Intent addCollective, logInActivity, testActivity;
     private Button logOutBtn, testBtn; //testbutton added by james
     private FirebaseAuth firAuth;
+    private FirebaseUser userRef;
     private FirebaseDatabase db;
     private DatabaseReference dbRef;
     private boolean isBound = false;
+    private String tokenFCM =  FirebaseInstanceId.getInstance().getToken();
+    private ArrayList<String> myCollectives;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
+        if(checkGPlay()) { //register for GCM iff Play Services are compatible
 
+            firAuth = FirebaseAuth.getInstance();
+            userRef = firAuth.getCurrentUser();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications"); //subscribe to messaging service
+            final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
+            joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
+            adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
 
-        final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
-        joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
-        adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
-
-       // final Intent i = new Intent(this, MyService.class); //starting service
-       // bindService(i, myConnect, Context.BIND_AUTO_CREATE); //binding the service
-        //startService(new Intent(getBaseContext(), MyService.class));
+            // final Intent i = new Intent(this, MyService.class); //starting service
+            // bindService(i, myConnect, Context.BIND_AUTO_CREATE); //binding the service
+            //startService(new Intent(getBaseContext(), MyService.class));
 
         /* put a button in settings that turns off notifications
         unbindService(myConnect);
         stopService(new Intent(getBaseContext(), MyService.class)); //stop the service*/
 
-        db = FirebaseDatabase.getInstance();
-        dbRef = db.getReference(); //FIXME this should only be listening to the users/userID/myCollectives area, presently it's listening to the entire database
+            db = FirebaseDatabase.getInstance();
+            dbRef = db.getReference(); //FIXME this should only be listening to the users/userID/myCollectives area, presently it's listening to the entire database
 
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> myCollectives = getMyCollectives(dataSnapshot);
-                ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot);
-                for(CollectiveObj collectiveObj : collectiveObjList){
-                    if(myCollectives.contains(collectiveObj.getCollectiveId())){
-                        collectiveList.add(collectiveObj);
+            dbRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    myCollectives = getMyCollectives(dataSnapshot);
+                    subscribeDeviceToNotifications(myCollectives);
+                    ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot);
+                    for (CollectiveObj collectiveObj : collectiveObjList) {
+                        if (myCollectives.contains(collectiveObj.getCollectiveId())) {
+                            collectiveList.add(collectiveObj);
+                        }
                     }
+                    adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
+                    joinedCollectivesView.setAdapter(adaptor);
                 }
-                adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
-                joinedCollectivesView.setAdapter(adaptor);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "Failed to read value.", databaseError.toException());
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, "Failed to read value.", databaseError.toException());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+                }
+            });
 
-        addCollective = new Intent(HomeCollectiveView.this, CreateNewCollectiveActivity.class);
-        addCollectiveButton = (FloatingActionButton) findViewById(R.id.addCollectiveBtn);
-        addCollectiveButton.setOnClickListener(this);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
-        logOutBtn = (Button) findViewById(R.id.logoutBtn);
-        logOutBtn.setOnClickListener(this);
+            addCollective = new Intent(HomeCollectiveView.this, CreateNewCollectiveActivity.class);
+            addCollectiveButton = (FloatingActionButton) findViewById(R.id.addCollectiveBtn);
+            addCollectiveButton.setOnClickListener(this);
 
-        firAuth = FirebaseAuth.getInstance();
-        logInActivity = new Intent(HomeCollectiveView.this, LogInActivity.class);
-        // adding click functionality
-        final Context context = this;
+            logOutBtn = (Button) findViewById(R.id.logoutBtn);
+            logOutBtn.setOnClickListener(this);
 
-        joinedCollectivesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //FIXME
-                CollectiveObj selectedCollective = collectiveList.get(position);
-                Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
-                detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
-                startActivity(detailIntent);
-            }
-        });
+            logInActivity = new Intent(HomeCollectiveView.this, LogInActivity.class);
+            // adding click functionality
+            final Context context = this;
+
+            joinedCollectivesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //FIXME
+                    CollectiveObj selectedCollective = collectiveList.get(position);
+                    Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
+                    detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+                    startActivity(detailIntent);
+                }
+            });
+        }
+    }
+
+    private void subscribeDeviceToNotifications(ArrayList<String> myCols) {
+        for(int i = 0; i < myCols.size(); i++) {
+            FirebaseMessaging.getInstance().subscribeToTopic(myCols.get(i)); //subscribe to messaging service
+        }
+    }
+    private void unSubscribeDeviceToNotifications(ArrayList<String> myCols) {
+        for(int i = 0; i < myCols.size(); i++) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(myCols.get(i)); //subscribe to messaging service
+        }
     }
 
     @Override
@@ -129,6 +151,10 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             startActivity(addCollective);
         }
         else if (v == logOutBtn){
+            Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
+            unSubscribeDeviceToNotifications(myCollectives);
+            delFCM.putExtra("FCM_TOKEN", tokenFCM);
+            startService(delFCM);
             firAuth.signOut();
             finish();
             startActivity(logInActivity);
@@ -140,7 +166,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     }
 
     public ArrayList<String> getMyCollectives(DataSnapshot dataSnapshot){
-        FirebaseUser userRef = firAuth.getCurrentUser();
         ArrayList<String> myCollectives = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.child("users/" + userRef.getUid() + "/myCollectives").getChildren()){
             String collectiveID = snapshot.getValue(String.class);
@@ -215,4 +240,20 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             isBound = false;
         }
     };*/
+   public boolean checkGPlay() {
+       GoogleApiAvailability apiAva = GoogleApiAvailability.getInstance();
+       int curVer = apiAva.isGooglePlayServicesAvailable(this);
+       if (curVer != ConnectionResult.SUCCESS) {
+           if (apiAva.isUserResolvableError(curVer)) {
+               apiAva.getErrorDialog(this, curVer, PLAY_SERVICES_RESOLUTION_REQUEST)
+                       .show();
+           } else {
+               Toast.makeText(HomeCollectiveView.this,"Your device does not support Google Push Notifications. Please update your OS", Toast.LENGTH_SHORT).show();
+               Log.i(TAG, "This device is not supported. Play services cannot be updated");
+               finish();
+           }
+           return false; //if if is true
+       }
+       return true;
+   }
 }
