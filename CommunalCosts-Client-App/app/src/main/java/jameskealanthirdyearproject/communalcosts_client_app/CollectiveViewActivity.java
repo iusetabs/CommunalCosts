@@ -107,8 +107,6 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
                 startActivity(detailIntent);
             }
         });
-
-        testIntent = new Intent(CollectiveViewActivity.this, MainActivity.class);
     }
 
     public void onClick(View v) {

@@ -1,5 +1,9 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+/**
+ * Created by kealan on 28/02/18.
+ */
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

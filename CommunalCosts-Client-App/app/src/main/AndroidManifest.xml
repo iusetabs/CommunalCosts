@@ -45,12 +45,10 @@
         <activity
             android:name=".CollectiveSettingsActivity"
             android:label="@string/title_activity_collective_settings" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-            android:theme="@style/AppTheme.NoActionBar" />
+        <![CDATA[
+        android:theme="@style/AppTheme.NoActionBar" />
 
+        ]]>
         <service
             android:name=".MyService"
             android:enabled="true"
@@ -63,6 +61,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
