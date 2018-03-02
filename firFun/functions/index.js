@@ -59,7 +59,7 @@ exports.colNotifications = functions.database.ref('/collectives/{colName}/transa
             priority: "high",
             timeToLive: 1
         };
-        return admin.messaging().sendToTopic(colTitle.toString(), payload, options);
+        return admin.messaging().sendToTopic(colTitle.toString(), payload,gh options);
         }); 
 });
 
