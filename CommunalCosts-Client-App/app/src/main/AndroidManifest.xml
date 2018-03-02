@@ -58,15 +58,11 @@
             android:name=".TransactionView"
             android:label="@string/title_activity_transaction_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CollectiveSettingsActivity"
-            android:label="@string/title_activity_collective_settings" />
         android:theme="@style/AppTheme.NoActionBar" />
         <![CDATA[
         android:theme="@style/AppTheme.NoActionBar" />
 
         ]]>
-        <service
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
