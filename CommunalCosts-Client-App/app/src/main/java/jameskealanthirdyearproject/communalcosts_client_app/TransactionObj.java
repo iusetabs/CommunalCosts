@@ -16,6 +16,11 @@ public class TransactionObj {
     public int value;
     public String payee;
     public String creator;
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
     public String id;
     public String editedBy;
 

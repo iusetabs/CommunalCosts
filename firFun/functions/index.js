@@ -34,27 +34,33 @@ const uppercase = original.toUpperCase();
 return event.data.ref.parent.child('uppercase').set(uppercase);
 });*/
 
-exports.pushNotification = functions.database.ref('/test/pushNotfications').onWrite( event => {
+//ordinary memeber notification// 
+exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
 
-    console.log('Push notification event triggered');
-
-    //Grab the current value of what was written to the Realtime Database.
-    var grabNew = event.data.val();
-
-  // Create a notification
-    const payload = {
-        notification: {
-            title:"notification",
-            body: grabNew,
-            sound: "default"
-        },
-    };
-  //Create an options object that contains the time to live for the notification and the priority
-    const options = {
-        priority: "high",
-        timeToLive: 1
-    };
-    return admin.messaging().sendToTopic("pushNotifications", payload, options);
+    console.log('Transaction Event');
+    const colTitle = event.params.colName;
+    const details = event.data.child("description").val();
+    const paid = event.data.child("value").val();
+    const author = event.data.child("payee").val();
+    const colRef = admin.database().ref("/collectives/" + colTitle);
+    return colRef.once('value').then((snap) => {
+        const divisor = snap.child("membersLength").val();
+        const owed = parseFloat(paid)/parseFloat(divisor);
+        // Create a notification
+        const payload = {
+            notification: {
+                title:author + " at " + colTitle,
+                body: details + "\n" + "You owe €" +owed,
+                sound: "default"
+            },
+        };
+      //Create an options object that contains the time to live for the notification and the priority
+        const options = {
+            priority: "high",
+            timeToLive: 1
+        };
+        return admin.messaging().sendToTopic(colTitle.toString(), payload,gh options);
+        }); 
 });
 
 exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members/{i}').onCreate((event) => { //only runs when data is updated

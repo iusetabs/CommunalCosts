@@ -67,11 +67,9 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
 
         dbRef.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) { // FIXME: 26/02/18 not refreshing after adding transaction
-                CollectiveObj collectiveObj = new CollectiveObj();
-                collectiveObj = dataSnapshot.child("collectives/" + collectiveid).getValue(CollectiveObj.class);
+                CollectiveObj collectiveObj = dataSnapshot.child("collectives/" + collectiveid).getValue(CollectiveObj.class);
                 try {
                     for (TransactionObj transactionObj : collectiveObj.getTransactions()) {
                         transactionList.add(transactionObj);
@@ -112,7 +110,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         if (v == addTransactionBtn) {
             finish();
-            startActivity(testIntent);
+            startActivity(addTransaction);
         }
     }
 
