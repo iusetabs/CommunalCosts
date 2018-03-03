@@ -53,7 +53,8 @@
             android:name=".HomeCollectiveView"
             android:label="@string/home_title"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddTransaction" />
+        <activity android:name=".AddTransaction"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".TransactionView"
             android:label="@string/title_activity_transaction_view"

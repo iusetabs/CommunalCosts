@@ -34,35 +34,6 @@ const uppercase = original.toUpperCase();
 return event.data.ref.parent.child('uppercase').set(uppercase);
 });*/
 
-//ordinary memeber notification// 
-/*exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
-
-    console.log('Transaction Event');
-    const colTitle = event.params.colName;
-    const details = event.data.child("description").val();
-    const paid = event.data.child("value").val();
-    const author = event.data.child("payee").val();
-    const colRef = admin.database().ref("/collectives/" + colTitle);
-    return colRef.once('value').then((snap) => {
-        const divisor = snap.child("membersLength").val();
-        const owed = parseFloat(paid)/parseFloat(divisor);
-        // Create a notification
-        const payload = {
-            notification: {
-                title:author + "@" + colTitle,
-                body: details + "\n" + "You owe €" +owed,
-                sound: "default"
-            },
-        };
-      //Create an options object that contains the time to live for the notification and the priority
-        const options = {
-            priority: "high",
-            timeToLive: 1
-        };
-        return admin.messaging().sendToTopic(colTitle.toString(), payload,gh options);
-        }); 
-});
-*/
 exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
 
     console.log('Transaction Event');
@@ -103,6 +74,7 @@ exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collec
                 var usrEmail = indvUserSnap.child('email').val(); //value of users[i]/email
                 if(usrEmail===addedEmail){
                     var userID = indvUserSnap.key;
+                    const userDisplayName = indvUserSnap.child("name").val();
                     var array = [];
                     var userColRef = admin.database().ref('/users/' + userID + '/myCollectives'); //we need to obtain the array of the user's collectives
                     var i = 0;
@@ -113,6 +85,7 @@ exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collec
                         }
                         array.push(colID);
                         console.log(userID + "'s collective list has successfully been updated to include " + colID + ".");
+                        admin.database().ref('/collectives/' + colID + '/members/' + indx).child("usrDisplayName").set(userDisplayName);
                         return admin.database().ref('/users/' + userID).child('myCollectives').set(array);
                     });
                 }
@@ -121,6 +94,7 @@ exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collec
         return;
     });
 });
+
 
 exports.rmCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members/{i}').onDelete((event) => { //only runs when data is updated
     const colName = event.params.colName;

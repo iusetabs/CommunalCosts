@@ -7,15 +7,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 /**
  * Created by kealan on 11/02/18.
  */
 
 public class TransactionObj {
+    public String title;
     public String description;
     public int value;
     public String payee;
     public String creator;
+    public ArrayList<String> youOweMe = new ArrayList<>();
+    public ArrayList<String> youPaidMe = new ArrayList<>();
 
     public void setCreator(String creator) {
         this.creator = creator;
@@ -23,6 +28,44 @@ public class TransactionObj {
 
     public String id;
     public String editedBy;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        title = this.title;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public ArrayList<String> getYouOweMe() {
+        return youOweMe;
+    }
+
+    public void setYouOweMe(ArrayList<String> youOweMe) {
+        this.youOweMe = youOweMe;
+    }
+    public void addToYouOweMe(String s){
+        this.youOweMe.add(s);
+    }
+    public void removeAllOweMe(){
+        this.youOweMe.clear();
+    }
+
+    public ArrayList<String> getYouPaidMe() {
+        return youPaidMe;
+    }
+
+    public void setYouPaidMe(ArrayList<String> youPaidMe) {
+        this.youPaidMe = youPaidMe;
+    }
 
     public String getEditedBy() {
         return editedBy;
