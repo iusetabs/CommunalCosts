@@ -35,7 +35,7 @@ return event.data.ref.parent.child('uppercase').set(uppercase);
 });*/
 
 //ordinary memeber notification// 
-exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
+/*exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
 
     console.log('Transaction Event');
     const colTitle = event.params.colName;
@@ -49,7 +49,7 @@ exports.colNotifications = functions.database.ref('/collectives/{colName}/transa
         // Create a notification
         const payload = {
             notification: {
-                title:author + " at " + colTitle,
+                title:author + "@" + colTitle,
                 body: details + "\n" + "You owe €" +owed,
                 sound: "default"
             },
@@ -62,6 +62,35 @@ exports.colNotifications = functions.database.ref('/collectives/{colName}/transa
         return admin.messaging().sendToTopic(colTitle.toString(), payload,gh options);
         }); 
 });
+*/
+exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
+
+    console.log('Transaction Event');
+    const colTitle = event.params.colName;
+    const details = event.data.child("description").val();
+    const paid = event.data.child("value").val();
+    const author = event.data.child("payee").val();
+    const colRef = admin.database().ref("/collectives/" + colTitle);
+    return colRef.once('value').then((snap) => {
+        const divisor = snap.child("membersLength").val();
+        const owed = parseFloat(paid)/parseFloat(divisor);
+        // Create a notification
+        const payload = {
+            "data": {
+                title: author + "@" + colTitle,
+                body: details + "\n" + "You owe €" +owed,
+                creator: event.data.child("creator").val(), 
+            }
+        }
+      //Create an options object that contains the time to live for the notification and the priority
+        const options = {
+            priority: "high",
+            timeToLive: 1
+        };
+        return admin.messaging().sendToTopic(colTitle.toString(), payload, options);
+        }); 
+});
+
 
 exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members/{i}').onCreate((event) => { //only runs when data is updated
     const colID = event.params.colName; //needed to access array at col Event
