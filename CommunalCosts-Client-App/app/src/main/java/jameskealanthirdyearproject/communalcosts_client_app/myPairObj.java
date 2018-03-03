@@ -8,6 +8,7 @@ public class myPairObj {
 
     private String usrPermission;
     private String usrEmail;
+    private String usrDisplayName;
 
     public myPairObj(){}
     public myPairObj(String usrEmail){
@@ -29,5 +30,12 @@ public class myPairObj {
     }
     public void setUsrEmail(String usrEmail) {
         this.usrEmail = usrEmail;
+    }
+    public String getusrDisplayName() {
+        return usrDisplayName;
+    }
+
+    public void setusrDisplayName(String userName) {
+        this.usrDisplayName = userName;
     }
 }
