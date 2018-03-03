@@ -146,6 +146,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
                 spinView.setText("Undo");
                 myTransaction.removeAllOweMe();
                 whoPaysView.setText("");
+
             }
             else {
                 spinView.setText(item);
@@ -157,9 +158,13 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
                     colDisplayNames.remove("All Members");
                 }
             }
+            dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, colDisplayNames);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            memberChoices.setAdapter(dataAdapter);
         }
         else
             Log.d(TAG, "Blank will not be added");
+
     }
 
     private List<String> copyAL(List<String> copy) {
@@ -180,7 +185,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         myTransaction.setCreator(firebaseAuth.getUid());
         myTransaction.setPayee(payee.getText().toString().trim());
         try {
-            myTransaction.setValue(Integer.parseInt(val.getText().toString().trim()));
+            myTransaction.setValueOfT(Integer.parseInt(val.getText().toString().trim()));
         }
         catch (NumberFormatException e){
             Toast.makeText(AddTransaction.this,"Incorrect value parameter", Toast.LENGTH_SHORT).show();

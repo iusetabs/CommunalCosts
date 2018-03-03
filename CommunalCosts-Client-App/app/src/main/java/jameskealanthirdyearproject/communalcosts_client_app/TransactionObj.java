@@ -37,7 +37,7 @@ public class TransactionObj {
         title = this.title;
     }
 
-    public void setValue(int value) {
+    public void setValueOfT(int value) {
         this.value = value;
     }
 
@@ -99,7 +99,7 @@ public class TransactionObj {
         this.description = description;
     }
 
-    public Integer getValue() {
+    public Integer getValueOfT() {
         return value;
     }
 
@@ -120,7 +120,7 @@ public class TransactionObj {
     }
     public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class
         this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
-        this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValue());
+        this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValueOfT());
         this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
     }
 }
