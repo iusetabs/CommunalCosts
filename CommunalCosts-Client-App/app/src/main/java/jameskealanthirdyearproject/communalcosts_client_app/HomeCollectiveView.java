@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,6 +66,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private boolean isBound = false;
     private String tokenFCM =  FirebaseInstanceId.getInstance().getToken();
     private ArrayList<String> myCollectives;
+    private AlertDialog.Builder addCollectiveDia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,8 +182,27 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == addCollectiveButton) {
-            finish();
-            startActivity(addCollective);
+            addCollectiveDia = new AlertDialog.Builder(HomeCollectiveView.this);
+            View mView = getLayoutInflater().inflate(R.layout.home_activity_addcol, null);
+            final EditText colIDF = (EditText) mView.findViewById(R.id.homeAddCol_colIDField);
+            final Button joinCol = (Button) mView.findViewById(R.id.homeAddCol_joinColBtn);
+            final Button createCol = (Button) mView.findViewById(R.id.homeAddCol_createColBtn);
+            joinCol.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //join the collective
+                }
+            });
+            createCol.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    startActivity(addCollective);
+                }
+            });
+            addCollectiveDia.setView(mView);
+            AlertDialog dialog = addCollectiveDia.create();
+            dialog.show();
         }
         else if (v == logOutBtn){
             Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
