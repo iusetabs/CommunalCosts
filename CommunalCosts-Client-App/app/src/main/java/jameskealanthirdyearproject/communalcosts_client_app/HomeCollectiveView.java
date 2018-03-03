@@ -143,6 +143,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             });
         }
     }
+/*
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -160,6 +161,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         }
         return super.onOptionsItemSelected(item);
     }
+*/
 
 
 
