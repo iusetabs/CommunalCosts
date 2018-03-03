@@ -2,6 +2,7 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 
         import android.content.Context;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.content.pm.PackageManager;
         import android.media.Ringtone;
         import android.media.RingtoneManager;
@@ -34,10 +35,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
             addPreferencesFromResource(R.xml.pref_main);
 
             // gallery EditText change listener
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_collective_name)));
 
             // notification preference change listener
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
@@ -114,7 +116,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
 
             } else if (preference instanceof EditTextPreference) {
-                if (preference.getKey().equals("key_gallery_name")) {
+                if (preference.getKey().equals("key_collective_name")) {
                     // update the changed gallery name to summary filed
                     preference.setSummary(stringValue);
                 }

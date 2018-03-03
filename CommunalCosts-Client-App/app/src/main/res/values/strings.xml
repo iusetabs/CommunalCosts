@@ -11,10 +11,11 @@
     <string name="title_activity_settings">Settings</string>
 
     <!--related to settings errors-->
+    <string name="default_collective_string_store">placeholder</string>
     <string name="action_settings">Settings</string>
-    <string name="default_gallery_storage">My Videos</string>
-    <string name="key_gallery_name">key_gallery_name</string>
-    <string name="title_gallery_storage">Default Storage</string>
+    <string name="collective_edit_field">Enter new collective name</string>
+    <string name="key_collective_name">key_collective_name</string>
+    <string name="title_collective_name">Edit collective name</string>
     <string name="key_upload_over_wifi">key_upload_over_wifi</string>
     <string name="summary_upload_over_wifi">Upload the videos when wifi is available</string>
     <string name="title_auto_upload">Auto upload</string>

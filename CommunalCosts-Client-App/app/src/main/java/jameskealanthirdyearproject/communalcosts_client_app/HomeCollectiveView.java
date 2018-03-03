@@ -4,8 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -53,7 +55,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
     private FloatingActionButton addCollectiveButton;
-    private Intent addCollective, logInActivity, testActivity;
+    private Intent addCollective, logInActivity, testActivity, settingsIntent;
     private Button logOutBtn, testBtn; //testbutton added by james
     private FirebaseAuth firAuth;
     private FirebaseUser userRef;
@@ -67,6 +69,12 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String updatedCollectiveName = sharedPreferences.getString("key_collective_name", "");
+        System.out.println(updatedCollectiveName);
+
+        settingsIntent = new Intent(HomeCollectiveView.this, SettingsActivity.class);
 
         if(checkGPlay()) { //register for GCM iff Play Services are compatible
 
@@ -146,7 +154,8 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == R.id.action_settings){
-            startActivity(new Intent(HomeCollectiveView.this, SettingsActivity.class));
+            settingsIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+            startActivity(settingsIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);
