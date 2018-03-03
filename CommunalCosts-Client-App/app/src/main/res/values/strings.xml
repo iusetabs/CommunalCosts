@@ -117,4 +117,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="home_title">Joined Collectives</string>
 </resources>

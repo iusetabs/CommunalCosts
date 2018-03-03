@@ -58,13 +58,14 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collective_view_activity);
+        collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
+        setTitle(collectiveid);
 
         db = FirebaseDatabase.getInstance();
         DatabaseReference dbRef = db.getReference();
         transactionObj = new TransactionObj();
 
         final ArrayList<TransactionObj> transactionList = new ArrayList<>();
-        collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override

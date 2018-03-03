@@ -67,6 +67,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
+
         if(checkGPlay()) { //register for GCM iff Play Services are compatible
 
             firAuth = FirebaseAuth.getInstance();
@@ -203,6 +204,24 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         // might have to change to only select the necessary collectiveObj attributes and leave the rest
         return collectiveObjs;
     }
+
+    public boolean checkGPlay() {
+        GoogleApiAvailability apiAva = GoogleApiAvailability.getInstance();
+        int curVer = apiAva.isGooglePlayServicesAvailable(this);
+        if (curVer != ConnectionResult.SUCCESS) {
+            if (apiAva.isUserResolvableError(curVer)) {
+                apiAva.getErrorDialog(this, curVer, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Toast.makeText(HomeCollectiveView.this,"Your device does not support Google Push Notifications. Please update your OS", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "This device is not supported. Play services cannot be updated");
+                finish();
+            }
+            return false; //if if is true
+        }
+        return true;
+    }
+
     private class CollectiveAdaptor extends BaseAdapter {
 
         private Context mContext;
@@ -260,20 +279,5 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             isBound = false;
         }
     };*/
-   public boolean checkGPlay() {
-       GoogleApiAvailability apiAva = GoogleApiAvailability.getInstance();
-       int curVer = apiAva.isGooglePlayServicesAvailable(this);
-       if (curVer != ConnectionResult.SUCCESS) {
-           if (apiAva.isUserResolvableError(curVer)) {
-               apiAva.getErrorDialog(this, curVer, PLAY_SERVICES_RESOLUTION_REQUEST)
-                       .show();
-           } else {
-               Toast.makeText(HomeCollectiveView.this,"Your device does not support Google Push Notifications. Please update your OS", Toast.LENGTH_SHORT).show();
-               Log.i(TAG, "This device is not supported. Play services cannot be updated");
-               finish();
-           }
-           return false; //if if is true
-       }
-       return true;
-   }
+
 }
