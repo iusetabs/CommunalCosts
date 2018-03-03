@@ -101,7 +101,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
                 detailIntent.putExtra("CURRENT_TRANSACTION_DESCRIPTION", selectedTransaction.getDescription());
                 detailIntent.putExtra("CURRENT_TRANSACTION_ID", selectedTransaction.getId());
                 detailIntent.putExtra("CURRENT_TRANSACTION_PAYEE", selectedTransaction.getPayee());
-                detailIntent.putExtra("CURRENT_TRANSACTION_VALUE", selectedTransaction.getValue());
+                detailIntent.putExtra("CURRENT_TRANSACTION_VALUE", selectedTransaction.getValueOfT());
                 detailIntent.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
                 startActivity(detailIntent);
             }
@@ -154,7 +154,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
 
             titleTextView.setText(transaction.getDescription());
             subtitleTextView.setText(transaction.getPayee());
-            detailTextView.setText(String.format("%d", transaction.getValue()).trim());
+            detailTextView.setText(String.format("%d", transaction.getValueOfT()).trim());
 
             Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
             return rowView;
