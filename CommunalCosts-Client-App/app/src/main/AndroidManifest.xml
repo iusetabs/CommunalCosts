@@ -3,7 +3,6 @@
     package="jameskealanthirdyearproject.communalcosts_client_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/communal_logo"

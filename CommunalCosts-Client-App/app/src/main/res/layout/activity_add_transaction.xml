@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintVertical_bias="0.055" />
 
     <EditText
         android:id="@+id/value"
@@ -34,16 +34,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.526" />
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/CreateTransaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create"
+        android:layout_width="56dp"
+        android:layout_height="53dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.965" />
+        app:layout_constraintVertical_bias="0.945"
+        app:srcCompat="@android:drawable/ic_menu_upload" />
 
     <TextView
         android:id="@+id/transactionSource"
@@ -56,7 +57,7 @@
         app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintVertical_bias="0.948" />
 
     <EditText
         android:id="@+id/transactionDetails"
@@ -138,5 +139,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.628" />
+
+    <Spinner
+        android:id="@+id/transactionSpinner2"
+        android:layout_width="214dp"
+        android:layout_height="32dp"
+        android:background="@color/common_google_signin_btn_text_light_disabled"
+        android:backgroundTintMode="screen"
+        android:popupBackground="@android:drawable/alert_light_frame"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.177"
+        tools:prompt="@string/app_name" />
 
 </android.support.constraint.ConstraintLayout>

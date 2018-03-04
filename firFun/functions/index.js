@@ -24,15 +24,7 @@ return admin.database().ref('/messages').push({original: original}).then((snapsh
     return res.redirect(303, snapshot.ref);
 });
 });
-
-
-exports.makeUppercase = functions.database.ref('/Test/{somestupidshite}/listenHere/original').onWrite((event) => {
- 
-const original = event.data.val();
-console.log('Uppercasing', event.params.pushId, original);
-const uppercase = original.toUpperCase();
-return event.data.ref.parent.child('uppercase').set(uppercase);
-});*/
+*/
 
 exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
 
