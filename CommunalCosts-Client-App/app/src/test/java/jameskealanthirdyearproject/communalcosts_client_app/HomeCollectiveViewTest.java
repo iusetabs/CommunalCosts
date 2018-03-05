@@ -14,14 +14,6 @@ import static org.junit.Assert.*;
  * Created by C5228122 on 03/03/2018.
  */
 public class HomeCollectiveViewTest {
-    @Rule
-    public ActivityTestRule<HomeCollectiveView> mTRule = new ActivityTestRule<HomeCollectiveView>(HomeCollectiveView.class);
-    private HomeCollectiveView mActv = null;
-
-    @Before
-    public void setUp() throws Exception {
-        mActv = mTRule.getActivity();
-    }
 
     @Test
     public void testLaunch(){

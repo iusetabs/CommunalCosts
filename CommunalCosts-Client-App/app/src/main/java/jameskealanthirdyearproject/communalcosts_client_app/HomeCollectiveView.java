@@ -53,7 +53,7 @@ import static android.content.ContentValues.TAG;
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
    // MyService myServ;]
-   private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;
     private FloatingActionButton addCollectiveButton;

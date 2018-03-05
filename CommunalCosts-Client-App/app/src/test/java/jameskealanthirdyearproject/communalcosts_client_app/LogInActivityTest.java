@@ -15,20 +15,9 @@ import static org.junit.Assert.*;
  */
 public class LogInActivityTest {
 
-    @Rule
-    public ActivityTestRule<LogInActivity> rule = new ActivityTestRule<LogInActivity>(LogInActivity.class);
-    public LogInActivity myAct = null;
-
     @Test
-    public void onCreateInstantiatesVariablesCorrectly(){
-        LogInActivity activity = rule.getActivity();
-        View viewById = activity.findViewById(R.id.LogIn_LogInBtn);
-        assertThat(viewById, viewById.isInstance(Button.class));
-    }
+    public void userLogin() throws Exception {
 
-    @Test
-    public void onClick() throws Exception {
-        userLogin()
     }
 
 }
