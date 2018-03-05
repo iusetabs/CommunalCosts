@@ -56,7 +56,7 @@ public class TransactionObj {
         this.youOweMe.add(s);
     }
     public void removeAllOweMe(){
-        this.youOweMe.clear();
+        this.youOweMe = null;
     }
 
     public ArrayList<String> getYouPaidMe() {
