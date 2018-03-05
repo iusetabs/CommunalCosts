@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
     @Rule
     public ActivityTestRule<HomeCollectiveView> mTRule = new ActivityTestRule<HomeCollectiveView>(HomeCollectiveView.class);
     private HomeCollectiveView mActv = null;
-    
+
     @Before
     public void setUp() throws Exception {
         mActv = mTRule.getActivity();
