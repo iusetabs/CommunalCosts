@@ -1,6 +1,9 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -10,8 +13,10 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void test_copyAL() throws Exception {
+        AccountObj test = new AccountObj();
+
     }
 }

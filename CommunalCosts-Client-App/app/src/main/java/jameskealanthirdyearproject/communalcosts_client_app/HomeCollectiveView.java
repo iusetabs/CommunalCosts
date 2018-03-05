@@ -213,10 +213,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             finish();
             startActivity(logInActivity);
         }
-        else if (v == testBtn){ //added by james
-            finish();
-            startActivity(testActivity);
-        }
     }
 
     public ArrayList<String> getMyCollectives(DataSnapshot dataSnapshot){
@@ -241,6 +237,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     public boolean checkGPlay() {
         GoogleApiAvailability apiAva = GoogleApiAvailability.getInstance();
         int curVer = apiAva.isGooglePlayServicesAvailable(this);
+        Log.d(TAG, "GPS Result Code: " + curVer);
         if (curVer != ConnectionResult.SUCCESS) {
             if (apiAva.isUserResolvableError(curVer)) {
                 apiAva.getErrorDialog(this, curVer, PLAY_SERVICES_RESOLUTION_REQUEST)

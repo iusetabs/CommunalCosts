@@ -200,9 +200,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
 
     private List<String> copyAL(List<String> copy) {
         List<String> a = new ArrayList<>();
-        for(String s: copy){
-            a.add(s);
-        }
+        a.addAll(copy);
         return a;
     }
 
