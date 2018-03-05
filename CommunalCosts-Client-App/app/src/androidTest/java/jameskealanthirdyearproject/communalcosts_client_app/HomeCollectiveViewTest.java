@@ -2,7 +2,7 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.app.Instrumentation;
 import android.support.design.widget.FloatingActionButton;
-import android.support.test.rule.ActivityTestRule;
+//import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,15 +23,15 @@ import jameskealanthirdyearproject.communalcosts_client_app.HomeCollectiveView;
 import jameskealanthirdyearproject.communalcosts_client_app.R;
 
 import static android.content.ContentValues.TAG;
-import static android.support.test.InstrumentationRegistry.getContext;
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
+//import static android.support.test.InstrumentationRegistry.getContext;
+//import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
  * Created by C5228122 on 04/03/2018.
  */
-public class HomeCollectiveViewTest {
+/*public class HomeCollectiveViewTest {
     @Rule
     public ActivityTestRule<HomeCollectiveView> mTRule = new ActivityTestRule<HomeCollectiveView>(HomeCollectiveView.class);
     private HomeCollectiveView mActv = null;
@@ -82,7 +82,7 @@ public class HomeCollectiveViewTest {
             myCollectives.add(collectiveID);
         }
         return myCollectives;
-    }*/
+    }
     }
 
     @Test
@@ -109,4 +109,4 @@ public class HomeCollectiveViewTest {
         mActv = null;
     }
 
-}
+}*/

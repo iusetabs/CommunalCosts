@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TransactionObj {
     public String title;
     public String description;
-    public int value;
+    public int value; //FIXME should be a double!!
     public String payee;
     public String creator;
     public ArrayList<String> youOweMe = new ArrayList<>();
@@ -30,11 +30,11 @@ public class TransactionObj {
     public String editedBy;
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
-    public void setTitle(String title) {
-        title = this.title;
+    public void setTitle(String t) {
+        this.title = t;
     }
 
     public void setValueOfT(int value) {
@@ -56,7 +56,7 @@ public class TransactionObj {
         this.youOweMe.add(s);
     }
     public void removeAllOweMe(){
-        this.youOweMe = null;
+        this.youOweMe.clear();
     }
 
     public ArrayList<String> getYouPaidMe() {
@@ -110,17 +110,20 @@ public class TransactionObj {
     public TransactionObj(){}
 
     public TransactionObj(String descrpt, Integer val, String paying){
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser userRef = firebaseAuth.getCurrentUser();
+        //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        //FirebaseUser userRef = firebaseAuth.getCurrentUser();
         this.description = descrpt;
         this.value = val;
         this.payee = paying;
-        this.creator = userRef.getUid().toString();
+        //this.creator = userRef.getUid().toString();
 
     }
+/*  TODO Do we need this method??
     public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class
-        this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
-        this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValueOfT());
-        this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
-    }
+        if(dataSnapshot.exists()) {
+            this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
+            this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValueOfT());
+            this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
+        }
+    }*/
 }

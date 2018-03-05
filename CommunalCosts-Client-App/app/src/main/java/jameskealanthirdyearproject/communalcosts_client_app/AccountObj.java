@@ -14,25 +14,14 @@ public class AccountObj {
 
     private String name;
     private String email;
-    private String dOB;
-    private boolean emailVerified;
     private String uid;
     private ArrayList<String> collectives;
 
     public AccountObj(){}
 
-    public AccountObj(String n, String e, String d){
+    public AccountObj(String n, String e){
         this.name = n;
         this.email = e;
-        this.dOB = d;
-    }
-
-    public String getdOB() {
-        return dOB;
-    }
-
-    public void setdOB(String dOB) {
-        this.dOB = dOB;
     }
 
     public String getName() {
@@ -51,14 +40,6 @@ public class AccountObj {
         this.email = email;
     }
 
-    public boolean isEmailVerified() {
-        return emailVerified;
-    }
-
-    public void setEmailVerified(boolean emailVerified) {
-        this.emailVerified = emailVerified;
-    }
-
     public String getUid() {
         return uid;
     }
@@ -66,6 +47,5 @@ public class AccountObj {
     public void setUid(String uid) {
         this.uid = uid;
     }
-
 
 }

@@ -1,6 +1,6 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import android.support.test.rule.ActivityTestRule;
+//import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by kealan on 04/03/18.
  */
-public class LogInActivityTest {
+/*public class LogInActivityTest {
 
     @Rule
     public ActivityTestRule<LogInActivity> rule = new ActivityTestRule<LogInActivity>(LogInActivity.class);
@@ -31,4 +31,4 @@ public class LogInActivityTest {
         userLogin()
     }
 
-}
+}*/

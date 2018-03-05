@@ -10,9 +10,6 @@ import static android.content.ContentValues.TAG;
  */
 
 public class CollectiveObj {
-    public void setTransactions(ArrayList<TransactionObj> transactions) {
-        this.transactions = transactions;
-    }
 
     /*We need to clean up this file - it's kind of messy! */
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
@@ -73,7 +70,7 @@ public class CollectiveObj {
     }
 
     public ArrayList<TransactionObj> getTransactions() {
-        return transactions;
+        return this.transactions;
     }
 
     public void addTransaction(TransactionObj transaction) {
@@ -81,7 +78,7 @@ public class CollectiveObj {
     }
 
     public void removeTransaction(TransactionObj transactionObj){
-        this.transactions.remove(transactions);
+        this.transactions.remove(transactionObj);
     }
     public String getCreator() {
         return creator;

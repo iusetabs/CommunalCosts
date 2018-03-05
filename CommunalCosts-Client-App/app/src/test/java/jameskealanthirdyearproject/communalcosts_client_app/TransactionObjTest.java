@@ -1,17 +1,49 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import static org.mockito.Mockito.doAnswer;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
 
 /**
  * Created by C5228122 on 05/03/2018.
  */
+@RunWith(PowerMockRunner.class)
+@PowerMockRunnerDelegate(JUnit4.class)
+@PrepareForTest({ FirebaseDatabase.class})
 public class TransactionObjTest {
 
-    final TransactionObj testObj = new TransactionObj();
+    private TransactionObj testObj = new TransactionObj();
+
+    @Before
+    public void before(){
+        DatabaseReference mockedDatabaseReference = Mockito.mock(DatabaseReference.class);
+
+        FirebaseDatabase mockedFirebaseDatabase = Mockito.mock(FirebaseDatabase.class);
+        when(mockedFirebaseDatabase.getReference()).thenReturn(mockedDatabaseReference);
+
+    }
+
 
     /*----------------Setters & Getters----------------- */
     @Test
@@ -40,10 +72,10 @@ public class TransactionObjTest {
         assertNull("Title = null", testObj.getTitle());
 
         String t1 = "";
-        testObj.setTitle("");
+        testObj.setTitle(t1);
         assertSame(t1, testObj.getTitle());
 
-        String t2 = " ";
+        String t2 = "a";
         testObj.setTitle(t2);
         assertSame(t2,testObj.getTitle());
 
@@ -133,15 +165,15 @@ public class TransactionObjTest {
     @Test
     //NOTE This is an int method//
     public void test_SetGetValueOfT() throws Exception {
-        assertNull("ValueOfT = null", testObj.getValueOfT());
+        assertSame("ValueOfT = null", testObj.getValueOfT(), 0);
 
         int t1 = -10;
         testObj.setValue(t1);
         assertSame(t1, testObj.getValueOfT());
 
-        int t2 = 100000;
+        int t2 = 2;
         testObj.setValue(t2);
-        assertSame(t2,testObj.getValueOfT());
+        assertSame(t2, testObj.getValueOfT());
 
         int t3 = 100;
         assertNotSame(t3, testObj.getValueOfT());
@@ -153,8 +185,8 @@ public class TransactionObjTest {
     @Test
     //NOTE This is an array getter setter//
     public void test_SetGetYouOweMe() throws Exception {
-        assertNull("YouOwwMe array = null", testObj.getYouOweMe());
         ArrayList<String> testArray = new ArrayList<>();
+        assertEquals("YouOweMe array = []", testObj.getYouOweMe(), testArray);
         testArray.add("1");
         testArray.add("2");
         testArray.add("3");
@@ -164,16 +196,14 @@ public class TransactionObjTest {
         testArray.add("Hi There");
         testObj.setYouOweMe(testArray);
         assertSame(testArray,testObj.getYouOweMe());
-
-        testArray.clear();
-        assertNotSame(testArray, testObj.getYouOweMe());
     }
 
     @Test
     //NOTE This is an array getter setter//
     public void test_SetGetYouPaidMe() throws Exception {
-        assertNull("YouPaidMe array = null", testObj.getYouPaidMe());
         ArrayList<String> testArray = new ArrayList<>();
+        assertEquals("YouPaidMe array = null", testObj.getYouPaidMe(), testArray);
+
         testArray.add("1");
         testArray.add("2");
         testArray.add("3");
@@ -183,33 +213,67 @@ public class TransactionObjTest {
         testArray.add("Hi There");
         testObj.setYouPaidMe(testArray);
         assertSame(testArray,testObj.getYouPaidMe());
-
-        testArray.clear();
-        assertNotSame(testArray, testObj.getYouPaidMe());
     }
 
 /*------------------------------------------------------------------------------*/
 
 /*----------------------ArrayList Tests-----------------------------------------*/
+/* TODO We may not need this method so not neccessary to test if this is the case!
     @Test
-    public void updateValues() throws Exception {
+    public void test_updateValues() throws Exception {
+        DataSnapshot mockedDataSnapshot = Mockito.mock(DataSnapshot.class);
+        final TransactionObj expectedObj = new TransactionObj();
+        expectedObj.setDescription("This is the description");
+        expectedObj.setValueOfT(100);
+        expectedObj.setPayee("This is a test payee");
 
-    }
+        when(mockedDatabaseReference.child(anyString())).thenReturn(mockedDatabaseReference);
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ValueEventListener valueEventListener = (ValueEventListener) invocation.getArguments()[0];
+
+                DataSnapshot mockedDataSnapshot = Mockito.mock(DataSnapshot.class);
+
+                when(mockedDataSnapshot.exists()).thenReturn(true);
+                when(mockedDataSnapshot.child("transactions").getValue(TransactionObj.class)).thenReturn(expectedObj);
+
+                valueEventListener.onDataChange(mockedDataSnapshot);
+                //valueEventListener.onCancelled(...);
+
+                return null;
+            }
+        }).when(mockedDatabaseReference).addListenerForSingleValueEvent(any(ValueEventListener.class));
+
+        when(mockedDataSnapshot.child("transactions").getValue(TransactionObj.class)).thenReturn(expectedObj);
+        testObj.updateValues(mockedDataSnapshot);
+        assertSame(expectedObj.getDescription(), testObj.getDescription());
+        assertSame(expectedObj.getValueOfT(), testObj.getValueOfT());
+        assertSame(expectedObj.getPayee(), testObj.getPayee());
+
+
+    }*/
     @Test
     public void test_addToYouOweMe() throws Exception {
-        assertNull(testObj.getYouOweMe());
-        ArrayList<String> testArray = testObj.getYouOweMe();
+
+        ArrayList<String> testArray = new ArrayList<>();
+        assertEquals(testObj.getYouOweMe(), testArray);
+
         testArray.add("Addition");
         assertNotSame("Before method call arrays don't match", testArray, testObj.getYouOweMe());
+
         testObj.addToYouOweMe("Addition");
-        assertSame("After method call arrays match", testArray, testObj.getYouOweMe());
+        assertEquals("After method call arrays match", testArray, testObj.getYouOweMe());
 
     }
-    @Test
+   @Test
     public void test_removeAllOweMe() throws Exception {
-        assertNotNull("Before method call", testObj.getYouOweMe());
+        ArrayList<String> testArray = new ArrayList<>();
+        assertEquals("Before method call", testObj.getYouOweMe(), testArray);
+        testObj.addToYouOweMe("hi");
+        assertNotEquals(testObj.getYouOweMe(), testArray);
         testObj.removeAllOweMe();
-        assertNull("After method call", testObj.getYouOweMe());
+        assertEquals("After method call", testObj.getYouOweMe(),testArray);
     }
 
 }
