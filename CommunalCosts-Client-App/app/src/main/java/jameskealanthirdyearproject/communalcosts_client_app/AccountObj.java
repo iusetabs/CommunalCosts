@@ -15,7 +15,7 @@ public class AccountObj {
     private String name;
     private String email;
     private String uid;
-    private ArrayList<String> collectives;
+    private ArrayList<String> collectives; //used on the backend!!
 
     public AccountObj(){}
 

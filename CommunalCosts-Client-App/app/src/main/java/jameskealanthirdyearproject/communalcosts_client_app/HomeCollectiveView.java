@@ -68,6 +68,8 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private ArrayList<String> myCollectives;
     private AlertDialog.Builder addCollectiveDia;
 
+    final private String TAG = HomeCollectiveView.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
             firAuth = FirebaseAuth.getInstance();
             userRef = firAuth.getCurrentUser();
-
             final ArrayList<CollectiveObj> collectiveList = new ArrayList<>();
             joinedCollectivesView = (ListView) findViewById(R.id.collectiveListView);
             adaptor = new CollectiveAdaptor(HomeCollectiveView.this, collectiveList);
@@ -168,12 +169,12 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
 
 
-    private void subscribeDeviceToNotifications(ArrayList<String> myCols) {
+    public void subscribeDeviceToNotifications(ArrayList<String> myCols) {
         for(int i = 0; i < myCols.size(); i++) {
             FirebaseMessaging.getInstance().subscribeToTopic(myCols.get(i)); //subscribe to messaging service
         }
     }
-    private void unSubscribeDeviceToNotifications(ArrayList<String> myCols) {
+    public void unSubscribeDeviceToNotifications(ArrayList<String> myCols){
         for(int i = 0; i < myCols.size(); i++) {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(myCols.get(i)); //subscribe to messaging service
         }
