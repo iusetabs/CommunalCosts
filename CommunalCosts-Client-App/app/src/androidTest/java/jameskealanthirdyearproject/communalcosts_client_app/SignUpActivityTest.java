@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by kealan on 06/03/18.
  */
-public class SignUpActivityTest {
+public class SignUpActivityTest extends ActivityIns{
     @Before
     public void setUp() throws Exception {
     }
