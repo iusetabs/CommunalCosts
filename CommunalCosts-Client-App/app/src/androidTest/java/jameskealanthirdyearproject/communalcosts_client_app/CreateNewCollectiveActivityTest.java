@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by C5228122 on 06/03/2018.
  */
-public class HomeCollectiveViewTest {
+public class CreateNewCollectiveActivityTest {
     @Before
     public void setUp() throws Exception {
     }
@@ -24,18 +24,6 @@ public class HomeCollectiveViewTest {
 
     @Test
     public void onClick() throws Exception {
-    }
-
-    @Test
-    public void getMyCollectives() throws Exception {
-    }
-
-    @Test
-    public void getCollectivesList() throws Exception {
-    }
-
-    @Test
-    public void checkGPlay() throws Exception {
     }
 
 }
