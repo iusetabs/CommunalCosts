@@ -22,6 +22,12 @@ public class CollectiveObj {
     public CollectiveObj(){
 
     }
+    public CollectiveObj(String name, String type, String id, String c){ //created solely for test files
+        this.collectiveId = id;
+        this.collectiveType = type;
+        this.collectiveName = name;
+        this.creator = c;
+    }
     public CollectiveObj(String name, String type, String id, String c, ArrayList<myPairObj> mems){
         this.collectiveId = id;
         this.collectiveType = type;
