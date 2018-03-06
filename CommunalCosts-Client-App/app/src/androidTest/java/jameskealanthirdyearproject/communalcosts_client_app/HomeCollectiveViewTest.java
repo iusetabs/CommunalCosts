@@ -23,8 +23,6 @@ import jameskealanthirdyearproject.communalcosts_client_app.HomeCollectiveView;
 import jameskealanthirdyearproject.communalcosts_client_app.R;
 
 import static android.content.ContentValues.TAG;
-import static android.support.test.InstrumentationRegistry.getContext;
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 

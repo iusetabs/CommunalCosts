@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 pD.dismiss();
                 if(task.isSuccessful()){
                     FirebaseUser userRef = firAuth.getCurrentUser();
-                    AccountObj userObj = new AccountObj(nameF.getText().toString().trim(), userRef.getEmail(),dobF.getText().toString().trim());
+                    AccountObj userObj = new AccountObj(nameF.getText().toString().trim(), userRef.getEmail());
                     myDatabase.child("users").child(userRef.getUid()).setValue(userObj);
                     finish();
                     startActivity(home);
