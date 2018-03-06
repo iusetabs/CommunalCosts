@@ -29,7 +29,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth firAuth;
     private Intent home;
     private  EditText nameF;
-    private EditText dobF;
     public DatabaseReference myDatabase;
 
 
@@ -47,7 +46,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         SignUpBtn = (Button) findViewById(R.id.SignUp_SignUpBtn);
         nameF = (EditText) findViewById(R.id.SignUp_NameField);
-        dobF = (EditText) findViewById(R.id.SignUp_DOBField);
         EmailF = (EditText) findViewById(R.id.SignUp_EmailField);
         PassF = (EditText) findViewById(R.id.SignUp_PasswordField);
         SignUpBtn.setOnClickListener(this);

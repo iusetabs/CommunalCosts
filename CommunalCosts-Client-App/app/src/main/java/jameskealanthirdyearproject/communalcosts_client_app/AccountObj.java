@@ -14,7 +14,6 @@ public class AccountObj {
 
     private String name;
     private String email;
-    private boolean emailVerified;
     private String uid;
     private ArrayList<String> collectives;
 
@@ -41,14 +40,6 @@ public class AccountObj {
         this.email = email;
     }
 
-    public boolean isEmailVerified() {
-        return emailVerified;
-    }
-
-    public void setEmailVerified(boolean emailVerified) {
-        this.emailVerified = emailVerified;
-    }
-
     public String getUid() {
         return uid;
     }
@@ -56,6 +47,5 @@ public class AccountObj {
     public void setUid(String uid) {
         this.uid = uid;
     }
-
 
 }

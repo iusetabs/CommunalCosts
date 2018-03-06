@@ -1,48 +1,69 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by kealan on 05/03/18.
+ * Created by C5228122 on 05/03/2018.
  */
 public class AccountObjTest {
+    private AccountObj testObj = new AccountObj();
+    @Test
+    public void test_SetGetName() throws Exception {
+        assertNull("Name = null", testObj.getName());
 
-    private AccountObj testAccount;
+        String t1 = "";
+        testObj.setName("");
+        assertSame(t1, testObj.getName());
 
-    @Before
-    public void setUp() throws Exception {
-        testAccount = new AccountObj("test", "test@mail.com");
+        String t2 = " ";
+        testObj.setName(t2);
+        assertSame(t2,testObj.getName());
 
-    }
+        String t3 = "abcdef12233";
+        assertNotSame(t3, testObj.getName());
 
-    @After
-    public void tearDown() throws Exception {
+        testObj.setName(t3);
+        assertSame(t3, testObj.getName());
     }
 
     @Test
-    public void getName() throws Exception {
-        assertTrue(testAccount.getName().equals("test"));
+    public void test_SetGetEmail() throws Exception {
+        assertNull("Email = null", testObj.getEmail());
+
+        String t1 = "";
+        testObj.setEmail("");
+        assertSame(t1, testObj.getEmail());
+
+        String t2 = " ";
+        testObj.setEmail(t2);
+        assertSame(t2,testObj.getEmail());
+
+        String t3 = "abcdef12233";
+        assertNotSame(t3, testObj.getEmail());
+
+        testObj.setEmail(t3);
+        assertSame(t3, testObj.getEmail());
     }
 
     @Test
-    public void setName() throws Exception {
-        testAccount.setName("new name");
-        assertTrue(testAccount.getName().equals("new name"));
-    }
+    public void test_SetGetUid() throws Exception {
+        assertNull("User ID = null", testObj.getUid());
 
-    @Test
-    public void getEmail() throws Exception {
-        assertTrue(testAccount.getEmail().equals("test@mail.com"));
-    }
+        String t1 = "";
+        testObj.setUid("");
+        assertSame(t1, testObj.getUid());
 
-    @Test
-    public void setEmail() throws Exception {
-        testAccount.setEmail("new@email.test");
-        assertTrue(testAccount.getEmail().equals("new@email.test"));
+        String t2 = " ";
+        testObj.setUid(t2);
+        assertSame(t2,testObj.getUid());
+
+        String t3 = "abcdef12233";
+        assertNotSame(t3, testObj.getUid());
+
+        testObj.setUid(t3);
+        assertSame(t3, testObj.getUid());
     }
 
 }
