@@ -91,6 +91,8 @@ public class CollectiveObjTest {
     }
 /*--------------------------------------------------------------------------------------*/
 
+/*---------------------------ARRAYLIST-myPairObj-Tests----------------------------------*/
+
     @Test
     public void test_addMemberWithoutPermission() throws Exception {
         ArrayList<myPairObj> testArray = new ArrayList<>();
@@ -212,7 +214,9 @@ public class CollectiveObjTest {
             assertSame(testArray.get(i).getUsrPermission(), comparArray.get(i).getUsrPermission());
         }
     }
+/*-----------------------------------------------------------------------------------------------------------------*/
 
+/*--------------------------------------------ARRAYLIST-TransactionObj-Tests---------------------------------------*/
     @Test
     public void test_addTransaction() throws Exception { //TODO some instument testing may be needed on this method
         ArrayList<TransactionObj> testArray = new ArrayList<>();
@@ -257,4 +261,5 @@ public class CollectiveObjTest {
         }
 
     }
+/*-------------------------------------------------------------------------------------------------------------------------*/
 }
