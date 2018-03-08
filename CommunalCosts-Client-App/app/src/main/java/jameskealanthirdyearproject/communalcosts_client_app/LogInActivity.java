@@ -3,6 +3,7 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -68,12 +69,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         if(TextUtils.isEmpty(email)){
             //email is empty
-            Toast.makeText(LogInActivity.this,"Please enter Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LogInActivity.this, "@String/toast_log_in_activity_email", Toast.LENGTH_SHORT).show();
             return; //stop function being executed
         }
         if(TextUtils.isEmpty(password)){
             //password is empty
-            Toast.makeText(LogInActivity.this,"Please enter Password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LogInActivity.this,"@string/toast_log_in_activity_passwd", Toast.LENGTH_SHORT).show();
             return; //stopping function being executed
         }
 
@@ -89,7 +90,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(home);
                 }
                 else{
-                    Toast.makeText(LogInActivity.this,"Invalid credentials, please try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LogInActivity.this,"@string/toast_invalid_log_in", Toast.LENGTH_LONG).show();
                 }
             }
         });
