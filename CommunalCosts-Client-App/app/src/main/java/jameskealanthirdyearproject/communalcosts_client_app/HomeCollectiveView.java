@@ -58,6 +58,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private ArrayList<String> myCollectives;
     private ArrayList<String> allColNames = new ArrayList<>();;
     private AlertDialog.Builder addCollectiveDia;
+    private ArrayList<CollectiveObj> collectiveObjList;
 
     final private String TAG = HomeCollectiveView.class.getSimpleName();
 
@@ -105,7 +106,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                     } catch (CollectiveNotFoundException e) {
                         e.printStackTrace();
                     }
-                    ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot);
+                    collectiveObjList = getCollectivesList(dataSnapshot);
                     for (CollectiveObj collectiveObj : collectiveObjList) {
                         if (myCollectives.contains(collectiveObj.getCollectiveId())) {
                             collectiveList.add(collectiveObj);
@@ -207,6 +208,25 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onClick(View v) {
                     addCollectiveDia.create().dismiss();
+                    String colID = colIDF.getText().toString().trim();
+                    if(allColNames.contains(colID)){
+                        CollectiveObj joinReq = collectiveObjList.get(collectiveObjList.indexOf(colID));
+                        for(CollectiveObj col: collectiveObjList){
+                            if(col.getCollectiveId().equals(colID)){
+                                col.addMember(userRef.getEmail());
+                                dbRef.child("collectives/" + colID).setValue(joinReq);
+                                break;
+                            }
+                            else{
+                                Log.d(TAG, col.getCollectiveId() + " != " + colID);
+                            }
+                        }
+                    }
+                    else{
+                        colIDF.setText("");
+                        Toast.makeText(HomeCollectiveView.this,"Collective does not exist. Retry", Toast.LENGTH_SHORT).show();
+                    }
+                    //allColNames the array to use
                     //join the collective //TODO
                 }
             });
@@ -247,13 +267,11 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         return myCollectives;
     }
 
-    public ArrayList<CollectiveObj> getCollectivesList(DataSnapshot dataSnapshot){ //FIXME Resolved but can be optimised
+    public ArrayList<CollectiveObj> getCollectivesList(DataSnapshot dataSnapshot){
         ArrayList<CollectiveObj> collectiveObjs = new ArrayList<>();
         for (DataSnapshot snapshot : dataSnapshot.child("collectives").getChildren()){
-            //System.out.println("getCollectivesList" + collectiveObj.getCollectiveId()); //FIXME Sucessfully prints the 3 collective ID's on the DB
-            collectiveObjs.add(snapshot.getValue(CollectiveObj.class)); // FIXME: 24/02/18 throwing issues adding transactions now!
-        } //FIXME IDEA: Only initialise the collectiveObjects the user has - i.e. check the i.d. of the collective you are on in the snapshot and if = to one in the usercollective array initaise it
-        // might have to change to only select the necessary collectiveObj attributes and leave the rest
+            collectiveObjs.add(snapshot.getValue(CollectiveObj.class));
+        }
         return collectiveObjs;
     }
 
