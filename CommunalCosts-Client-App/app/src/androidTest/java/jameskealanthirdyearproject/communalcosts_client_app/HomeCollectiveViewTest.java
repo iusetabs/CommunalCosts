@@ -1,10 +1,15 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import android.app.Instrumentation;
+import android.content.ComponentName;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
+import android.test.TouchUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -25,10 +30,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import customException.CollectiveNotFoundException;
+
 import static android.support.test.InstrumentationRegistry.getContext;
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -38,6 +54,8 @@ import static org.junit.Assert.*;
 public class HomeCollectiveViewTest{
     @Rule
     public ActivityTestRule<HomeCollectiveView> mTRule = new ActivityTestRule<>(HomeCollectiveView.class);
+    public IntentsTestRule<HomeCollectiveView> intentsTestRule = new IntentsTestRule<>(HomeCollectiveView.class);
+
     private HomeCollectiveView mActv = null;
     private final String TAG = HomeCollectiveView.class.getSimpleName();
     private FirebaseDatabase db;
@@ -63,7 +81,7 @@ public class HomeCollectiveViewTest{
         }
     }
 
-/*--------------------------------TEST-METHODS----------------------------------------*/
+/*------------------------------------TEST-METHODS----------------------------------------*/
     @Test
     public void actvIsNotNull() throws NullPointerException{
         assertNotNull("HomeCollectiveView is null...", mActv);
@@ -92,11 +110,6 @@ public class HomeCollectiveViewTest{
         Array[5] is android.support.constraint.ConstraintLayout{aa95ad9 V.E...... .......D 0,0-720,1136 #7f09004d app:id/coordinatorLayout2}
          --------------------------------------------------------------------------------------------*/
     }
-
-    @Test
-    public void onCreate() throws Exception {
-    }
-
     @Test
     public void test_FirebaseWriting() throws Exception{
         assertNotNull("The Database instance is null...", db);
@@ -179,33 +192,35 @@ public class HomeCollectiveViewTest{
 
     @Test
     public void onClick() throws Exception {
+        onView(withId(R.id.logoutBtn)).perform(click());
+        intended(hasComponent(new ComponentName(getTargetContext(), LogInActivity.class)));
+        /*
+        final Activity[] activity = new Activity[1];
+
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+        @Override
+        public void run() {
+           activity[0] =Iterables.getOnlyElement(ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED));
+        }
+        assertTrue(activity instanceof MyActivity.class);
+        */
     }
 
-    @Test
-    public void getMyCollectives() throws Exception {
-    }
 
-    @Test
-    public void getCollectivesList() throws Exception {
-    }
-
-    @Test
-    public void test_subscribeDeviceToNotifications() throws Exception{
+    @Test(expected = CollectiveNotFoundException.class)
+    public void testFail_subscribeDeviceToNotifications() throws Exception{
         ArrayList<String> t1 = new ArrayList<>();
-        mActv.subscribeDeviceToNotifications(t1);
-        t1.add("DONOTDELETE");
         mActv.subscribeDeviceToNotifications(t1);
         t1.add("Breakit");
         mActv.subscribeDeviceToNotifications(t1);
-        Assert.fail("This should fail as the collective doesn't exist to subscribe to!"); //this should crash the app as the backend function should take care of this. We should throw an exceptition here in the main method.
     }
 
-    @Test
-    public void test_unSubscribeDeviceToNotifications() throws Exception{
+    @Test(expected = CollectiveNotFoundException.class)
+    public void testFail_unSubscribeDeviceToNotifications() throws Exception{
         ArrayList<String> t1 = new ArrayList<>();
-
+        t1.add("Breakit");
+        mActv.unSubscribeDeviceToNotifications(t1);
     }
-
 
     @Test
     public void checkGPlay() throws Exception {

@@ -1,23 +1,16 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,8 +21,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import jameskealanthirdyearproject.communalcosts_client_app.MyService.MyLocalBinder;
-
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -43,12 +34,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
+import customException.CollectiveNotFoundException;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import static android.content.ContentValues.TAG;
+import static junit.framework.Assert.fail;
 
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,6 +56,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     private boolean isBound = false;
     private String tokenFCM =  FirebaseInstanceId.getInstance().getToken();
     private ArrayList<String> myCollectives;
+    private ArrayList<String> allColNames = new ArrayList<>();;
     private AlertDialog.Builder addCollectiveDia;
 
     final private String TAG = HomeCollectiveView.class.getSimpleName();
@@ -103,8 +94,16 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             dbRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    allColNames.clear();
+                    for(DataSnapshot indvColSnap : dataSnapshot.child("collectives").getChildren()){
+                        allColNames.add(indvColSnap.child("collectiveId").getValue(String.class)); //adding array of all vals
+                    }
                     myCollectives = getMyCollectives(dataSnapshot);
-                    subscribeDeviceToNotifications(myCollectives);
+                    try {
+                        subscribeDeviceToNotifications(myCollectives);
+                    } catch (CollectiveNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     ArrayList<CollectiveObj> collectiveObjList = getCollectivesList(dataSnapshot);
                     for (CollectiveObj collectiveObj : collectiveObjList) {
                         if (myCollectives.contains(collectiveObj.getCollectiveId())) {
@@ -169,14 +168,29 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
 
 
 
-    public void subscribeDeviceToNotifications(ArrayList<String> myCols) {
+    public void subscribeDeviceToNotifications(ArrayList<String> myCols) throws CollectiveNotFoundException {
         for(int i = 0; i < myCols.size(); i++) {
-            FirebaseMessaging.getInstance().subscribeToTopic(myCols.get(i)); //subscribe to messaging service
+            if (allColNames.contains(myCols.get(i))) {
+                Log.d(TAG, "Subscribed to topic" + myCols.get(i));
+                FirebaseMessaging.getInstance().subscribeToTopic(myCols.get(i)); //subscribe to messaging service
+            }
+            else{
+                Log.d(TAG, "Cannot subscribe to topic " + myCols.get(i));
+                //fail("Topic does not exist");
+                throw new CollectiveNotFoundException("The topic does not exist");
+            }
         }
     }
-    public void unSubscribeDeviceToNotifications(ArrayList<String> myCols){
+    public void unSubscribeDeviceToNotifications(ArrayList<String> myCols) throws CollectiveNotFoundException{
         for(int i = 0; i < myCols.size(); i++) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(myCols.get(i)); //subscribe to messaging service
+            if (allColNames.contains(myCols.get(i))) {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(myCols.get(i)); //unsubscribe to messaging service
+            }
+            else{
+                Log.d(TAG, "Cannot unsubscribe from topic " + myCols.get(i));
+                //fail("Topic does not exist");
+                throw new CollectiveNotFoundException("The topic does not exist");
+            }
         }
     }
 
@@ -206,11 +220,15 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             dialog.show();
         }
         else if (v == logOutBtn){
-            Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
-            unSubscribeDeviceToNotifications(myCollectives);
+            /*Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
+            try {
+                unSubscribeDeviceToNotifications(myCollectives);
+            } catch (CollectiveNotFoundException e) {
+                e.printStackTrace();
+            }
             delFCM.putExtra("FCM_TOKEN", tokenFCM);
             startService(delFCM);
-            firAuth.signOut();
+            firAuth.signOut();*/
             finish();
             startActivity(logInActivity);
         }
