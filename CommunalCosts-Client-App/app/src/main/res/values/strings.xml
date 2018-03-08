@@ -119,4 +119,8 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="home_title">Joined Collectives</string>
+    <!--toast strings-->
+    <string name="toast_log_in_activity_email">Please enter your email</string>
+    <string name="toast_log_in_activity_passwd">Please enter a password</string>
+    <string name="toast_invalid_log_in">Invalid credentials, please try again</string>
 </resources>
