@@ -178,7 +178,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
                         colDisplayNames.remove("All Members");
                     }
                 }
-                dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, colDisplayNames);
+                dataAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, colDisplayNames);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 memberChoices.setAdapter(dataAdapter);
             } else
