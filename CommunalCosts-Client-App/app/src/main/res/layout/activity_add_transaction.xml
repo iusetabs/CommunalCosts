@@ -120,6 +120,7 @@
         android:layout_height="82dp"
         android:maxLines="4"
         android:scrollbars="vertical"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

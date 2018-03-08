@@ -143,7 +143,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                     CollectiveObj selectedCollective = collectiveList.get(position);
                     Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
                     detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
-                    finish();
                     startActivity(detailIntent);
                 }
             });
@@ -217,7 +216,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                                     dbRef.child("collectives/" + colID).setValue(col);
                                     Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
                                     detailIntent.putExtra("CURRENT_COLLECTIVE_ID", colID);
-                                    finish();
                                     startActivity(detailIntent);
                                 } else {
                                     Log.d(TAG, col.getCollectiveId() + " != " + colID);
@@ -240,7 +238,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onClick(View v) {
                     addCollectiveDia.create().dismiss();
-                    finish();
                     startActivity(addCollective);
                 }
             });

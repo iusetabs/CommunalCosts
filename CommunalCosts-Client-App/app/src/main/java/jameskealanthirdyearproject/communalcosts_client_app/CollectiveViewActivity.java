@@ -60,6 +60,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_collective_view_activity);
         collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
         setTitle(collectiveid);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = FirebaseDatabase.getInstance();
         DatabaseReference dbRef = db.getReference();
