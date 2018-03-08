@@ -1,7 +1,9 @@
-#Communal Costs
-*for android*
+# Communal Costs
+## *for android*
 
-*by Kealan Thompson & James Nolan*
+![DCU Logo](https://schoolsummit.ie/wp-content/uploads/2017/01/DCU.png)
 
-Click [here](https://jameskealan3yproje.wixsite.com/jameskealan3yp) to view our blogs! 
+###*by Kealan Thompson & James Nolan*
+
+We have written our blogs on [wix](https://www.wix.com/). Click [here](https://jameskealan3yproje.wixsite.com/jameskealan3yp) to view our blogs! 
 
