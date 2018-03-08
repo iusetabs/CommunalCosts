@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.test.TouchUtils;
@@ -42,9 +43,13 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -79,6 +84,7 @@ public class HomeCollectiveViewTest{
                 }
             });
         }
+        Intents.init();
     }
 
 /*------------------------------------TEST-METHODS----------------------------------------*/
@@ -191,19 +197,19 @@ public class HomeCollectiveViewTest{
     }
 
     @Test
-    public void onClick() throws Exception {
+    public void does_LogoutStart() throws Exception {
+        Log.d(TAG, "Starting Log Out Test");
         onView(withId(R.id.logoutBtn)).perform(click());
-        intended(hasComponent(new ComponentName(getTargetContext(), LogInActivity.class)));
-        /*
-        final Activity[] activity = new Activity[1];
+        intended(hasComponent(LogInActivity.class.getName()));
+    }
 
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-        @Override
-        public void run() {
-           activity[0] =Iterables.getOnlyElement(ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED));
-        }
-        assertTrue(activity instanceof MyActivity.class);
-        */
+    @Test
+    public void does_addCollectiveStart() throws  Exception{
+        Log.d(TAG, "Addibng Collective Test");
+        onView(withId(R.id.addCollectiveBtn)).perform(click());
+        onView(withId(R.id.homeAddCol_colIDField)).check(matches(allOf(withText(""), isDisplayed())));
+
+
     }
 
 
@@ -239,6 +245,7 @@ public class HomeCollectiveViewTest{
     @After
     public void tearDown() throws Exception {
         mActv = null;
+        Intents.release();
     }
 
 }

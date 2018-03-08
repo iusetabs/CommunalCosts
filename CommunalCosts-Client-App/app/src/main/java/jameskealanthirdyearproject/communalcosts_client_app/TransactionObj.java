@@ -110,20 +110,20 @@ public class TransactionObj {
     public TransactionObj(){}
 
     public TransactionObj(String descrpt, Integer val, String paying){
-        //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        //FirebaseUser userRef = firebaseAuth.getCurrentUser();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser userRef = firebaseAuth.getCurrentUser();
         this.description = descrpt;
         this.value = val;
         this.payee = paying;
-        //this.creator = userRef.getUid().toString();
+        this.creator = userRef.getUid().toString();
 
     }
-/*  TODO Do we need this method??
+ //TODO Do we need this method??
     public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class
         if(dataSnapshot.exists()) {
             this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
             this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValueOfT());
             this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
         }
-    }*/
+    }
 }
