@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TransactionObj {
     public String title;
     public String description;
-    public int value; //FIXME should be a double!!
+    public int valueOfT; //FIXME should be a double!!
     public String payee;
     public String creator;
     public ArrayList<String> youOweMe = new ArrayList<>();
@@ -38,7 +38,7 @@ public class TransactionObj {
     }
 
     public void setValueOfT(int value) {
-        this.value = value;
+        this.valueOfT = value;
     }
 
     public String getCreator() {
@@ -100,29 +100,33 @@ public class TransactionObj {
     }
 
     public Integer getValueOfT() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
+        return valueOfT;
     }
 
     public TransactionObj(){}
+
+    public TransactionObj(String descrpt, Integer val, String paying, String creator){
+        this.description = descrpt;
+        this.valueOfT = val;
+        this.payee = paying;
+        this.creator = creator;
+
+    }
 
     public TransactionObj(String descrpt, Integer val, String paying){
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser userRef = firebaseAuth.getCurrentUser();
         this.description = descrpt;
-        this.value = val;
+        this.valueOfT = val;
         this.payee = paying;
-        this.creator = userRef.getUid().toString();
+        this.creator = userRef.getUid();
 
     }
  //TODO Do we need this method??
     public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class
         if(dataSnapshot.exists()) {
             this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
-            this.setValue(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValueOfT());
+            this.setValueOfT(dataSnapshot.child("transactions").getValue(TransactionObj.class).getValueOfT());
             this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
         }
     }

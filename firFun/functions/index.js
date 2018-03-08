@@ -31,7 +31,7 @@ exports.colNotifications = functions.database.ref('/collectives/{colName}/transa
     console.log('Transaction Event');
     const colTitle = event.params.colName;
     const details = event.data.child("description").val();
-    const paid = event.data.child("value").val();
+    const paid = event.data.child("valueOfT").val();
     const author = event.data.child("payee").val();
     const colRef = admin.database().ref("/collectives/" + colTitle);
     return colRef.once('value').then((snap) => {
@@ -53,7 +53,6 @@ exports.colNotifications = functions.database.ref('/collectives/{colName}/transa
         return admin.messaging().sendToTopic(colTitle.toString(), payload, options);
         }); 
 });
-
 
 exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members/{i}').onCreate((event) => { //only runs when data is updated
     const colID = event.params.colName; //needed to access array at col Event
@@ -86,7 +85,6 @@ exports.addCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collec
         return;
     });
 });
-
 
 exports.rmCollectiveIDtoMemberAccountsUpgrade = functions.database.ref('/collectives/{colName}/members/{i}').onDelete((event) => { //only runs when data is updated
     const colName = event.params.colName;

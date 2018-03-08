@@ -222,8 +222,8 @@ public class CollectiveObjTest {
         ArrayList<TransactionObj> testArray = new ArrayList<>();
         assertEquals(testArray, testObj.getTransactions());
 
-        TransactionObj t1 = new TransactionObj("a", 1, "you");
-        TransactionObj t2 = new TransactionObj("b", 2, "me");
+        TransactionObj t1 = new TransactionObj("a", 1, "you", "TEST CREATOR");
+        TransactionObj t2 = new TransactionObj("b", 2, "me", "TEST CREATOR");
         testArray.add(t1);
         testArray.add(t2);
         assertNotSame(testArray.size(), testObj.getTransactions().size());
@@ -240,8 +240,8 @@ public class CollectiveObjTest {
         ArrayList<TransactionObj> testArray = new ArrayList<>();
         assertEquals(testArray, testObj.getTransactions());
 
-        TransactionObj t1 = new TransactionObj("a", 1, "you");
-        TransactionObj t2 = new TransactionObj("b", 2, "me");
+        TransactionObj t1 = new TransactionObj("a", 1, "you", "TEST CREATOR");
+        TransactionObj t2 = new TransactionObj("b", 2, "me", "TEST CREATOR");
         testArray.add(t1);
         testArray.add(t2);
         testObj.addTransaction(t1);
