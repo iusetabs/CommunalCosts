@@ -130,5 +130,5 @@
     <string name="signup_invalid_email">Email address invalid</string>
     <string name="signup_in_progress">Registering your account</string>
     <string name="signup_failed">Failed to sign up</string>
-    <string name="home_collective_view_title">Joined Collectives</string>
+    <string name="home_collective_view_title">My Collectives</string>
 </resources>
