@@ -143,6 +143,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                     CollectiveObj selectedCollective = collectiveList.get(position);
                     Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
                     detailIntent.putExtra("CURRENT_COLLECTIVE_ID", selectedCollective.getCollectiveId());
+                    finish();
                     startActivity(detailIntent);
                 }
             });
@@ -207,19 +208,24 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             joinCol.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addCollectiveDia.create().dismiss();
                     String colID = colIDF.getText().toString().trim();
-                    if(allColNames.contains(colID)){
-                        CollectiveObj joinReq = collectiveObjList.get(collectiveObjList.indexOf(colID));
-                        for(CollectiveObj col: collectiveObjList){
-                            if(col.getCollectiveId().equals(colID)){
-                                col.addMember(userRef.getEmail());
-                                dbRef.child("collectives/" + colID).setValue(joinReq);
-                                break;
+                    if(allColNames.contains(colID)) {
+                        if(!myCollectives.contains(colID)){
+                            for(CollectiveObj col : collectiveObjList) {
+                                if (col.getCollectiveId().equals(colID)) {
+                                    col.addMember(userRef.getEmail());
+                                    dbRef.child("collectives/" + colID).setValue(col);
+                                    Intent detailIntent = new Intent(HomeCollectiveView.this, CollectiveViewActivity.class);
+                                    detailIntent.putExtra("CURRENT_COLLECTIVE_ID", colID);
+                                    finish();
+                                    startActivity(detailIntent);
+                                } else {
+                                    Log.d(TAG, col.getCollectiveId() + " != " + colID);
+                                }
                             }
-                            else{
-                                Log.d(TAG, col.getCollectiveId() + " != " + colID);
-                            }
+                        }
+                        else{
+                            Toast.makeText(HomeCollectiveView.this,"You're already a member!", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else{
