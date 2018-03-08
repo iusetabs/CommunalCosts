@@ -1,7 +1,7 @@
 # Communal Costs
 ## *for android*
 
-![DCU Logo](https://schoolsummit.ie/wp-content/uploads/2017/01/DCU.png)
+![DCU Logo](http://www.inmindd.eu/wp-content/uploads/2012/08/dculogo.jpg)
 
 ###*by Kealan Thompson & James Nolan*
 
