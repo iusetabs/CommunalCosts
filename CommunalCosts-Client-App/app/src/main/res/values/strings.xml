@@ -123,4 +123,12 @@
     <string name="toast_log_in_activity_email">Please enter your email</string>
     <string name="toast_log_in_activity_passwd">Please enter a password</string>
     <string name="toast_invalid_log_in">Invalid credentials, please try again</string>
+    <!--strings added to replace hardcoding-->
+    <string name="login_welcome">Welcome</string>
+    <string name="signup_title">Sign Up</string>
+    <string name="signup_no_name">Please enter your name</string>
+    <string name="signup_invalid_email">Email address invalid</string>
+    <string name="signup_in_progress">Registering your account</string>
+    <string name="signup_failed">Failed to sign up</string>
+    <string name="home_collective_view_title">Joined Collectives</string>
 </resources>

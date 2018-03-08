@@ -36,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
+        setTitle(R.string.signup_title);
 
         home = new Intent(SignUpActivity.this, HomeCollectiveView.class);
 
@@ -63,17 +64,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         String email = EmailF.getText().toString().trim();
         String password = PassF.getText().toString().trim();
+        String name = nameF.getText().toString().trim();
+        if(name.equals("")){
+            Toast.makeText(SignUpActivity.this, R.string.signup_no_name, Toast.LENGTH_SHORT).show();
+        }
         if(TextUtils.isEmpty(email) || !(Patterns.EMAIL_ADDRESS.matcher(email).matches())){
             //email is empty
-            Toast.makeText(SignUpActivity.this,"Email address invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, R.string.signup_invalid_email, Toast.LENGTH_SHORT).show();
             return; //stop function being executed
         }
         if(TextUtils.isEmpty(password)){
             //password is empty
-            Toast.makeText(SignUpActivity.this,"Please enter Password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, R.string.toast_log_in_activity_passwd, Toast.LENGTH_SHORT).show();
             return; //stopping function being executed
         }
-        pD.setMessage("Registering your account.");
+        pD.setMessage(getString(R.string.signup_in_progress));
         pD.show();
 
         firAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -87,7 +92,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     finish();
                     startActivity(home);
                 }else{
-                    Toast.makeText(SignUpActivity.this,"Failed to Sign Up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.signup_failed, Toast.LENGTH_SHORT).show();
                     //unsuccessful register
                 }
             }

@@ -66,6 +66,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
+        setTitle(R.string.home_collective_view_title);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String updatedCollectiveName = sharedPreferences.getString("key_collective_name", "");

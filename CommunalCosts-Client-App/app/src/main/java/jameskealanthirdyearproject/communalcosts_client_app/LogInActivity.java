@@ -31,6 +31,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        setTitle(R.string.login_welcome);
 
         home = new Intent(LogInActivity.this, HomeCollectiveView.class);
         pD = new ProgressDialog(this);
@@ -69,12 +70,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         if(TextUtils.isEmpty(email)){
             //email is empty
-            Toast.makeText(LogInActivity.this, "@String/toast_log_in_activity_email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LogInActivity.this, R.string.toast_log_in_activity_email, Toast.LENGTH_SHORT).show();
             return; //stop function being executed
         }
         if(TextUtils.isEmpty(password)){
             //password is empty
-            Toast.makeText(LogInActivity.this,"@string/toast_log_in_activity_passwd", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LogInActivity.this,R.string.toast_log_in_activity_passwd, Toast.LENGTH_SHORT).show();
             return; //stopping function being executed
         }
 
@@ -90,7 +91,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(home);
                 }
                 else{
-                    Toast.makeText(LogInActivity.this,"@string/toast_invalid_log_in", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LogInActivity.this,R.string.toast_invalid_log_in, Toast.LENGTH_LONG).show();
                 }
             }
         });
