@@ -65,6 +65,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_collective_view);
+        setTitle(R.string.home_collective_view_title);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String updatedCollectiveName = sharedPreferences.getString("key_collective_name", "");
@@ -220,7 +221,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             dialog.show();
         }
         else if (v == logOutBtn){
-            /*Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
+            Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
             try {
                 unSubscribeDeviceToNotifications(myCollectives);
             } catch (CollectiveNotFoundException e) {
@@ -228,7 +229,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             }
             delFCM.putExtra("FCM_TOKEN", tokenFCM);
             startService(delFCM);
-            firAuth.signOut();*/
+            firAuth.signOut();
             finish();
             startActivity(logInActivity);
         }
