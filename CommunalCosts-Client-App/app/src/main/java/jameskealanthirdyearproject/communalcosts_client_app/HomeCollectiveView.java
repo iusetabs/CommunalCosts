@@ -205,12 +205,14 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             joinCol.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //join the collective
+                    addCollectiveDia.create().dismiss();
+                    //join the collective //TODO
                 }
             });
             createCol.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    addCollectiveDia.create().dismiss();
                     finish();
                     startActivity(addCollective);
                 }
@@ -220,7 +222,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             dialog.show();
         }
         else if (v == logOutBtn){
-            /*Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
+            Intent delFCM = new Intent(HomeCollectiveView.this, DeleteFCMTokenService.class);
             try {
                 unSubscribeDeviceToNotifications(myCollectives);
             } catch (CollectiveNotFoundException e) {
@@ -228,7 +230,8 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             }
             delFCM.putExtra("FCM_TOKEN", tokenFCM);
             startService(delFCM);
-            firAuth.signOut();*/
+            addCollectiveDia.create().dismiss();
+            firAuth.signOut();
             finish();
             startActivity(logInActivity);
         }
