@@ -168,17 +168,17 @@ public class TransactionObjTest {
         assertSame("ValueOfT = null", testObj.getValueOfT(), 0);
 
         int t1 = -10;
-        testObj.setValue(t1);
+        testObj.setValueOfT(t1);
         assertSame(t1, testObj.getValueOfT());
 
         int t2 = 2;
-        testObj.setValue(t2);
+        testObj.setValueOfT(t2);
         assertSame(t2, testObj.getValueOfT());
 
         int t3 = 100;
         assertNotSame(t3, testObj.getValueOfT());
 
-        testObj.setValue(t3);
+        testObj.setValueOfT(t3);
         assertSame(t3, testObj.getValueOfT());
     }
 

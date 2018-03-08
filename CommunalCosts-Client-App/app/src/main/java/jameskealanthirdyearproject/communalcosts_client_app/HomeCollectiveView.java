@@ -230,10 +230,10 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             }
             delFCM.putExtra("FCM_TOKEN", tokenFCM);
             startService(delFCM);
-            addCollectiveDia.create().dismiss();
             firAuth.signOut();
             finish();
             startActivity(logInActivity);
+
         }
     }
 

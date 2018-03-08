@@ -1,16 +1,12 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import android.app.Instrumentation;
-import android.content.ComponentName;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
-import android.test.TouchUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -24,23 +20,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import customException.CollectiveNotFoundException;
 
 import static android.support.test.InstrumentationRegistry.getContext;
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -51,7 +41,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by C5228122 on 06/03/2018.
@@ -118,11 +113,20 @@ public class HomeCollectiveViewTest{
     }
     @Test
     public void test_FirebaseWriting() throws Exception{
+        if(userRef == null){
+            firAuth.signInWithEmailAndPassword("james.nolan38@mail.dcu.ie", "ini123").addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    final AuthResult result = task.getResult();
+                    userRef = result.getUser();
+                    assertNotNull("Firebase User is null...", userRef);
+
+                }
+            });
+        }
         assertNotNull("The Database instance is null...", db);
         assertNotNull("The Database reference is null...", dbRef);
         assertNotNull("Firebase Auth is null...", firAuth);
-        assertNotNull("Firebase User is null...", userRef);
-
         final String t1 = "Hello world";
         final String t2 = "LOL";
         final int val = 20;
@@ -130,7 +134,7 @@ public class HomeCollectiveViewTest{
         final AccountObj testAccount = new AccountObj("James Nolan", "james.nolan@dcu.ie");
         final CollectiveObj testCollective = new CollectiveObj("TestCol", "Test", "IDTest", "James");
         final myPairObj testPair = new myPairObj("Administrator", "james.nolan@dcu.ie");
-        final TransactionObj testTransaction = new TransactionObj("This is a test", 20, "James");
+        final TransactionObj testTransaction = new TransactionObj("This is a test", 20, "James", "TEST CREATOR");
         Log.d(TAG, "Beginning try method");
         new Thread(new Runnable() {
             public void run() {
@@ -208,6 +212,7 @@ public class HomeCollectiveViewTest{
         Log.d(TAG, "Addibng Collective Test");
         onView(withId(R.id.addCollectiveBtn)).perform(click());
         onView(withId(R.id.homeAddCol_colIDField)).check(matches(allOf(withText(""), isDisplayed())));
+
 
 
     }

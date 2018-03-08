@@ -108,7 +108,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         transactionObj.setEditedBy(userRef.getUid());
         transactionObj.setDescription(description.getText().toString().trim()); //add creator first to members
         transactionObj.setPayee(origin.getText().toString().trim());
-        transactionObj.setValue(Integer.parseInt(value.getText().toString().trim()));
+        transactionObj.setValueOfT(Integer.parseInt(value.getText().toString().trim()));
         final String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); // FIXME: 24/02/18 doesnt transfer collective id properly!
         dbRef.child("collectives/" + collectiveId +"/transactions").setValue(transactionObj);
         Toast.makeText(TransactionView.this,"Transaction Edited", Toast.LENGTH_SHORT).show();
