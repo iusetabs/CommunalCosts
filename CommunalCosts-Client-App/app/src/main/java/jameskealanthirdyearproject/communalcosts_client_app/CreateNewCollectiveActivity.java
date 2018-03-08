@@ -42,6 +42,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_collective);
+        setTitle(R.string.create_new_collective_title);
 
         dbRef = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();

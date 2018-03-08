@@ -131,4 +131,5 @@
     <string name="signup_in_progress">Registering your account</string>
     <string name="signup_failed">Failed to sign up</string>
     <string name="home_collective_view_title">Joined Collectives</string>
+    <string name="create_new_collective_title">Enter Collective Details</string>
 </resources>
