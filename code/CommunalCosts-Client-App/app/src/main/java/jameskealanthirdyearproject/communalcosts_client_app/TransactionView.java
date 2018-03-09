@@ -39,7 +39,6 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_transaction_view);
 
-        settingsIntent = new Intent(TransactionView.this, SettingsActivity.class);
         saveChanges = (Button) findViewById(R.id.saveBtn);
         backToTransactions = (Button) findViewById(R.id.backBtn);
 
@@ -87,7 +86,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == R.id.action_settings){
@@ -96,7 +95,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onClick(View v){
