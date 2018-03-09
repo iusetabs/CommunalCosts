@@ -98,7 +98,6 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     allColNames.clear();
-                    collectiveList.clear();
                     for(DataSnapshot indvColSnap : dataSnapshot.child("collectives").getChildren()){
                         allColNames.add(indvColSnap.child("collectiveId").getValue(String.class)); //adding array of all vals
                     }
