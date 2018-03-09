@@ -20,6 +20,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class TransactionView extends AppCompatActivity implements View.OnClickListener {
 
     private EditText description, origin, value;
@@ -29,6 +31,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     private FirebaseUser userRef;
     private DatabaseReference dbRef;
     private String collectiveId;
+    private ArrayList<TransactionObj> trans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
 
         description.setText(getIntent().getStringExtra("CURRENT_TRANSACTION_DESCRIPTION"), TextView.BufferType.NORMAL);
         origin.setText(getIntent().getStringExtra("CURRENT_TRANSACTION_PAYEE"), TextView.BufferType.NORMAL);
+        Bundle args = getIntent().getBundleExtra("BUNDLE");
+        trans = (ArrayList<TransactionObj>) args.getSerializable("ARRAYLIST");
         Integer val = new Integer(0);
         value.setText(String.format("%d", getIntent().getIntExtra("CURRENT_TRANSACTION_VALUE", val)), TextView.BufferType.NORMAL);
         dbRef = FirebaseDatabase.getInstance().getReference();
@@ -109,7 +114,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     private void saveTransaction() {
         firebaseAuth = FirebaseAuth.getInstance();
         userRef = firebaseAuth.getCurrentUser();
-        TransactionObj transactionObj = new TransactionObj();
+        TransactionObj transactionObj = new TransactionObj(); //FIXME
         transactionObj.setEditedBy(userRef.getUid());
         transactionObj.setDescription(description.getText().toString().trim()); //add creator first to members
         transactionObj.setPayee(origin.getText().toString().trim());

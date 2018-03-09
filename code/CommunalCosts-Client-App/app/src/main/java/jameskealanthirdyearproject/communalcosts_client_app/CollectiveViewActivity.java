@@ -38,6 +38,7 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
@@ -52,6 +53,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     private DatabaseReference dbRef;
     private TransactionObj transactionObj;
     private String collectiveid;
+    public ArrayList<TransactionObj> transactionList;
 
 
     @Override
@@ -67,7 +69,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
         DatabaseReference dbRef = db.getReference();
         transactionObj = new TransactionObj();
 
-        final ArrayList<TransactionObj> transactionList = new ArrayList<>();
+        transactionList = new ArrayList<>();
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,6 +107,10 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
                 detailIntent.putExtra("CURRENT_TRANSACTION_PAYEE", selectedTransaction.getPayee());
                 detailIntent.putExtra("CURRENT_TRANSACTION_VALUE", selectedTransaction.getValueOfT());
                 detailIntent.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
+                Bundle args = new Bundle();
+                args.putSerializable("ARRAYLIST", TransactionObj.class);
+                detailIntent.putExtra("BUNDLE",args);
+
                 startActivity(detailIntent);
             }
         });
