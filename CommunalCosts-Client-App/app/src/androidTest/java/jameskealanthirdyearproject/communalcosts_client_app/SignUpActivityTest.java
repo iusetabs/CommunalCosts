@@ -36,7 +36,6 @@ public class SignUpActivityTest {
     public void registerUser() throws Exception {
         onView(withId(R.id.SignUp_EmailField)).perform(typeText(email));
         onView(withId(R.id.SignUp_PasswordField)).perform(typeText(passwd));
-        onView(withId(R.id.SignUp_SignUpBtn)).perform(click());
     }
 
     @Test

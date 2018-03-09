@@ -34,7 +34,6 @@ public class LogInActivityTest {
         onView(withId(R.id.LogIn_UserField)).perform(typeText(username), closeSoftKeyboard());
         onView(withId(R.id.LogIn_PassField)).perform(typeText(password), closeSoftKeyboard());
         onView(withId(R.id.LogIn_LogInBtn)).perform(click());
-        onView(withText(R.string.toast_invalid_log_in)).inRoot(withDecorView(not(is(mActivityRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
 
     }
 
