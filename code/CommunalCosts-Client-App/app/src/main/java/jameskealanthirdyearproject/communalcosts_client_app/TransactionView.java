@@ -33,6 +33,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_transaction_view);
 
         settingsIntent = new Intent(TransactionView.this, SettingsActivity.class);
@@ -69,6 +70,10 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
                         .setAction("Action", null).show();
             }
         });
+    }
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override

@@ -65,6 +65,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_home_collective_view);
         setTitle(R.string.home_collective_view_title);
 
@@ -168,8 +169,10 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
     }
 */
 
-
-
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
     public void subscribeDeviceToNotifications(ArrayList<String> myCols) throws CollectiveNotFoundException {
         for(int i = 0; i < myCols.size(); i++) {
             if (allColNames.contains(myCols.get(i))) {

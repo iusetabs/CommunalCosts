@@ -57,6 +57,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_collective_view_activity);
         collectiveid = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
         setTitle(collectiveid);
@@ -107,6 +108,10 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
                 startActivity(detailIntent);
             }
         });
+    }
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     public void onClick(View v) {

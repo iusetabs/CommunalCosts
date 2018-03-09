@@ -41,6 +41,7 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.create_collective);
         setTitle(R.string.create_new_collective_title);
 
@@ -73,6 +74,10 @@ public class CreateNewCollectiveActivity extends AppCompatActivity implements Vi
         homeScreenActv = new Intent(CreateNewCollectiveActivity.this, HomeCollectiveView.class);
         logInActivity = new Intent(CreateNewCollectiveActivity.this, LogInActivity.class);
         collectiveView = new Intent(CreateNewCollectiveActivity.this, CollectiveViewActivity.class);
+    }
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override

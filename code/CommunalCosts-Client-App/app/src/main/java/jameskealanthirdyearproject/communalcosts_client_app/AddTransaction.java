@@ -56,6 +56,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_add_transaction);
         collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
 
@@ -133,7 +134,10 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         });
 
     }
-
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
     @Override
     public void onClick(View v){
         if(v == createTransaction){
