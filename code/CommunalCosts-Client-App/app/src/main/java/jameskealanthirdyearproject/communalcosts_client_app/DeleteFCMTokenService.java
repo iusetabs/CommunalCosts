@@ -2,7 +2,6 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;

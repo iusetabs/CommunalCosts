@@ -1,9 +1,6 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
+
 import java.util.ArrayList;
-import java.util.HashMap;
-
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by kealan on 07/02/18.
@@ -11,7 +8,6 @@ import static android.content.ContentValues.TAG;
 
 public class CollectiveObj {
 
-    /*We need to clean up this file - it's kind of messy! */
     private ArrayList<TransactionObj> transactions = new ArrayList<>();
     private ArrayList<myPairObj> members = new ArrayList<>();
     private String collectiveName;

@@ -2,9 +2,7 @@ package jameskealanthirdyearproject.communalcosts_client_app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,15 +32,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
-import customException.CollectiveNotFoundException;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.fail;
+import customException.CollectiveNotFoundException;
 
 public class HomeCollectiveView extends AppCompatActivity implements View.OnClickListener {
 
-   // MyService myServ;]
+   // MyService myServ;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private ListView joinedCollectivesView;
     private CollectiveAdaptor adaptor;

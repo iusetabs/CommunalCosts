@@ -1,9 +1,5 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-
 import java.util.ArrayList;
 
 /**

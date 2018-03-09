@@ -1,11 +1,8 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
