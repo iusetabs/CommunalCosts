@@ -30,8 +30,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.login_activity);
-        setTitle(R.string.login_welcome);
 
         home = new Intent(LogInActivity.this, HomeCollectiveView.class);
         pD = new ProgressDialog(this);
@@ -49,6 +49,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         LogInBtn.setOnClickListener(this);
         SignUpBtn.setOnClickListener(this);
     }
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 
     @Override
     public void onClick(View v) {
@@ -57,7 +61,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         }
         else if (v == SignUpBtn){
-            finish();
             Intent i = new Intent(LogInActivity.this, SignUpActivity.class);
             startActivity(i);
         }

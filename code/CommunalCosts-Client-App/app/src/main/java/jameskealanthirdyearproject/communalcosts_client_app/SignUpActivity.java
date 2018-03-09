@@ -35,8 +35,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.signup_activity);
-        setTitle(R.string.signup_title);
 
         home = new Intent(SignUpActivity.this, HomeCollectiveView.class);
 
@@ -51,6 +51,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         PassF = (EditText) findViewById(R.id.SignUp_PasswordField);
         SignUpBtn.setOnClickListener(this);
 
+    }
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
     @Override
     public void onClick(View v) {

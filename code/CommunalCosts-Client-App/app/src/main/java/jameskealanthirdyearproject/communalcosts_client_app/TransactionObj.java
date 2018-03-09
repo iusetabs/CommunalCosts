@@ -14,20 +14,40 @@ import java.util.ArrayList;
  */
 
 public class TransactionObj {
-    public String title;
-    public String description;
-    public int valueOfT; //FIXME should be a double!!
-    public String payee;
-    public String creator;
-    public ArrayList<String> youOweMe = new ArrayList<>();
-    public ArrayList<String> youPaidMe = new ArrayList<>();
+    private String title;
+    private String description;
+    private int valueOfT;
+    private String payee;
+    private String creator;
+    private String id;
+    private String editedBy;
+    private ArrayList<String> youOweMe = new ArrayList<>();
+    private ArrayList<String> youPaidMe = new ArrayList<>();
+
+    public TransactionObj(){}
+
+    public TransactionObj(String descrpt, Integer val, String paying, String creator){
+        this.description = descrpt;
+        this.valueOfT = val;
+        this.payee = paying;
+        this.creator = creator;
+
+    }
+
+    public TransactionObj(String descrpt, Integer val, String paying){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser userRef = firebaseAuth.getCurrentUser();
+        this.description = descrpt;
+        this.valueOfT = val;
+        this.payee = paying;
+        this.creator = userRef.getUid();
+
+    }
+
 
     public void setCreator(String creator) {
         this.creator = creator;
     }
-
-    public String id;
-    public String editedBy;
 
     public String getTitle() {
         return this.title;
@@ -103,26 +123,7 @@ public class TransactionObj {
         return valueOfT;
     }
 
-    public TransactionObj(){}
 
-    public TransactionObj(String descrpt, Integer val, String paying, String creator){
-        this.description = descrpt;
-        this.valueOfT = val;
-        this.payee = paying;
-        this.creator = creator;
-
-    }
-
-    public TransactionObj(String descrpt, Integer val, String paying){
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser userRef = firebaseAuth.getCurrentUser();
-        this.description = descrpt;
-        this.valueOfT = val;
-        this.payee = paying;
-        this.creator = userRef.getUid();
-
-    }
- //TODO Do we need this method??
     public void updateValues(DataSnapshot dataSnapshot) { //this will update the values of the class
         if(dataSnapshot.exists()) {
             this.setDescription(dataSnapshot.child("transactions").getValue(TransactionObj.class).getDescription());
