@@ -101,7 +101,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v){
         if(v == saveChanges){
-            saveTransaction();
+            Toast.makeText(TransactionView.this, R.string.fixme , Toast.LENGTH_SHORT).show();;
             finish();
             startActivity(transactionListView);
         }

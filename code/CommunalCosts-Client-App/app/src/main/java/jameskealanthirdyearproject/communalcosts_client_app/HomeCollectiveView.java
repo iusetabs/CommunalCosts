@@ -69,11 +69,11 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_home_collective_view);
         setTitle(R.string.home_collective_view_title);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String updatedCollectiveName = sharedPreferences.getString("key_collective_name", "");
         System.out.println(updatedCollectiveName);
 
-        settingsIntent = new Intent(HomeCollectiveView.this, SettingsActivity.class);
+        settingsIntent = new Intent(HomeCollectiveView.this, SettingsActivity.class);*/
 
         if(checkGPlay()) { //register for GCM iff Play Services are compatible
 
@@ -98,6 +98,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     allColNames.clear();
+                    collectiveList.clear();
                     for(DataSnapshot indvColSnap : dataSnapshot.child("collectives").getChildren()){
                         allColNames.add(indvColSnap.child("collectiveId").getValue(String.class)); //adding array of all vals
                     }
