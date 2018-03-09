@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back"
+    tools:context="jameskealanthirdyearproject.communalcosts_client_app.SignUpActivity">
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:text="Communal Costs"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="164dp"
+        android:layout_height="156dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/LogIn_UserField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.219"
+        app:srcCompat="@drawable/communal_logo" />
+
+    <EditText
+        android:id="@+id/SignUp_PasswordField"
+        android:layout_width="316dp"
+        android:layout_height="39dp"
+        android:background="@drawable/myedittext"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:ems="10"
+        android:hint="Enter a password"
+        android:inputType="textPassword"
+        android:textColor="@color/colorPrimary"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/colorPrimary"
+        android:textColorLink="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.691" />
+
+    <EditText
+        android:id="@+id/SignUp_EmailField"
+        android:layout_width="316dp"
+        android:layout_height="39dp"
+        android:background="@drawable/myedittext"
+        android:ems="10"
+        android:hint="Enter your email"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimary"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/colorPrimary"
+        android:textColorLink="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.594" />
+
+    <EditText
+        android:id="@+id/SignUp_NameField"
+        android:layout_width="316dp"
+        android:layout_height="39dp"
+        android:background="@drawable/myedittext"
+        android:ems="10"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:hint="Enter your full name"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimary"
+        android:textColorHighlight="@color/colorAccent"
+        android:textColorHint="@color/colorPrimary"
+        android:textColorLink="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/SignUp_SignUpBtn"
+        android:layout_width="224dp"
+        android:layout_height="62dp"
+        android:background="@drawable/mybutton"
+        android:text="Tap to Sign Up"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.831" />
+
+</android.support.constraint.ConstraintLayout>
