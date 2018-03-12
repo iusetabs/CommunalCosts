@@ -120,7 +120,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
         dbRef.child("users").child(userRef.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                payee.setText("Added by: " + dataSnapshot.getValue(String.class) + ".");
+                payee.setText("Added by: " + dataSnapshot.getValue(String.class));
             }
 
             @Override

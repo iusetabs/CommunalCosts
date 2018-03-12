@@ -1,16 +1,20 @@
 package jameskealanthirdyearproject.communalcosts_client_app;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by kealan on 11/02/18.
  */
 
-public class TransactionObj {
+public class TransactionObj implements Parcelable {
     private String title;
     private String description;
     private int valueOfT;
@@ -128,4 +132,48 @@ public class TransactionObj {
             this.setPayee(dataSnapshot.child("transactions").getValue(TransactionObj.class).getPayee());
         }
     }
+
+    @SuppressWarnings("unchecked")
+    public TransactionObj(Parcel in){
+        title = in.readString();
+        description = in.readString();
+        valueOfT = in.readInt();
+        payee = in.readString();
+        creator = in.readString();
+        id = in.readString();
+        editedBy = in.readString();
+        youOweMe = in.readArrayList(String.class.getClassLoader());
+        youPaidMe = in.readArrayList(String.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeInt(valueOfT);
+        dest.writeString(payee);
+        dest.writeString(creator);
+        dest.writeString(id);
+        dest.writeString(editedBy);
+        dest.writeList(youOweMe);
+        dest.writeList(youPaidMe);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static final Parcelable.Creator<TransactionObj> CREATOR = new Parcelable.Creator<TransactionObj>(){
+        @Override
+        public TransactionObj createFromParcel(Parcel source) {
+            return new TransactionObj(source);
+        }
+
+        @Override
+        public TransactionObj[] newArray(int size) {
+            return new TransactionObj[0];
+        }
+    };
 }

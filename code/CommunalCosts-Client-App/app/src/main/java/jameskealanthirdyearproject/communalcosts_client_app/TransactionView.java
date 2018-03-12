@@ -22,15 +22,13 @@ import java.util.ArrayList;
 
 public class TransactionView extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText description, origin, value;
+    private EditText description, title, value, createdBy;
     private Button saveChanges, backToTransactions;
     private Intent transactionListView, settingsIntent;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser userRef;
     private DatabaseReference dbRef;
     private String collectiveId;
-    private ArrayList<TransactionObj> trans;
-
+    private TransactionObj selectedTrans;
+    private FloatingActionButton transactionConfirmationBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,39 +37,27 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
 
         saveChanges = (Button) findViewById(R.id.saveBtn);
         backToTransactions = (Button) findViewById(R.id.backBtn);
-
         description = (EditText) findViewById(R.id.transactionDescription);
-        origin = (EditText) findViewById(R.id.transactionPayee);
+        title = (EditText) findViewById(R.id.transactionTitle);
         value = (EditText) findViewById(R.id.transactionValue);
-
-        description.setText(getIntent().getStringExtra("CURRENT_TRANSACTION_DESCRIPTION"), TextView.BufferType.NORMAL);
-        origin.setText(getIntent().getStringExtra("CURRENT_TRANSACTION_PAYEE"), TextView.BufferType.NORMAL);
+        createdBy = (EditText) findViewById(R.id.transactionCreator);
         Bundle args = getIntent().getBundleExtra("BUNDLE");
-        trans = (ArrayList<TransactionObj>) args.getSerializable("ARRAYLIST");
-        Integer val = new Integer(0);
-        value.setText(String.format("%d", getIntent().getIntExtra("CURRENT_TRANSACTION_VALUE", val)), TextView.BufferType.NORMAL);
+        selectedTrans = args.getParcelable("THIS_TRANSACTION");
+        description.setText(selectedTrans.getDescription(), TextView.BufferType.NORMAL);
+        title.setText(selectedTrans.getTitle(), TextView.BufferType.NORMAL);
+        value.setText(Integer.toString(selectedTrans.getValueOfT()), TextView.BufferType.NORMAL);
+        String c = selectedTrans.getPayee().substring(9);
+        createdBy.setText(c);
+        collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
         dbRef = FirebaseDatabase.getInstance().getReference();
-
         backToTransactions.setOnClickListener(this);
         saveChanges.setOnClickListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID");
-        System.out.println(collectiveId);
-
         transactionListView = new Intent(TransactionView.this, CollectiveViewActivity.class);
         transactionListView.putExtra("CURRENT_COLLECTIVE_ID", collectiveId);
-
-        FloatingActionButton transactionConfirmationBtn = (FloatingActionButton) findViewById(R.id.confirmTransaction);
-        transactionConfirmationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
     protected void onPause() {
         super.onPause();
@@ -98,7 +84,7 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v){
         if(v == saveChanges){
-            Toast.makeText(TransactionView.this, R.string.fixme , Toast.LENGTH_SHORT).show();;
+            saveTransaction();
             finish();
             startActivity(transactionListView);
         }
@@ -109,15 +95,10 @@ public class TransactionView extends AppCompatActivity implements View.OnClickLi
     }
 
     private void saveTransaction() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        userRef = firebaseAuth.getCurrentUser();
-        TransactionObj transactionObj = new TransactionObj(); //FIXME
-        transactionObj.setEditedBy(userRef.getUid());
-        transactionObj.setDescription(description.getText().toString().trim()); //add creator first to members
-        transactionObj.setPayee(origin.getText().toString().trim());
-        transactionObj.setValueOfT(Integer.parseInt(value.getText().toString().trim()));
-        final String collectiveId = getIntent().getStringExtra("CURRENT_COLLECTIVE_ID"); // FIXME: 24/02/18 doesnt transfer collective id properly!
-        dbRef.child("collectives/" + collectiveId +"/transactions").setValue(transactionObj);
+        selectedTrans.setDescription(description.getText().toString().trim());
+        selectedTrans.setTitle(title.getText().toString().trim());
+        selectedTrans.setValueOfT(Integer.parseInt(value.getText().toString().trim()));
+        dbRef.child("collectives/" + collectiveId +"/transactions/" + (Integer.toString(getIntent().getIntExtra("ARRAY_POSITION", -1)))).setValue(selectedTrans);
         Toast.makeText(TransactionView.this,"Transaction Edited", Toast.LENGTH_SHORT).show();
     }
 

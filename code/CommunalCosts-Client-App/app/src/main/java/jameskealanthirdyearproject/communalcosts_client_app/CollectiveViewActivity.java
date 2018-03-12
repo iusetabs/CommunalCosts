@@ -37,6 +37,7 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
     private TransactionObj transactionObj;
     private String collectiveid;
     public ArrayList<TransactionObj> transactionList;
+    private final String TAG = CollectiveViewActivity.class.getSimpleName();
 
 
     @Override
@@ -85,15 +86,11 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TransactionObj selectedTransaction = transactionList.get(position);
                 Intent detailIntent = new Intent(CollectiveViewActivity.this, TransactionView.class);
-                detailIntent.putExtra("CURRENT_TRANSACTION_DESCRIPTION", selectedTransaction.getDescription());
-                detailIntent.putExtra("CURRENT_TRANSACTION_ID", selectedTransaction.getId());
-                detailIntent.putExtra("CURRENT_TRANSACTION_PAYEE", selectedTransaction.getPayee());
-                detailIntent.putExtra("CURRENT_TRANSACTION_VALUE", selectedTransaction.getValueOfT());
                 detailIntent.putExtra("CURRENT_COLLECTIVE_ID", collectiveid);
                 Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST", TransactionObj.class);
+                args.putParcelable("THIS_TRANSACTION", selectedTransaction);
                 detailIntent.putExtra("BUNDLE",args);
-
+                detailIntent.putExtra("ARRAY_POSITION", position);
                 startActivity(detailIntent);
             }
         });
@@ -145,13 +142,13 @@ public class CollectiveViewActivity extends AppCompatActivity implements View.On
             TextView detailTextView = (TextView) rowView.findViewById(R.id.recipe_list_detail);
             ImageView thumbnailImageView = (ImageView) rowView.findViewById(R.id.recipe_list_thumbnail); // thumbnail element
 
-            TransactionObj transaction = (TransactionObj) getItem(position);
+            TransactionObj transaction = getItem(position);
 
-            titleTextView.setText(transaction.getDescription());
+            titleTextView.setText(transaction.getTitle());
             subtitleTextView.setText(transaction.getPayee());
             detailTextView.setText(String.format("%d", transaction.getValueOfT()).trim());
 
-            Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
+            Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.drawable.trans_icon).into(thumbnailImageView);
             return rowView;
         }
 

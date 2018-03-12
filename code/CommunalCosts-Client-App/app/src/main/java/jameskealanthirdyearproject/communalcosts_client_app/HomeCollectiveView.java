@@ -337,7 +337,7 @@ public class HomeCollectiveView extends AppCompatActivity implements View.OnClic
             subtitleTextView.setText(collective.getCollectiveType());
             detailTextView.setText(collective.getCollectiveId());
 
-            Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
+            Picasso.with(mContext).load("http://developer.android.com/studio/images/studio-icon.png").placeholder(R.drawable.house_icon).into(thumbnailImageView);
             return rowView;
         }
 
