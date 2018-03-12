@@ -25,30 +25,35 @@ return admin.database().ref('/messages').push({original: original}).then((snapsh
 });
 });
 */
-
 exports.colNotifications = functions.database.ref('/collectives/{colName}/transactions/{i}').onCreate( event => {
 
     console.log('Transaction Event');
     const colTitle = event.params.colName;
+    const divisorTrans = event.data.child("youOweMe").numChildren();
     const details = event.data.child("description").val();
     const paid = event.data.child("valueOfT").val();
     const author = event.data.child("payee").val();
     const colRef = admin.database().ref("/collectives/" + colTitle);
     return colRef.once('value').then((snap) => {
-        const divisor = snap.child("membersLength").val();
+        //const divisor = snap.child("membersLength").val();
+        var divisor = 0;
+        snap.child("transactions/" + event.params.i.toString() + "/youOweMe").forEach(function(babySnap){
+            divisor++;
+        });
+        console.log("Number of members to pay:" + divisor);
         const owed = parseFloat(paid)/parseFloat(divisor);
         // Create a notification
         const payload = {
             "data": {
                 title: author + "@" + colTitle,
-                body: details + "\n" + "You owe €" +owed,
+                body: details + "\n" + "You owe €" + owed,
                 creator: event.data.child("creator").val(), 
             }
         }
       //Create an options object that contains the time to live for the notification and the priority
         const options = {
             priority: "high",
-            timeToLive: 1
+            timeToLive: 500
         };
         return admin.messaging().sendToTopic(colTitle.toString(), payload, options);
         }); 
@@ -125,6 +130,6 @@ exports.countUsers = functions.database.ref('/users').onWrite((event) => {
         snapshot.forEach(function(childSnapshot){
             count++;
         });
-         return admin.database().ref('/test').child('countOfUsers').set(count);
+         return admin.database().ref('/appOverview').child('countOfUsers').set(count);
     });
 });
